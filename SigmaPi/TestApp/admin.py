@@ -1,4 +1,4 @@
 from django.contrib import admin
-from TestApp.models import Status
+from UserInfo.models import UserInfo
 
 admin.site.register(Status)
