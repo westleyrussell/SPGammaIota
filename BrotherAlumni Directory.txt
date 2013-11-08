@@ -1,0 +1,13 @@
+Brother/Alumni/Pledge Directory
+	-Phone Number
+	-Picture
+	-Interests
+	-Year
+	-Major
+	-Hometown
+	-Activities
+	-Favorite Memory
+	-Class
+	-Big
+
+	-pledge vs brother
