@@ -1,0 +1,31 @@
+Module TODO
+
+Brother/Alumni Directory
+Calendar
+Brotherhood Archives
+	-Rules
+	-Bylaws
+	-Minutes
+	-Party Jobs
+	-House jobs
+	-Events TODOs
+Social
+	-Party List
+	-Party Jobs
+Rush Tracker
+	-Webscraping
+Treasurer
+	-Budget breakdown
+	-Savings breakdown
+Scholarship Archives
+	-Test Bank Archive
+	-Textbook List
+Sigma Pi Ebay
+Forums/Discussion Board
+
+
+Version 2.0
+Cats
+Rainbow Colors
+Billy Quotes/Stories
+Drunk Jerome Archives
