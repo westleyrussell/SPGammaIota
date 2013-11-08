@@ -6,16 +6,16 @@ def filepath(self, filename):
 
 # Create your models here.
 class UserInfo(models.Model):
-	user = models.OneToOneField(User, required=false)
-	picture = models.FileField(upload_to=filepath, required=false)
-	phoneNumber = models.PositiveIntegerField(required=false)
-	graduationYear = models.PositiveIntegerField(required=false)
-	major = models.CharField(max_length=100, required=false)
-	hometown = models.CharField(max_length=100, required=false)
-	activities = models.CharField(max_length=200, required=false)
-	interests = models.CharField(max_length=200, required=false)
-	favoriteMemory = models.CharField(max_length=200, required=false)
-	bigBrother = models.ForeignKey(User, related_name="big_brother", required=false)
+	user = models.OneToOneField(User)
+	picture = models.FileField(upload_to=filepath, blank=True)
+	phoneNumber = models.PositiveIntegerField(blank=True)
+	graduationYear = models.PositiveIntegerField(blank=True)
+	major = models.CharField(max_length=100, blank=True)
+	hometown = models.CharField(max_length=100, blank=True)
+	activities = models.CharField(max_length=200, blank=True)
+	interests = models.CharField(max_length=200, blank=True)
+	favoriteMemory = models.CharField(max_length=200, blank=True)
+	bigBrother = models.ForeignKey(User, related_name="big_brother", blank=True)
 
 	def __unicode__(self):
 		return "Info for " + __unicode__(self.user)
