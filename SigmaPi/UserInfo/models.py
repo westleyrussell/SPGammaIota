@@ -7,15 +7,15 @@ def filepath(self, filename):
 # Create your models here.
 class UserInfo(models.Model):
 	user = models.OneToOneField(User)
-	picture = models.FileField(upload_to=filepath, blank=True)
-	phoneNumber = models.PositiveIntegerField(blank=True)
-	graduationYear = models.PositiveIntegerField(blank=True)
+	picture = models.FileField(upload_to=filepath, null=True)
+	phoneNumber = models.PositiveIntegerField(default=5555555555)
+	graduationYear = models.PositiveIntegerField(default=2015)
 	major = models.CharField(max_length=100, blank=True)
 	hometown = models.CharField(max_length=100, blank=True)
 	activities = models.CharField(max_length=200, blank=True)
 	interests = models.CharField(max_length=200, blank=True)
 	favoriteMemory = models.CharField(max_length=200, blank=True)
-	bigBrother = models.ForeignKey(User, related_name="big_brother", blank=True)
+	bigBrother = models.ForeignKey(User, related_name="big_brother", default=1)
 
 	def __unicode__(self):
-		return "Info for " + __unicode__(self.user)
+		return self.user.username
