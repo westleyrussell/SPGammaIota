@@ -9,5 +9,3 @@ Brother/Alumni/Pledge Directory
 	-Favorite Memory
 	-Class
 	-Big
-
-	-pledge vs brother
