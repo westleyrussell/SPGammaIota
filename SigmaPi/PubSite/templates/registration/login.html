@@ -1,3 +1,10 @@
+{% if user.is_authenticated %}
+Already Logged In. </br>
+
+<a href="{% url 'logout' %}">Logout</a>
+
+{% else %}
+
 {% load url from future %}
 
 {% block content %}
@@ -24,3 +31,4 @@
 </form>
 
 {% endblock %}
+{% endif %}
