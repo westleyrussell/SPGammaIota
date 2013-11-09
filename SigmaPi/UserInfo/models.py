@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 def filepath(self, filename):
-	return ""
+	return "users/" + self.user.username + "/" + filename
 
 # Create your models here.
 class UserInfo(models.Model):
