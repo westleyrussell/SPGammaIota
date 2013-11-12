@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if all_users %}
+
+	{% for u in all_users %}
+		<a href="{% url 'UserInfo.views.single_user' u.username %}">
+			{{ u.username }}
+		</a></br>
+	{% endfor %}
+
+{% endif %}
+
+{% endblock %}
