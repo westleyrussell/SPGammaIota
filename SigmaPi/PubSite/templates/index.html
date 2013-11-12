@@ -1,9 +1,39 @@
 {% extends "base.html" %}
 
+{% block local_includes %}
+	{% load staticfiles %}
+	<script type="text/javascript" src='{% static "js/pub/home.js" %}'></script>
+{% endblock %}
+
+
 {% block content %}
 <div class="feed reel">
 	
-	Message of the day!:{{ motd }}
+	<div class="ui feed segment">
+		Hot news item
+	</div>
 
+	<div class="ui feed segment">
+		Hot news item
+	</div>
+
+	<div class="ui feed segment">
+		Hot news item
+	</div>
+	
+
+</div>
+
+
+<div class="ui feed segment">
+	news item
+</div>
+
+<div class="ui feed segment">
+	news item
+</div>
+
+<div class="ui feed segment">
+	news item
 </div>
 {% endblock %}
