@@ -28,6 +28,7 @@ class HouseRule(models.Model):
 
 	title = models.CharField(max_length=100)
 	content = models.TextField()
+	path = models.SlugField(max_length=15)
 
 	#Setup meta info about this model
 	class Meta:
@@ -62,6 +63,7 @@ class Guide(models.Model):
 	name = models.CharField(max_length=100)
 	description = models.TextField(blank=True)
 	filepath = models.FileField(upload_to=guidepath)
+	path = models.SlugField(max_length=15)
 
 
 	def __unicode__(self):
