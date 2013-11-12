@@ -16,6 +16,3 @@ class UserInfo(models.Model):
 	interests = models.CharField(max_length=200, blank=True)
 	favoriteMemory = models.CharField(max_length=200, blank=True)
 	bigBrother = models.ForeignKey(User, related_name="big_brother", default=1)
-
-	def __unicode__(self):
-		return self.user.username
