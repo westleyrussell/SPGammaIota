@@ -8,11 +8,8 @@ Brother/Alumni/Pledge Directory
 	-Activities
 	-Favorite Memory
 	-Class
-<<<<<<< HEAD
-	-Big
-=======
+
 	-Big
 
 
 -pledge vs brother
->>>>>>> a2230d864184938e61a57281b87d07e7aeab2ee1

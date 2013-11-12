@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+</br>
+Requested: {{requested_username}}
+
+</br>
+Username: {{ requested_user.username }} </br>
+First name: {{ requested_user.first_name }} </br>
+Last name: {{ requested_user.last_name }} </br>
+Email: {{ requested_user.email }} </br>
+Major: {{ requested_user.userinfo.major }}
+
+Insert other fields here
+
+{% endblock %}

@@ -12,10 +12,15 @@ class UserInfo(models.Model):
 	graduationYear = models.PositiveIntegerField(default=2015)
 	major = models.CharField(max_length=100, blank=True)
 	hometown = models.CharField(max_length=100, blank=True)
-	activities = models.CharField(max_length=200, blank=True)
-	interests = models.CharField(max_length=200, blank=True)
-	favoriteMemory = models.CharField(max_length=200, blank=True)
+	activities = models.TextField(blank=True)
+	interests = models.TextField(blank=True)
+	favoriteMemory = models.TextField(blank=True)
 	bigBrother = models.ForeignKey(User, related_name="big_brother", default=1)
 
 	def __unicode__(self):
 		return self.user.username
+
+	#Setup meta info about this model
+	class Meta:
+		verbose_name_plural = "User Info"
+		verbose_name = "User Info"
