@@ -10,7 +10,7 @@ def timeStamped(fname, fmt='%Y-%m-%d_{fname}'):
 class Bylaws(models.Model):
 
 	def bylawspath(self, filename):
-		return "bylaws/" + timeStamped(filename)
+		return "protected/bylaws/" + timeStamped(filename)
 
 	date = models.DateField()
 	filepath = models.FileField(upload_to=bylawspath)
@@ -39,7 +39,7 @@ class HouseRule(models.Model):
 class MeetingMinutes(models.Model):
 
 	def minutespath(self, filename):
-		return "minutes/" + timeStamped(filename)
+		return "protected/minutes/" + timeStamped(filename)
 
 	date = models.DateField()
 	filepath = models.FileField(upload_to=minutespath)
@@ -58,7 +58,7 @@ class MeetingMinutes(models.Model):
 class Guide(models.Model):
 
 	def guidepath(self, filename):
-		return "guides/" + timeStamped(filename)
+		return "protected/guides/" + timeStamped(filename)
 
 	name = models.CharField(max_length=100)
 	description = models.TextField(blank=True)
