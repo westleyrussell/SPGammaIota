@@ -1,12 +1,32 @@
 <!DOCTYPE HTML5>
 <html lane="en">
-<body>
+<head>
+	{% load staticfiles %}
+	<script type='text/javascript' src='{% static "js/jquery-1.8.2.min.js" %}'></script>
+	<script type='text/javascript' src='{% static "js/carouFredSel-6.2.1/jquery.carouFredSel-6.2.1-packed.js" %}'></script>
 
-	<div id="top-nav">
-		{% block navbar %}
-		This is the navbar
-		{% endblock %}
-	</div>
+	<link rel="stylesheet" type="text/css" href='{% static "css/semantic/css/semantic.css" %}'/>
+	<link rel="stylesheet" type="text/css" href='{% static "css/navbar.css" %}'/>
+
+	{% block local_includes %}
+		<!-- include on child templates to add page specific js and css files -->
+	{% endblock %}
+
+</head>
+<body>
+	{% block navbar %}
+		<div class="ui secondary purple pointing menu">
+			<a class="active item">
+				<i class="home icon"></i> Home
+			</a>
+			<a class="item">
+				<i class="mail icon"></i> Messages
+			</a>
+			<a class="item">
+				<i class="user icon"></i> Friends
+			</a>
+		</div>
+	{% endblock %}
 
 	<div id="content">
 		{% block content %}{% endblock %}

@@ -1,9 +1,65 @@
 {% extends "base.html" %}
 
-{% block content %}
-<div class="feed reel">
-	
-	Message of the day!: {{ motd }}
+{% block local_includes %}
+	{% load staticfiles %}
+	<script type="text/javascript" src='{% static "js/pub/home.js" %}'></script>
+{% endblock %}
 
+
+{% block content %}
+<div class="ui items" id='feed'>
+	
+	<div class="item">
+		<div class="content">
+			<div class="meta" id="post-date">2 days ago by <span id="post-author"> Wes </span></div>
+			<div class="name" id="post-title">Sigma Pi gets Swoll!</div>
+			<p class="description" id="post-summary">
+				We at sig pi have been pressing, squating, and curling into a new era of weighth lifting. Come to the gym with us during rush and spot for one of the guys!
+			</p>
+		</div>
+		<div class="extra">
+			203 views
+		</div>
+	</div>
+	<div class="item">
+		<div class="content">
+			<div class="meta" id="post-date">5 days ago by <span id="post-author"> Dan </span></div>
+			<div class="name" id="post-title">Come eat food!</div>
+			<p class="description" id="post-summary">
+				We're asdlk tewhesr sad asdfasd tjohos lksdped those sdlot andsff, asthioe aoashts ldskj asdkjdjl alsdk  falsdsa df dsf asdf. theo shos we sisdi twose tiweti sassaf thies sodsthaes t.
+			</p>
+		</div>
+		<div class="extra">
+			203 views
+		</div>
+	</div>
+	<div class="item">
+		<div class="content">
+			<div class="meta" id="post-date">1 days ago by <span id="post-author"> Baker </span></div>
+			<div class="name" id="post-title">Shirts vs. Shoes!</div>
+			<p class="description" id="post-summary">
+				dafs asdf asd df adf asd falkwjqe pddlkxwej oqiwe jxlckj oqwei jdlxijfowqe izlxdkuowq eflzdk,. ioweiasld fjlasido wesldkfjowe fdskf lisejrlads foew lsdifujw lkafjsdofqw efasdkf wqe fjao. qwoeifjl qwoeifjlds fasodfi asdfi aodfa idsofai dsoifasd.
+			</p>
+		</div>
+		<div class="extra">
+			203 views
+		</div>
+	</div>
+
+	
+
+</div>
+
+
+<div class="ui feed segment">
+	news item
+</div>
+
+<div class="ui feed segment">
+	news item
+</div>
+
+<div class="ui feed segment">
+	news item
 </div>
 {% endblock %}
