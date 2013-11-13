@@ -1,11 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-def filepath(self, filename):
-	return "users/" + self.user.username + "/" + filename
-
 # Create your models here.
 class UserInfo(models.Model):
+	def filepath(self, filename):
+		return "users/" + self.user.username + "/" + filename
+
 	user = models.OneToOneField(User)
 	picture = models.FileField(upload_to=filepath, null=True)
 	phoneNumber = models.PositiveIntegerField(default=5555555555)

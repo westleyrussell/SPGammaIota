@@ -1,3 +1,7 @@
 from django.contrib import admin
+from PubSite.models import BlogPost
+# Admin site for blog posts
+class BlogPostAdmin(admin.ModelAdmin):
+	prepopulated_fields = {"path": ("title",)}
 
-# Register your models here.
+admin.site.register(BlogPost, BlogPostAdmin)
