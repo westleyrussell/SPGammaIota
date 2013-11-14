@@ -17,3 +17,7 @@ def blog_index(request):
 def blog_post(request, path):
 	return HttpResponse("Single blog post here " + path)
 
+def hisotry(request):
+	"""view for the static chapter history page"""
+	return render(request,'history.html',None)
+
