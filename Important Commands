@@ -1,0 +1,6 @@
+Important Commands:
+
+
+./python manage.py runserver
+./python manage.py startapp (module_name)
+./python manage.py syncdb
