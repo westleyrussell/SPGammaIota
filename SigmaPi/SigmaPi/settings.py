@@ -138,6 +138,7 @@ INSTALLED_APPS = (
     'PubSite',
     'UserInfo',
     'Archives',
+    'PartyList',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'

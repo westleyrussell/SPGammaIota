@@ -19,6 +19,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^users/', include('UserInfo.urls')),
     url(r'^archives/', include('Archives.urls')),
+    url(r'^parties/', include('PartyList.urls')),
     url(r'^', include('PubSite.urls')),
 )
 

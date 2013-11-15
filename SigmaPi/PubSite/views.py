@@ -5,7 +5,7 @@ from django.template import RequestContext
 # View for the index landing page of the site
 def index(request):
 	context = RequestContext(request,{
-		'motd': 'drob rules'
+		'motd': 'calder rules'
 	})
 	return render(request,'index.html',context)
 

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+</br>
+Requested: {{partyname}}
+</br>
+
+{% if partyguests %}
+
+	{% for pg in partyguests %}
+	</br>
+	Name: {{ pg.guest.name }} </br>
+	Birth date: {{ pg.guest.birthDate }} </br>
+	Gender: {{ pg.guest.gender }} </br>
+	Card ID: {{ pg.guest.cardID }} </br>
+	Added by: {{ pg.addedBy.username }} </br>
+	{% endfor %}
+
+{% endif %}
+
+{% endblock %}

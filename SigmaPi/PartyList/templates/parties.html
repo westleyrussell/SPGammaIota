@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if all_parties %}
+
+	{% for p in all_parties %}
+		<a href="{% url 'PartyList.views.partyguests' p.name%}">
+			{{ p.name }}
+		</a>
+		-- {{ p.date }}
+		</br>
+	{% endfor %}
+
+{% endif %}
+
+{% endblock %}
