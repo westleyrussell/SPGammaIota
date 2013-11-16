@@ -1,5 +1,5 @@
 from django.contrib import admin
-from PartyList.models import Party, Guest, PartyGuest
+from PartyList.models import Party, Guest, PartyGuest, PartyJob
 
 # Admin site for blog posts
 class PartyAdmin(admin.ModelAdmin):
@@ -9,3 +9,4 @@ class PartyAdmin(admin.ModelAdmin):
 admin.site.register(Party)
 admin.site.register(Guest)
 admin.site.register(PartyGuest)
+admin.site.register(PartyJob)

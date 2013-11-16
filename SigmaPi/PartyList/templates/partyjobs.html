@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+</br>
+Jobs for: {{partyname}}
+</br>
+
+{% if partyjobs %}
+
+	{% for pj in partyjobs %}
+	</br>
+	Job: {{ pj.job }} </br>
+	User: {{ pj.user.username }} </br>
+	{% endfor %}
+
+{% endif %}
+
+{% endblock %}

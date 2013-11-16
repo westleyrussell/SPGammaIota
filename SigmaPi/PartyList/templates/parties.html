@@ -5,11 +5,15 @@
 {% if all_parties %}
 
 	{% for p in all_parties %}
-		<a href="{% url 'PartyList.views.partyguests' p.name%}">
-			{{ p.name }}
-		</a>
-		-- {{ p.date }}
 		</br>
+		{{ p.name }}</br>
+		{{ p.date }}</br>
+		<a href="{% url 'PartyList.views.guests' p.name %}">
+			guests
+		</a></br>
+		<a href="{% url 'PartyList.views.jobs' p.name %}">
+			jobs
+		</a></br>
 	{% endfor %}
 
 {% endif %}
