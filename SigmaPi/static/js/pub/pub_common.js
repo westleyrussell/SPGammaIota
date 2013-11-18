@@ -28,7 +28,7 @@ $(document).ready(function(){
 	$('.sub-header').css('margin-top','0px'); //can't do this in the css for some reason.
 
 	var thresh = 100; //The height of the top banner
-	var subHeight = $('#pub-nav').outerHeight();
+	var subHeight = 63; //height of the top banner
 	$(window).scroll(function(e){
 		console.log(subHeight,window.scrollY);
 		if (window.scrollY > thresh) {

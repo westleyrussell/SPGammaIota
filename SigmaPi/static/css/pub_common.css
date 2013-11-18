@@ -84,12 +84,25 @@ body {
 	margin: 0 auto;
 }
 
+#fb-link .message{
+  font-size: 1.5rem;
+  color: white;
+  font-family: Arial;
+}
+
 #footer {
   width:100%;
-  height:100px;
+  height:150px;
   margin-top: 75px;
   border-top: 1px rgba(230,230,230,.8);
   background-color: rgba(9,9,9,.3);
+}
+
+#fb-link {
+  margin-top: 25px;
+  margin-left: 50px;
+  position: absolute;
+  height: 100px;
 }
 
 
