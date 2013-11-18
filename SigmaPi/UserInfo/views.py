@@ -11,28 +11,26 @@ def users(request):
 	senior_year = utils.get_senior_year()
 
 	# get the execs
-	sage = UserPosition.objects.get(position='S')
-	second = UserPosition.objects.get(position='2')
-	third = UserPosition.objects.get(position='3')
-	fourth = UserPosition.objects.get(position='4')
-	first = UserPosition.objects.get(position='1')
-	herald = UserPosition.objects.get(position='H')
+#	sage = UserPosition.objects.get(position='S')
+#	second = UserPosition.objects.get(position='2')
+#	third = UserPosition.objects.get(position='3')
+#	fourth = UserPosition.objects.get(position='4')
+#	first = UserPosition.objects.get(position='1')
+#	herald = UserPosition.objects.get(position='H')
 
 	# get the rest
 	seniors = UserInfo.objects.filter(graduationYear=senior_year).prefetch_related('user')
-	seniors.user.user_positions
-	seniors.filter()
 	juniors = UserInfo.objects.filter(graduationYear=(senior_year + 1)).prefetch_related('user')
 	sophomores = UserInfo.objects.filter(graduationYear=(senior_year + 2)).prefetch_related('user')
 	freshmen = UserInfo.objects.filter(graduationYear=(senior_year + 3)).prefetch_related('user')
 
 	context = RequestContext(request, {
-		'sage': sage,
-		'second': second,
-		'third': third,
-		'fourth': fourth,
-		'first': first,
-		'herald': herald,
+		#'sage': sage,
+		#'second': second,
+		#'third': third,
+		#'fourth': fourth,
+		#'first': first,
+		#'herald': herald,
 		'seniors': seniors,
 		'juniors': juniors,
 		'sophomores': sophomores,
