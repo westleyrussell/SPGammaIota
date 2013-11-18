@@ -17,7 +17,7 @@ $(document).ready(function(){
 			break;
 	}
 
-	var thresh = 100; //$('#banner-top').outerHeight();
+	var thresh = 100; //The height of the top banner
 	$(window).scroll(function(e){
 		if (window.scrollY > thresh) {
 			$('#pub-nav').addClass('fixed');
