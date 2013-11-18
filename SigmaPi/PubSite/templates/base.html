@@ -15,8 +15,11 @@
 
 </head>
 <body>
+	<div id="banner-top">
+		<div class="overlay-message">Sigma Pi Gamma Iota</div>
+	</div>
 	{% block navbar %}
-		<div id="pub-nav" class="ui inverted menu">
+		<div id="pub-nav" class="ui large inverted menu">
 			<a id="nav-home" href='/' class="active item">
 				<i class="home icon"></i> Home
 			</a>
@@ -28,14 +31,18 @@
 			</a>
 		</div>
 	{% endblock %}
-
-	<div class="img-banner"></div>
 	{% block header %}
+		<div class="ui bottom attached segment">
 		<!-- put page specific headers here -->
+		</div>
 	{% endblock %}
 
 	<div id="content">
 		{% block content %}{% endblock %}
+	</div>
+
+	<div id="footer">
+		{% block footer %}{% endblock %}
 	</div>
 
 </body>

@@ -14,13 +14,44 @@ body {
 	margin:0;
 	border-radius: 0;
 }
+#banner-top {
+  width:100%;
+  height:100px;
+  background-image: url("http://downloadwallpaperhd.com/wp-content/uploads/2013/05/Uncommon-Eagle-Owl-HD-Wallpaper.jpg");
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: inherit;
+    background-repeat: no-repeat;
+}
 
-.ui.menu .item {
-	font-size: 1.5rem;
+#banner-top .overlay-message {
+  position: absolute;
+  z-index: 1;
+  font-size: 3rem;
+  color: rgba(250,250,250,.9);
+  margin-left: 50px;
+  margin-top: 20px;
+  width: auto;
+}
+
+#pub-nav.ui.large.menu .item {
+  font-size: 1.5rem !important;
+}
+
+#pub-nav.fixed {
+  position: fixed;
+  top: 0;
+}
+
+#pub-nav.ui.inverted.menu {
+  background-color: rgba(100,100,100,.99);
 }
 
 #nav-history.active {
-	background-color: #564F8A;
+	background-color: #ADA6E4;
+}
+#nav-service.active {
+  background-color: #FFFF37;
 }
 
 #nav-brothers.active {
@@ -31,6 +62,16 @@ body {
 	margin: 0;
 }
 
+.top-header {
+  margin: 0 !important;
+}
+#history-header {
+	background-color:#ADA6E4;
+}
+#service-header {
+  background-color: #FFFF37;
+}
+
 .large-print {
 	font-size: larger;
 	color: #636363;
@@ -39,4 +80,28 @@ body {
 .center-body {
 	width: 80%;
 	margin: 0 auto;
+}
+
+#footer {
+  width:100%;
+  height:100px;
+  margin-top: 75px;
+  border-top: 1px rgba(230,230,230,.8);
+  background-color: rgba(9,9,9,.3);
+}
+
+
+html {
+  /*background-image: url("http://downloadwallpaperhd.com/wp-content/uploads/2013/05/Uncommon-Eagle-Owl-HD-Wallpaper.jpg");*/
+  background-position: center center;
+  background-attachment: absolute;
+  background-size: cover;
+    background-repeat: no-repeat;
+
+  height: 100%;
+  font-size: 100%;
+}
+
+body {
+  margin: 0;
 }

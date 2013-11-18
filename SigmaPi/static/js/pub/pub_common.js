@@ -25,4 +25,13 @@ $(document).ready(function(){
 	{
 		$('#nav-home').addClass('active');
 	}
+
+	var thresh = 100; //$('#banner-top').outerHeight();
+	$(window).scroll(function(e){
+		if (window.scrollY > thresh) {
+			$('#pub-nav').addClass('fixed');
+		} else {
+			$('#pub-nav').removeClass('fixed');
+		}
+	});
 });
