@@ -23,6 +23,7 @@ body {
   background-attachment: fixed;
   background-size: inherit;
     background-repeat: no-repeat;
+  background-position-y: -600px;
 }
 
 #banner-top .overlay-message {
@@ -59,7 +60,7 @@ body {
 	background-color: #564F8A;
 }
 
-#sub-header {
+.sub-header {
 	margin: 0;
 }
 
@@ -93,16 +94,6 @@ body {
 
 
 html {
-  /*background-image: url("http://downloadwallpaperhd.com/wp-content/uploads/2013/05/Uncommon-Eagle-Owl-HD-Wallpaper.jpg");*/
-  background-position: center center;
-  background-attachment: absolute;
-  background-size: cover;
-    background-repeat: no-repeat;
-
   height: 100%;
   font-size: 100%;
-}
-
-body {
-  margin: 0;
 }
