@@ -5,29 +5,18 @@ $(document).ready(function(){
 	var soph_thresh = $('#sophomore_start').offset().top
 	var fresh_thresh = $('#freshman_start').offset().top
 
-	var thresh = 100; //$('#banner-top').outerHeight();
 	$(window).scroll(function(e){
-		if (window.scrollY > exec_thresh) {
-			$('#brothers-nav .active').removeClass('active');
+		$('#brothers-nav .active').removeClass('active');
+
+		if (window.scrollY < sen_thresh) {
 			$('#exec-nav').addClass('active');
-		}
-
-		if (window.scrollY > sen_thresh) {
-			$('#brothers-nav .active').removeClass('active');
+		} else if (window.scrollY > sen_thresh && window.scrollY < jun_thresh) {
 			$('#senior-nav').addClass('active');
-		}
-
-		if (window.scrollY > jun_thresh) {
-			$('#brothers-nav .active').removeClass('active');
+		} else if (window.scrollY > jun_thresh && window.scrollY < soph_thresh) {
 			$('#junior-nav').addClass('active');
-		}
-
-		if (window.scrollY > soph_thresh) {
-			$('#brothers-nav .active').removeClass('active');
+		} else if (window.scrollY > soph_thresh && window.scrollY < fresh_thresh) {
 			$('#sophomore-nav').addClass('active');
-		}
-		if (window.scrollY > fresh_thresh) {
-			$('#brothers-nav .active').removeClass('active');
+		} else if (window.scrollY > fresh_thresh) {
 			$('#freshman-nav').addClass('active');
 		}
 	});
