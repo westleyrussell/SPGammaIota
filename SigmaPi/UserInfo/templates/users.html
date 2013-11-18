@@ -4,8 +4,103 @@
 	<h1 id="sub-header" class="ui inverted purple block header">Brothers</h4>
 {% endblock %}
 {% block content %}
+	<div class="center-body large-print">
+		<a href="#exec"><h2 class="ui block header">The Executive Council</h2></a>
+				<!--Sage Here-->
+				<h3 class="ui header">Sage</h3>
+				<div class="ui basic segment">
+					<img class="ui rounded med left floated image" src="/content/{{ sage.userinfo.picture }}">
+					<a href="{% url 'UserInfo.views.single_user' sage.username %}">{{ sage.first_name }} {{ sage.last_name }}</a><br/><br/>
+					Class: {{ sage.userinfo.classYear }}<br/>
+					Year: {{ sage.userinfo.graduationYear }}<br/>
+					Major: {{ sage.userinfo.major }}<br/>
+					Hometown: {{ sage.userinfo.hometown }}<br/>
+					Activities: {{ sage.userinfo.activities }}<br/>
+					Interests: {{ sage.userinfo.interests }}<br/>
+					Favorite Memory: {{ sage.userinfo.favoriteMemory }}<br/>
+				</div>
+				<div class="ui divider"></div>
+				<!--End sage-->
+				<!--Second starts-->
+				<h3 class="ui header">2nd Counselor</h3>
+				<div class="ui basic segment">
+					<img class="ui rounded med left floated image" src="/content/{{ second.userinfo.picture }}">
+					<a href="{% url 'UserInfo.views.single_user' second.username %}">{{ second.first_name }} {{ second.last_name }}</a><br/><br/>
+					Class: {{ second.userinfo.classYear }}<br/>
+					Year: {{ second.userinfo.graduationYear }}<br/>
+					Major: {{ second.userinfo.major }}<br/>
+					Hometown: {{ second.userinfo.hometown }}<br/>
+					Activities: {{ second.userinfo.activities }}<br/>
+					Interests: {{ second.userinfo.interests }}<br/>
+					Favorite Memory: {{ second.userinfo.favoriteMemory }}<br/>
+				</div>
+				<div class="ui divider"></div>
+				<!-- End second -->
+				<!-- Start 3rd -->
+				<h3 class="ui header">3rd Counselor</h3>
+				<div class="ui basic segment">
+					<img class="ui rounded med left floated image" src="/content/{{ third.userinfo.picture }}">
+					<a href="{% url 'UserInfo.views.single_user' third.username %}">{{ third.first_name }} {{ third.last_name }}</a><br/><br/>
+					Class: {{ third.userinfo.classYear }}<br/>
+					Year: {{ third.userinfo.graduationYear }}<br/>
+					Major: {{ third.userinfo.major }}<br/>
+					Hometown: {{ third.userinfo.hometown }}<br/>
+					Activities: {{ third.userinfo.activities }}<br/>
+					Interests: {{ third.userinfo.interests }}<br/>
+					Favorite Memory: {{ third.userinfo.favoriteMemory }}<br/>
+				</div>
+				<div class="ui divider"></div>
+				<!-- End 3rd -->
+				<!-- Start 4th -->
+				<h3 class="ui header">4th Counselor</h3>
+				<div class="ui basic segment">
+					<img class="ui rounded med left floated image" src="/content/{{ fourth.userinfo.picture }}">
+					<a href="{% url 'UserInfo.views.single_user' fourth.username %}">{{ fourth.first_name }} {{ fourth.last_name }}</a><br/><br/>
+					Class: {{ fourth.userinfo.classYear }}<br/>
+					Year: {{ fourth.userinfo.graduationYear }}<br/>
+					Major: {{ fourth.userinfo.major }}<br/>
+					Hometown: {{ fourth.userinfo.hometown }}<br/>
+					Activities: {{ fourth.userinfo.activities }}<br/>
+					Interests: {{ fourth.userinfo.interests }}<br/>
+					Favorite Memory: {{ fourth.userinfo.favoriteMemory }}<br/>
+				</div>
+				<div class="ui divider"></div>	
+				<!-- End 4th -->
+				<!-- Start 1st -->
+				<h3 class="ui header">1st Counselor</h3>
+				<div class="ui basic segment">
+					<img class="ui rounded med left floated image" src="/content/{{ first.userinfo.picture }}">
+					<a href="{% url 'UserInfo.views.single_user' first.username %}">{{ first.first_name }} {{ first.last_name }}</a><br/><br/>
+					Class: {{ first.userinfo.classYear }}<br/>
+					Year: {{ first.userinfo.graduationYear }}<br/>
+					Major: {{ first.userinfo.major }}<br/>
+					Hometown: {{ first.userinfo.hometown }}<br/>
+					Activities: {{ first.userinfo.activities }}<br/>
+					Interests: {{ first.userinfo.interests }}<br/>
+					Favorite Memory: {{ first.userinfo.favoriteMemory }}<br/>
+				</div>
+				<div class="ui divider"></div>	
+				<!-- End 1st -->
+				<!-- Start Herald -->
+				<h3 class="ui header">Herald</h3>
+				<div class="ui basic segment">
+					<img class="ui rounded med left floated image" src="/content/{{ herald.userinfo.picture }}">
+					<a href="{% url 'UserInfo.views.single_user' herald.username %}">{{ herald.first_name }} {{ herald.last_name }}</a><br/><br/>
+					Class: {{ herald.userinfo.classYear }}<br/>
+					Year: {{ herald.userinfo.graduationYear }}<br/>
+					Major: {{ herald.userinfo.major }}<br/>
+					Hometown: {{ herald.userinfo.hometown }}<br/>
+					Activities: {{ herald.userinfo.activities }}<br/>
+					Interests: {{ herald.userinfo.interests }}<br/>
+					Favorite Memory: {{ herald.userinfo.favoriteMemory }}<br/>
+				</div>
+				<div class="ui divider"></div>												
+		<h2 class="ui block header">Seniors</h2>
+		<h2 class="ui block header">Juniors</h2>
+		<h2 class="ui block header">Sophomores</h2>
+		<h2 class="ui block header">Freshmen</h2>
 
-Sage: {{ sage}}</br>
+Sage: {{ sage }}</br>
 Second {{ second }}</br>
 Third {{ third }}</br>
 Fourth {{ fourth }}</br>
@@ -16,5 +111,6 @@ Seniors: {{ seniors }}</br>
 Juniors {{ juniors }}</br>
 Sophomores {{sophomores }}</br>
 Freshmen {{ freshmen }}</br>
+	</div>
 
 {% endblock %}
