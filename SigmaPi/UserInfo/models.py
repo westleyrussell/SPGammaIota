@@ -10,6 +10,7 @@ class UserInfo(models.Model):
 	picture = models.FileField(upload_to=filepath, null=True)
 	phoneNumber = models.PositiveIntegerField(default=5555555555)
 	graduationYear = models.PositiveIntegerField(default=2015)
+	classYear = models.CharField(default="Lambda", max_length=20)
 	major = models.CharField(max_length=100, blank=True)
 	hometown = models.CharField(max_length=100, blank=True)
 	activities = models.TextField(blank=True)

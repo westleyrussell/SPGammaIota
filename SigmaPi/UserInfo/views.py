@@ -3,11 +3,40 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.template import RequestContext
 
+from UserInfo import utils
+from UserInfo.models import UserInfo
+
 # Create your views here.
 def users(request):
-	users = User.objects.all()
+	senior_year = utils.get_senior_year()
+
+	# get the execs
+	sage = UserPosition.objects.get(position='S')
+	second = UserPosition.objects.get(position='2')
+	third = UserPosition.objects.get(position='3')
+	fourth = UserPosition.objects.get(position='4')
+	first = UserPosition.objects.get(position='1')
+	herald = UserPosition.objects.get(position='H')
+
+	# get the rest
+	seniors = UserInfo.objects.filter(graduationYear=senior_year).prefetch_related('user')
+	seniors.user.user_positions
+	seniors.filter()
+	juniors = UserInfo.objects.filter(graduationYear=(senior_year + 1)).prefetch_related('user')
+	sophomores = UserInfo.objects.filter(graduationYear=(senior_year + 2)).prefetch_related('user')
+	freshmen = UserInfo.objects.filter(graduationYear=(senior_year + 3)).prefetch_related('user')
+
 	context = RequestContext(request, {
-		'all_users': users,
+		'sage': sage,
+		'second': second,
+		'third': third,
+		'fourth': fourth,
+		'first': first,
+		'herald': herald,
+		'seniors': seniors,
+		'juniors': juniors,
+		'sophomores': sophomores,
+		'freshmen': freshmen
 		})
 	return render(request, 'users.html', context)
 

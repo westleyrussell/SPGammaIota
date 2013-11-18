@@ -1,15 +1,20 @@
 {% extends "base.html" %}
 
+{% block header %}
+	<h1 id="sub-header" class="ui inverted purple block header">Brothers</h4>
+{% endblock %}
 {% block content %}
 
-{% if all_users %}
+Sage: {{ sage}}</br>
+Second {{ second }}</br>
+Third {{ third }}</br>
+Fourth {{ fourth }}</br>
+First {{ first }}</br>
+Herald {{ herald }}</br></br>
 
-	{% for u in all_users %}
-		<a href="{% url 'UserInfo.views.single_user' u.username %}">
-			{{ u.username }}
-		</a></br>
-	{% endfor %}
-
-{% endif %}
+Seniors: {{ seniors }}</br>
+Juniors {{ juniors }}</br>
+Sophomores {{sophomores }}</br>
+Freshmen {{ freshmen }}</br>
 
 {% endblock %}

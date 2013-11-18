@@ -23,7 +23,11 @@ body {
 	background-color: #564F8A;
 }
 
-#history-header {
+#nav-brothers.active {
+	background-color: #564F8A;
+}
+
+#sub-header {
 	margin: 0;
 }
 
