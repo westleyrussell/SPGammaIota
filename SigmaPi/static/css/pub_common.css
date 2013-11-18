@@ -55,6 +55,14 @@ body {
   background-color: #FFFF37;
 }
 
+#nav-brothers.active {
+	background-color: #564F8A;
+}
+
+#sub-header {
+	margin: 0;
+}
+
 .top-header {
   margin: 0 !important;
 }
