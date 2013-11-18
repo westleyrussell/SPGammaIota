@@ -1,10 +1,25 @@
 {% extends "base.html" %}
 
+{% block local_includes %}
+	{% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href='{% static "css/pub_brothers.css" %}'/>
+	<script type='text/javascript' src='{% static "js/pub/pub_brothers.js" %}'></script>
+{% endblock %}
+
 {% block header %}
 	<h1 id="sub-header" class="ui inverted purple block header">Brothers</h4>
 {% endblock %}
 {% block content %}
+    <div id="brothers-nav" class="ui fixed small vertical secondary menu">
+      <a id="exec-nav" class=" active item" href="#exec">Executive Council</a>
+      <a id="senior-nav" class="item" href="#seniors">Seniors</a>
+      <a id="junior-nav" class="item" href="#juniors">Juniors</a>
+      <a id="sophomore-nav" class="item" href="#sophomores">Sophomores</a>
+      <a id="freshman-nav" class="item" href="#freshmen">Freshmen</a>
+    </div>
+
 	<div class="center-body large-print">
+		<a id="exec_start" name="exec"/>
 		<h1 class="ui inverted purple block header">The Executive Council</h1>
 				<!-- Start EC -->
 				<!--Sage Here-->
@@ -98,9 +113,10 @@
 				<div class="ui divider"></div>		
 				<!-- End herald-->
 				<!-- End EC -->			
-	
-				<!-- Start Seniors -->						
-				<h1 class="ui inverted purple block header">Seniors</h1>
+
+				<!-- Start Seniors -->	
+				<a name="seniors"/>					
+				<h1 id="senior_start" class="ui inverted purple block header">Seniors</h1>
 				{% for senior in seniors %}
 				<div class="ui basic segment">
 					<img class="ui rounded med left floated image" src="/content/{{ senior.userinfo.picture }}">
@@ -117,7 +133,8 @@
 				{% endfor %}
 				<!-- End Seniors -->
 				<!-- Start juniors-->
-				<h1 class="ui inverted purple block header">Juniors</h1>
+				<a name="juniors"/>
+				<h1 id="junior_start" class="ui inverted purple block header">Juniors</h1>
 				{% for junior in juniors %}
 				<div class="ui basic segment">
 					<img class="ui rounded med left floated image" src="/content/{{ junior.userinfo.picture }}">
@@ -134,7 +151,8 @@
 				{% endfor %}
 				<!-- end juniors -->
 				<!-- start sophomores -->
-				<h1 class="ui inverted purple block header">Sophomores</h1>
+				<a name="sophomores"/>
+				<h1 id="sophomore_start" class="ui inverted purple block header">Sophomores</h1>
 				{% for sophomore in sophomores %}
 				<div class="ui basic segment">
 					<img class="ui rounded med left floated image" src="/content/{{ sophomore.userinfo.picture }}">
@@ -150,8 +168,9 @@
 				<div class="ui divider"></div>		
 				{% endfor %}
 				<!-- End Sophomores -->
-				<!-- Start freshmen -->				
-				<h1 class="ui inverted purple block header">Freshmen</h1>
+				<!-- Start freshmen -->		
+				<a name="freshmen"/>		
+				<h1 id="freshman_start" class="ui inverted purple block header">Freshmen</h1>
 				{% for freshman in freshmen %}
 				<div class="ui basic segment">
 					<img class="ui rounded med left floated image" src="/content/{{ freshman.userinfo.picture }}">
