@@ -16,7 +16,7 @@
 </head>
 <body>
 	{% block navbar %}
-		<div id="pub-nav" class="ui secondary purple pointing menu">
+		<div id="pub-nav" class="ui inverted menu">
 			<a id="nav-home" href='/' class="active item">
 				<i class="home icon"></i> Home
 			</a>
@@ -27,6 +27,11 @@
 				<i class="user icon"></i> Service
 			</a>
 		</div>
+	{% endblock %}
+
+	<div class="img-banner"></div>
+	{% block header %}
+		<!-- put page specific headers here -->
 	{% endblock %}
 
 	<div id="content">

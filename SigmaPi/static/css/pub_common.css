@@ -11,9 +11,28 @@ body {
 	width: 90%
 }
 #pub-nav{
-	background-color: rgba(255,255,255,.9);
+	margin:0;
+	border-radius: 0;
+}
+
+.ui.menu .item {
+	font-size: 1.5rem;
+}
+
+#nav-history.active {
+	background-color: #564F8A;
+}
+
+#history-header {
+	margin: 0;
 }
 
 .large-print {
 	font-size: larger;
+	color: #636363;
+}
+
+.center-body {
+	width: 80%;
+	margin: 0 auto;
 }
