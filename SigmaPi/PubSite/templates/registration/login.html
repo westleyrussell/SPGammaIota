@@ -1,3 +1,7 @@
+{% extends "base.html" %}
+
+{% block content %}
+
 {% if user.is_authenticated %}
 Already Logged In. </br>
 
@@ -6,8 +10,6 @@ Already Logged In. </br>
 {% else %}
 
 {% load url from future %}
-
-{% block content %}
 
 {% if form.errors %}
 <p>Your username and password didn't match. Please try again.</p>
@@ -30,5 +32,5 @@ Already Logged In. </br>
 <input type="hidden" name="next" value="{{next}}" />
 </form>
 
-{% endblock %}
 {% endif %}
+{% endblock %}
