@@ -1,5 +1,10 @@
 {% extends "base.html" %}
-
+{% block header %}
+	<h1 class="sub-header ui inverted red block header">
+		<i class="lock icon"></i>
+		Secure Site Login
+	</h1>
+{% endblock %}
 {% block content %}
 
 {% if user.is_authenticated %}
@@ -10,27 +15,38 @@ Already Logged In. </br>
 {% else %}
 
 {% load url from future %}
+<div class="large-print center-body login-form">
+	<form class="ui form segment" method="post" action="{% url 'django.contrib.auth.views.login' %}">
+	{% csrf_token %}
+		<div class="field">
+			<label>Username</label>
+			<div class="ui left labeled icon input">
+				{{form.username}}
+				<i class="user icon"></i>
+				<div class="ui corner label">
+					<i class="icon asterisk"></i>
+				</div>
+			</div>
+		</div>
+		<div class="field">
+			<label>Password</label>
+			<div class="ui left labeled icon input">
+				{{form.password}}
+				<i class="lock icon"></i>
+				<div class="ui corner label">
+					<i class="icon asterisk"></i>
+				</div>
+			</div>
+		</div>
+		{% if form.errors %}
+		<div class="ui error message">
+			<div class="header">Username or password was incorrect. Please try again.</div>
+		</div>
+		{% endif %}
 
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
-
-<form method="post" action="{% url 'django.contrib.auth.views.login' %}">
-{% csrf_token %}
-<table>
-<tr>
-    <td>{{ form.username.label_tag }}</td>
-    <td>{{ form.username }}</td>
-</tr>
-<tr>
-    <td>{{ form.password.label_tag }}</td>
-    <td>{{ form.password }}</td>
-</tr>
-</table>
-
-<input type="submit" value="login" />
-<input type="hidden" name="next" value="{{next}}" />
-</form>
-
+		<input class="ui red submit button" type="submit" value="login" />
+		<input type="hidden" name="next" value="{{next}}" />
+	</form>
+</div>
 {% endif %}
 {% endblock %}

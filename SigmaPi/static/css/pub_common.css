@@ -60,6 +60,10 @@ body {
 	background-color: #564F8A;
 }
 
+#nav-secure.active {
+  background-color: #D95C5C;
+}
+
 .sub-header {
 	margin: 0;
 }
@@ -67,9 +71,11 @@ body {
 .top-header {
   margin: 0 !important;
 }
+
 #history-header {
 	background-color:#ADA6E4;
 }
+
 #service-header {
   background-color: #FFFF37;
 }
@@ -82,6 +88,10 @@ body {
 .center-body {
 	width: 80%;
 	margin: 0 auto;
+}
+
+.login-form {
+	width:600px;
 }
 
 #fb-link .message{
@@ -104,7 +114,6 @@ body {
   position: absolute;
   height: 100px;
 }
-
 
 html {
   height: 100%;

@@ -19,6 +19,9 @@ $(document).ready(function(){
 			case 'service':
 				$('#nav-service').addClass('active');
 				break;
+			case 'login':
+				$('#nav-secure').addClass('active');
+				break;
 			}
 	}
 	else
