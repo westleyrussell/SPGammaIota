@@ -16,7 +16,7 @@ def users(request):
 	# Find out what current year is the senior year grad date.
 	senior_year = utils.get_senior_year()
 
-	# get the execs
+	# Get the execs.  Use try/catch to avoid crashing the site if an exec is missing.
 	try:
 		sage = User.objects.get(groups__name='Sage')
 	except:
@@ -108,10 +108,15 @@ def users(request):
 		'sophomores': sophomores,
 		'freshmen': freshmen
 		})
-	
+
 	return render(request, 'users.html', context)
 
 def single_user(request, user):
+	"""
+		Provides the view for a single requested user.
+	"""
+
+
 	requested_user = User.objects.get(username__exact=user)
 	context = RequestContext(request, {
 			'requested_username': user,
@@ -119,7 +124,12 @@ def single_user(request, user):
 		})
 	return render(request, 'user.html', context)
 
+
 def profile(request):
+	"""
+		Provides a view for the profile of a logged in user.
+	"""
+	
 	if request.user.is_active:
 		return single_user(request, request.user.username)
 	else:

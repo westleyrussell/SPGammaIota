@@ -1,9 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-#Model to represent a party.
 class Party(models.Model):
-
+	"""
+		Model to represent a party.
+	"""
 	name = models.CharField(max_length=100)
 	date = models.DateField()
 
@@ -15,9 +16,10 @@ class Party(models.Model):
 		verbose_name_plural = "Parties"
 		verbose_name = "Party"
 
-#Model to represent a party guest.
 class Guest(models.Model):
-
+	"""
+		Model to represent a party guest
+	"""
 	name = models.CharField(max_length=100)
 	birthDate = models.DateField()
 	gender = models.CharField(max_length=100, blank=True)
@@ -31,9 +33,10 @@ class Guest(models.Model):
 		verbose_name_plural = "Guests"
 		verbose_name = "Guest"
 
-#Model to represent a guest for a specific party.
 class PartyGuest(models.Model):
-
+	""" 
+		Model to represent a guest for a specific party.
+	"""
 	party = models.ForeignKey(Party, related_name="party_for_guest", default=1)
 	guest = models.ForeignKey(Guest, related_name="guest", default=1)
 	addedBy = models.ForeignKey(User, related_name="added_by", default=1)
@@ -46,10 +49,10 @@ class PartyGuest(models.Model):
 		verbose_name_plural = "Party Guests"
 		verbose_name = "Party Guest"
 
-
-#Model to represent a job for a specific party.
 class PartyJob(models.Model):
-
+	"""
+		Model to represent a job for a specific party
+	"""
 	party = models.ForeignKey(Party, related_name="party_for_job", default=1)
 	job = models.CharField(max_length=100, blank=True)
 	user = models.ForeignKey(User, related_name="user", default=1)

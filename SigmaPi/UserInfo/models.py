@@ -1,9 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# Create your models here.
 class UserInfo(models.Model):
+	"""
+		Model for site-specific user info.
+		Complements the built in User models
+	"""
 	def filepath(self, filename):
+		"""
+			Defines where files uploaded by the user should be stored
+		"""
 		return "users/" + self.user.username + "/" + filename
 
 	user = models.OneToOneField(User)
@@ -21,7 +27,6 @@ class UserInfo(models.Model):
 	def __unicode__(self):
 		return self.user.username
 
-	#Setup meta info about this model
 	class Meta:
 		verbose_name_plural = "User Info"
 		verbose_name = "User Info"

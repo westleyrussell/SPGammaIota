@@ -2,19 +2,19 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import RequestContext
 
-# View for the index landing page of the site
 def index(request):
+	""" View for the index landing page of the site """
 	context = RequestContext(request,{
-		'motd': 'calder rules'
+		'motd': 'boatie rules'
 	})
 	return render(request,'index.html',context)
 
-# Provides a view for all blog posts
 def blog_index(request):
+	""" View for all of the blogs/blog overview """
 	return HttpResponse("All blogs here")
 
-# View for an individual blog post
 def blog_post(request, path):
+	""" View for a single blog post """
 	return HttpResponse("Single blog post here " + path)
 
 def hisotry(request):
