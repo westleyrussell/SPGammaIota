@@ -20,6 +20,7 @@ Sigma Pi Ebay
 Forums/Discussion board
 Blogs 
 	-View/UI
+Committee Dashboard
 
 
 Done:
