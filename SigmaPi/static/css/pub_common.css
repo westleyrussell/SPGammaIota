@@ -31,7 +31,7 @@ body {
 #banner-top {
   width:100%;
   height:100px;
-  background-image: url("http://downloadwallpaperhd.com/wp-content/uploads/2013/05/Uncommon-Eagle-Owl-HD-Wallpaper.jpg");
+  background-image: url("static/img/banner.png");
   background-position: center center;
   background-attachment: fixed;
   background-size: inherit;
