@@ -23,6 +23,7 @@
 		<div id="exec"></div>
 		<h1 class="ui inverted purple block header">The Executive Council</h1>
 				<!-- Start EC -->
+				{% if sage %}
 				<!--Sage Here-->
 				<h3 class="ui header">Sage</h3>
 				<div class="ui basic segment">
@@ -38,6 +39,8 @@
 				</div>
 				<div class="ui divider"></div>
 				<!--End sage-->
+				{% endif %}
+				{% if second %}
 				<!--Second starts-->
 				<h3 class="ui header">2nd Counselor</h3>
 				<div class="ui basic segment">
@@ -53,6 +56,8 @@
 				</div>
 				<div class="ui divider"></div>
 				<!-- End second -->
+				{% endif %}
+				{% if third %}
 				<!-- Start 3rd -->
 				<h3 class="ui header">3rd Counselor</h3>
 				<div class="ui basic segment">
@@ -68,6 +73,8 @@
 				</div>
 				<div class="ui divider"></div>
 				<!-- End 3rd -->
+				{% endif %}
+				{% if fourth %}
 				<!-- Start 4th -->
 				<h3 class="ui header">4th Counselor</h3>
 				<div class="ui basic segment">
@@ -83,6 +90,8 @@
 				</div>
 				<div class="ui divider"></div>	
 				<!-- End 4th -->
+				{% endif %}
+				{% if first %}
 				<!-- Start 1st -->
 				<h3 class="ui header">1st Counselor</h3>
 				<div class="ui basic segment">
@@ -98,6 +107,8 @@
 				</div>
 				<div class="ui divider"></div>	
 				<!-- End 1st -->
+				{% endif %}
+				{% if herald %}
 				<!-- Start Herald -->
 				<h3 class="ui header">Herald</h3>
 				<div class="ui basic segment">
@@ -113,6 +124,7 @@
 				</div>
 				<div class="ui divider"></div>		
 				<!-- End herald-->
+				{% endif %}
 				<!-- End EC -->			
 
 				<!-- Start Seniors -->

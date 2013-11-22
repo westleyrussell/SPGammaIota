@@ -1,15 +1,20 @@
 from django.db import models
 import datetime
 
-#Utility function to add a timestamp to uploaded files.
 def timeStamped(fname, fmt='%Y-%m-%d_{fname}'):
+	"""
+		Utility function to add a timestamp to uploaded files.
+	"""
     return datetime.datetime.now().strftime(fmt).format(fname=fname)
 
-
-#Model to represent a single bylaw.
 class Bylaws(models.Model):
-
+	"""
+		Model to represent a single bylaw.
+	"""
 	def bylawspath(self, filename):
+		"""
+			Defines where bylaws should be stored
+		"""
 		return "protected/bylaws/" + timeStamped(filename)
 
 	date = models.DateField()
@@ -23,8 +28,10 @@ class Bylaws(models.Model):
 		verbose_name_plural = "Bylaws"
 		verbose_name = "Bylaws"
 
-#Model to represent a single house rule.
 class HouseRule(models.Model):
+	"""
+		Model to represent a single house rule.
+	"""
 
 	title = models.CharField(max_length=100)
 	content = models.TextField()
@@ -35,10 +42,15 @@ class HouseRule(models.Model):
 		verbose_name_plural = "House Rules"
 		verbose_name = "House Rule"
 
-#Model for meeting minutes that are kept at all house meetings.
 class MeetingMinutes(models.Model):
+	"""
+		Model for meeting minutes that are kept at all house meetings.
+	"""
 
 	def minutespath(self, filename):
+		"""
+			Defines where minutes should be stored
+		"""
 		return "protected/minutes/" + timeStamped(filename)
 
 	date = models.DateField()
@@ -53,11 +65,17 @@ class MeetingMinutes(models.Model):
 		verbose_name = "Meeting Minutes"
 
 
-#Model for guides that will be posted to the site, 
-#including House Jobs and Party Jobs
+
 class Guide(models.Model):
+	"""
+		Model for guides that will be posted to the site, 
+		including House Jobs and Party Jobs
+	"""
 
 	def guidepath(self, filename):
+		"""
+			Defines where the guides should be uploaded/stored
+		"""
 		return "protected/guides/" + timeStamped(filename)
 
 	name = models.CharField(max_length=100)

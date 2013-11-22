@@ -1,49 +1,67 @@
-# Create your views here.
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
-#View for the index page
+
 @login_required
 def index(request):
+	"""
+		View for the index page of the archives
+	"""
 	return HttpResponse("Hello World")
 
-#View for all bylaws
 @login_required
 def bylaws(request):
+	"""
+		View for all bylaws.
+	"""
 	return HttpResponse("Bylaws")
 
-#View for a single bylaw
 @login_required
 def single_bylaw(request, year, month, day):
+	"""
+		View for a single bylaw
+	"""
 	return HttpResponse("Bylaws " + year + month + day)
 
-#View for all rules
 @login_required
 def rules(request):
+	"""
+		View for all house rules
+	"""
 	return HttpResponse("House Rules")
 
-#View for a single rule
 @login_required
 def single_rule(request, path):
+	"""
+		View for a single house rule
+	"""
 	return HttpResponse("Rule " + path)
 
-#View for all minutes
 @login_required
 def minutes(request):
+	"""
+		View for all minutes
+	"""
 	return HttpResponse("Meeting Minutes")
 
-#View for a single set of minutes
 @login_required
 def single_minutes(request, year, month, day):
+	"""
+		View for a single minutes
+	"""
 	return HttpResponse("Minutes " + year + month + day)
 
-#View for all guides
 @login_required
 def guides(request):
+	"""
+		View for all guides
+	"""
 	return HttpResponse("Guides")
 
-#View for a single guide
 @login_required
 def single_guide(request, path):
+	"""
+		View for a single guide
+	"""
 	return HttpResponse("Guide " + path)
 

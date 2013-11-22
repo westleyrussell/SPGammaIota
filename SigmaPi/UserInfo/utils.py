@@ -1,8 +1,13 @@
-# Utility functions for use within the UserInfo modules
+"""
+	Utility functions for use within the UserInfo modules
+"""
 from datetime import date
 
-# Returns the current upcoming senior graduation year.
 def get_senior_year():
+	"""
+		Returns the upcoming graduation year of the current seniors.
+	"""
+	
 	time_tuple = date.today().timetuple()
 
 	year = time_tuple[0]
