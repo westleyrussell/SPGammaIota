@@ -83,7 +83,7 @@ STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 
 LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/users/self/'
+LOGIN_REDIRECT_URL = '/secure/'
 
 # List of finder classes that know how to find static files in
 # various locations.
@@ -139,6 +139,7 @@ INSTALLED_APPS = (
     'UserInfo',
     'Archives',
     'PartyList',
+    'Secure'
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
