@@ -4,20 +4,19 @@ from django.template import RequestContext
 from PubSite.models import BlogPost
 
 def index(request):
-	""" View for the index landing page of the site """
+	"""get an ordered (by date) list of all blog posts to deliver to the client.
+	consider preforming more filtering here"""
+
+	all_posts = BlogPost.objects.order_by('date')
+
 	context = RequestContext(request,{
-		'motd': 'boatie rules'
+		'highlighted_posts': all_posts,
+		'recent_posts': all_posts,
 	})
 	return render(request,'index.html',context)
 
 def blog_index(request):
-	"""get an ordered (by date) list of all blog posts to deliver to the client.
-	consider preforming more filtering here"""
-	all_posts = BlogPost.objects.order_by('date')
-	context = RequestContext(request,{
-		'posts' : all_posts
-	})
-	return render(request,'index.html',context)
+	return index(request)
 
 def blog_post(request, path):
 	""" View for a single blog post """
