@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django import forms
 
 class Party(models.Model):
 	"""
@@ -64,3 +65,9 @@ class PartyJob(models.Model):
 	class Meta:
 		verbose_name_plural = "Party Jobs"
 		verbose_name = "Party Job"
+
+
+
+
+class AddMaleGuestForm(forms.Form):
+    name = forms.CharField(max_length=100)

@@ -2,6 +2,12 @@
 
 {% block content %}
 
+<form action={{redirect}} method="post">
+<p><label for="id_name">Name:</label>
+    <input id="id_name" type="text" name="name" maxlength="100" /></p>
+<input type="submit" value="Submit" />
+</form>
+
 </br>
 Guests for: {{partyname}}
 </br>
