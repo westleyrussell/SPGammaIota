@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import RequestContext
+from PubSite.models import BlogPost
 
 # View for the index landing page of the site
 def index(request):
@@ -11,7 +12,13 @@ def index(request):
 
 # Provides a view for all blog posts
 def blog_index(request):
-	return HttpResponse("All blogs here")
+	"""get an ordered (by date) list of all blog posts to deliver to the client.
+	consider preforming more filtering here"""
+	all_posts = BlogPost.objects.order_by('date')
+	context = RequestContext(request,{
+		'posts' : all_posts
+	})
+	return render(request,'index.html',context)
 
 # View for an individual blog post
 def blog_post(request, path):

@@ -15,6 +15,7 @@
 
 </head>
 <body>
+<div id="wrapper"><!--for sticky footer -->
 	<div id="banner-top">
 		<div class="overlay-message">Sigma Pi Gamma Iota</div>
 	</div>
@@ -43,14 +44,13 @@
 	<div id="content">
 		{% block content %}{% endblock %}
 	</div>
-
-	<div id="footer">
-		<div id="fb-link">
-			<i class="huge facebook sign icon link"></i>
-			<span class="message">Like us on Facebook!</span>
-		</div>
-		{% block footer %}{% endblock %}
+</div>
+<div id="footer">
+	<div id="fb-link">
+		<i class="huge facebook sign icon link"></i>
+		<span class="message">Like us on Facebook!</span>
 	</div>
-
+	{% block footer %}{% endblock %}
+</div>
 </body>
 </html>

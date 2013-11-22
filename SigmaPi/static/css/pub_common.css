@@ -1,3 +1,16 @@
+html, body {height: 100%;}
+
+#wrapper {min-height: 100%;}
+
+#content {overflow:auto;
+  padding-bottom: 150px;}  /* must be same height as the footer */
+
+#footer {position: relative;
+  margin-top: -150px; /* negative value of footer height */
+  height: 150px;
+  border-top: 1px rgba(230,230,230,.8);
+  background-color: rgba(9,9,9,.3);
+  clear:both;} 
 
 body {
 	background-color: rgba(240,240,240,.8);
@@ -59,7 +72,9 @@ body {
 #nav-brothers.active {
 	background-color: #564F8A;
 }
-
+#nav-home.active {
+  background-color: #ECA267;
+}
 #nav-secure.active {
   background-color: #D95C5C;
 }
@@ -74,6 +89,10 @@ body {
 
 #history-header {
 	background-color:#ADA6E4;
+}
+
+#home-header {
+  background-color:#ECA267;
 }
 
 #service-header {
@@ -98,14 +117,6 @@ body {
   font-size: 1.5rem;
   color: white;
   font-family: Arial;
-}
-
-#footer {
-  width:100%;
-  height:150px;
-  margin-top: 75px;
-  border-top: 1px rgba(230,230,230,.8);
-  background-color: rgba(9,9,9,.3);
 }
 
 #fb-link {
