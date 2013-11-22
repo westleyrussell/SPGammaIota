@@ -45,7 +45,7 @@ body {
   background-position: right top;
   background-attachment: fixed;
   background-size: inherit;
-    background-repeat: no-repeat;
+  background-repeat: no-repeat;
 }
 
 #banner-top .overlay-message {
