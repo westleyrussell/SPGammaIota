@@ -1,28 +1,38 @@
-html, body {height: 100%;}
+html, body {
+  height: 100%;
+}
 
-#wrapper {min-height: 100%;}
+#wrapper {
+  min-height: 100%;
+}
 
-#content {overflow:auto;
-  padding-bottom: 150px;}  /* must be same height as the footer */
+#content {
+  overflow:auto;
+  padding-bottom: 150px;
+  }  /* must be same height as the footer */
 
-#footer {position: relative;
+#footer {
+  position: relative;
   margin-top: -150px; /* negative value of footer height */
   height: 150px;
   border-top: 1px rgba(230,230,230,.8);
   background-color: rgba(9,9,9,.3);
-  clear:both;} 
+  clear:both;
+} 
 
 body {
 	background-color: rgba(240,240,240,.8);
 	padding:0;
 	margin:0;
 }
+
 #content{
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 25px;
 	width: 90%
 }
+
 #pub-nav{
 	margin:0;
 	border-radius: 0;
