@@ -5,7 +5,8 @@ def timeStamped(fname, fmt='%Y-%m-%d_{fname}'):
 	"""
 		Utility function to add a timestamp to uploaded files.
 	"""
-    return datetime.datetime.now().strftime(fmt).format(fname=fname)
+	return datetime.datetime.now().strftime(fmt).format(fname=fname)
+
 
 class Bylaws(models.Model):
 	"""
