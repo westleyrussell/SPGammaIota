@@ -31,19 +31,18 @@ body {
 #banner-top {
   width:100%;
   height:100px;
-  background-image: url("static/img/banner.png");
-  background-position: center center;
+  background-image: url("../img/right_banner.png");
+  background-position: right top;
   background-attachment: fixed;
   background-size: inherit;
     background-repeat: no-repeat;
-  background-position-y: -600px;
 }
 
 #banner-top .overlay-message {
   position: absolute;
   z-index: 1;
-  font-size: 3rem;
-  color: rgba(250,250,250,.9);
+  font-size: 3.5rem;
+  color: rgba(174,167,224,1);
   margin-left: 50px;
   margin-top: 20px;
   width: auto;
