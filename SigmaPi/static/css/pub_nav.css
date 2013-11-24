@@ -1,0 +1,75 @@
+#pub-nav{
+	margin:0;
+	border-radius: 0;
+}
+
+#banner-top {
+  width:100%;
+  height:100px;
+  background-image: url("http://downloadwallpaperhd.com/wp-content/uploads/2013/05/Uncommon-Eagle-Owl-HD-Wallpaper.jpg");
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: inherit;
+    background-repeat: no-repeat;
+  background-position-y: -600px;
+}
+
+#banner-top .overlay-message {
+  position: absolute;
+  z-index: 1;
+  font-size: 3rem;
+  color: rgba(250,250,250,.9);
+  margin-left: 50px;
+  margin-top: 20px;
+  width: auto;
+}
+
+#pub-nav.ui.large.menu .item {
+  font-size: 1.5rem !important;
+}
+
+#pub-nav.fixed {
+  position: fixed;
+  top: 0;
+}
+
+#pub-nav.ui.inverted.menu {
+  background-color: rgba(100,100,100,.99);
+}
+
+#nav-history.active {
+	background-color: #ADA6E4;
+}
+#nav-service.active {
+  background-color: #ABCDEF;
+}
+
+#nav-brothers.active {
+	background-color: #564F8A;
+}
+#nav-home.active {
+  background-color: #ECA267;
+}
+#nav-secure.active {
+  background-color: #D95C5C;
+}
+
+.sub-header {
+	margin: 0;
+}
+
+.top-header {
+  margin: 0 !important;
+}
+
+#history-header {
+	background-color:#ADA6E4;
+}
+
+#home-header {
+  background-color:#ECA267;
+}
+
+#service-header {
+  background-color: #ABCDEF;
+}

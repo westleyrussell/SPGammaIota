@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block local_includes %}
+	{% load staticfiles %}
+	<script type='text/javascript' src='{% static "js/carouFredSel-6.2.1/jquery.carouFredSel-6.2.1-packed.js" %}'></script>
+	<script type="text/javascript" src='{% static "js/pub/home.js" %}'></script>
+{% endblock %}
+
+{% block header %}
+	<h1 id="home-header" class="sub-header ui inverted block header">Welcome to Sigma Pi Site</h4>
+{% endblock %}
+
+{% block content %}
+
+{% if posts %}
+<div class="ui items" id='feed'>
+	{% for post in posts %}
+		<div class="item">
+			<div class="content">
+				<div class="meta" id="post-date">{{post.date}}<span id="post-author">{{post.poster}}</span></div>
+				<div class="name" id="post-title">{{post.title}}</div>
+				<p class="description" id="post-summary">
+					{{post.content}}
+				</p>
+			</div>
+			<div class="extra">
+				203 views
+			</div>
+		</div>
+	{% endfor %}
+	
+
+</div>
+{% endif %}
+
+
+<div class="ui feed segment">
+	news item
+</div>
+
+<div class="ui feed segment">
+	news item
+</div>
+
+<div class="ui feed segment">
+	news item
+</div>
+{% endblock %}

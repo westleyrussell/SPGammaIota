@@ -1,0 +1,44 @@
+<!DOCTYPE HTML5>
+<html lane="en">
+<head>
+	{% load staticfiles %}
+	<script type='text/javascript' src='{% static "js/jquery-1.8.2.min.js" %}'></script>
+	<script type="text/javascript" src='{% static "js/semantic.min.js" %}'></script>
+	<script type="text/javascript" src='{% static "js/secure/secure_common.js" %}'></script>
+
+
+
+	<link rel="stylesheet" type="text/css" href='{% static "css/semantic/css/semantic.css" %}'/>
+	<link rel="stylesheet" type="text/css" href='{% static "css/secure/secure_common.css" %}'/>
+
+	{% block local_includes %}
+		<!-- include on child templates to add page specific js and css files -->
+	{% endblock %}
+
+</head>
+
+<body>
+
+<div id="top-banner">
+    <i id="nav_toggle" class="huge list layout link icon"></i>
+    <span class="banner-text"
+</div>
+
+
+
+<div id="secure_nav" class="ui vertical labeled icon sidebar menu">
+	<div class="item wrapper">
+		<div class="large vertical menu">
+			<a class="item" id="party_list">
+				<i class="male icon"></i> Party List
+			</a>
+		</div>
+	</div>
+</div>
+
+<div id="content">
+	{% block content %}{% endblock %}
+</div>
+
+</body>
+</html>
