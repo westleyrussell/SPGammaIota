@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.template import RequestContext
 from PubSite.models import BlogPost
 
+<<<<<<< HEAD
 def home(request):
 	""" View for the index landing page of the site """
 	context = RequestContext(request,{
@@ -11,13 +12,22 @@ def home(request):
 	return render(request,'home.html',context)
 
 def blog_index(request):
+=======
+def index(request):
+>>>>>>> a08f5e851334bf8087cc6c08b10dbeaaa3b7f070
 	"""get an ordered (by date) list of all blog posts to deliver to the client.
 	consider preforming more filtering here"""
+
 	all_posts = BlogPost.objects.order_by('date')
+
 	context = RequestContext(request,{
-		'posts' : all_posts
+		'highlighted_posts': all_posts,
+		'recent_posts': all_posts,
 	})
 	return render(request,'home.html',context)
+
+def blog_index(request):
+	return index(request)
 
 def blog_post(request, path):
 	""" View for a single blog post """

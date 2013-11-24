@@ -6,42 +6,48 @@
 {% endblock %}
 
 {% block header %}
-	<h1 id="home-header" class="sub-header ui inverted block header">Welcome to Sigma Pi Site</h4>
+	<h1 id="home-header" class="sub-header ui inverted block header">Welcome to Sigma Pi - Gamma Iota</h4>
 {% endblock %}
 
 {% block content %}
-
-{% if posts %}
-<div class="ui items" id='feed'>
-	{% for post in posts %}
-		<div class="item">
-			<div class="content">
-				<div class="meta" id="post-date">{{post.date}}<span id="post-author">{{post.poster}}</span></div>
-				<div class="name" id="post-title">{{post.title}}</div>
-				<p class="description" id="post-summary">
-					{{post.content}}
-				</p>
+<div class="center-body large-print">
+	<!-- Highlighted posts 
+	{% if highlighted_posts %}
+	<div class="ui items" id='feed'>
+		{% for post in highlighted_posts %}
+			<div class="item">
+				<div class="content">
+					<div class="meta" id="post-date">{{post.date}}</div>
+					<div class="name" id="post-title">{{post.title}}</div>
+					<p class="description" id="post-summary">
+						{{post.content}}
+					</p>
+				</div>
 			</div>
-			<div class="extra">
-				203 views
+		{% endfor %}
+	</div>
+	{% endif %}-->
+
+
+	<!-- Recent posts -->
+	{% if recent_posts %}
+	<h4>Recent Updates</h4>
+	<div class="ui feed segment">
+		{% for post in recent_posts %}
+			<div class="event">
+				<div class="label">
+					{{post.title}}
+				</div>
+				<div class="content">
+					<div class="date">
+						{{post.date}}
+					</div>
+				</div>
 			</div>
-		</div>
-	{% endfor %}
-	
+		{% endfor %}
+	</div>
+	{% endif %}
 
-</div>
-{% endif %}
-
-
-<div class="ui feed segment">
-	news item
-</div>
-
-<div class="ui feed segment">
-	news item
-</div>
-
-<div class="ui feed segment">
-	news item
+	<br/><br/><br/><br/>
 </div>
 {% endblock %}
