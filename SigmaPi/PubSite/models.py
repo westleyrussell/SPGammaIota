@@ -1,4 +1,6 @@
 from django.db import models
+from django import forms
+from django.forms import ModelForm
 from django.contrib.auth.models import User
 
 
@@ -30,3 +32,15 @@ class BlogPost(models.Model):
 	class Meta:
 		verbose_name = "Blog Post"
 		verbose_name_plural = "Blog Posts"
+
+class BlogPostForm(ModelForm):
+	"""
+		Form for adding a blog post.
+	"""
+	title = forms.CharField(max_length=50)
+	content = forms.CharField(widget=forms.Textarea)
+	image = forms.FileField()
+
+	class Meta:
+		model = BlogPost
+		exclude = ['poster', 'date', 'path']

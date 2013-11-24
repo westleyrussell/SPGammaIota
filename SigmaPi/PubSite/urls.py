@@ -9,5 +9,6 @@ urlpatterns = patterns('',
 	url(r'^history$', 'PubSite.views.history'),
 	url(r'^service$', 'PubSite.views.service'),
 	url(r'^blog[/]?$', 'PubSite.views.blog_index'),
+	url(r'^blog/add/', 'PubSite.views.add_blog'),
 	url(r'^blog/(?P<slug>[\w-]+)/$', 'PubSite.views.blog_post')
 )

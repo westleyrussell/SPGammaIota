@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<h1 id="home-header" class="sub-header ui inverted block header">Add Blog Post</h4>
+{% endblock %}
+
+{% block content %}
+
+<div class="large-print center-body">
+	<form enctype="multipart/form-data" method="post" action="{% url 'PubSite.views.add_blog' %}" class="ui error form segment">
+		{% csrf_token %}
+		{% if error %}
+		<div class="ui error message">
+			<div class="header">Error</div>
+				<p>{{ error }}</p>
+		</div>
+		{% endif %}
+		<div class="field">
+	  		<label>Title*</label>
+	  		<div class="ui left labeled input">
+	  			{{form.title}}
+	  			<div class="ui corner label">
+	  				<i class="asterisk icon"></i>
+	  			</div>
+	  		</div>
+		</div>
+		<div class="field">
+			<label>Content*</label>
+			<div class="ui left labeled input">
+	  			{{form.content}}
+	  			<div class="ui corner label">
+					<i class="asterisk icon"></i>
+				</div>
+	  		</div>
+		</div>
+			<div class="field">
+				<label>Image*</label> 
+				<div class="ui left labeled input">
+					{{form.image}}
+					  			<div class="ui corner label">
+					<i class="asterisk icon"></i>
+				</div>
+				</div>
+			</div>
+			<button type="submit" class="ui blue submit button">Submit</div>
+	</form>
+</div>
+
+<br/>
+<br/>
+{% endblock %}
