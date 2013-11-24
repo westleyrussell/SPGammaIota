@@ -13,7 +13,7 @@ def index(request):
 		'highlighted_posts': all_posts,
 		'recent_posts': all_posts,
 	})
-	return render(request,'home.html',context)
+	return render(request,'index.html',context)
 
 def blog_index(request):
 	return index(request)
