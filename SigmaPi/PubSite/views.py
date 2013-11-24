@@ -18,11 +18,11 @@ def index(request):
 def blog_index(request):
 	return index(request)
 
-def blog_post(request, path):
+def blog_post(request, slug):
 	""" View for a single blog post """
-	return HttpResponse("Single blog post here " + path)
+	return HttpResponse("Single blog post here " + slug)
 
-def hisotry(request):
+def history(request):
 	"""view for the static chapter history page"""
 	return render(request,'history.html',None)
 
