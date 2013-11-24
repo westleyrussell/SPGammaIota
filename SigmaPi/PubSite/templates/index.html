@@ -17,6 +17,7 @@
 	<div class="ui items" id='feed'>
 		{% for post in highlighted_posts %}
 			<div class="item">
+				<a href="{% url 'PubSite.views.blog_post' post.path %}"/>
 				<div class="content">
 					{% if post.image %}
 					<div class="image">
@@ -41,6 +42,7 @@
 	<div class="ui feed segment">
 		{% for post in recent_posts %}
 			<div class="event">
+				<a href="{% url 'PubSite.views.blog_post' post.path %}"/>
 				<div class="name">
 					<a href="{% url 'PubSite.views.blog_post' post.path %}">{{post.title}}</a>
 				</div>

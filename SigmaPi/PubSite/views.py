@@ -20,7 +20,13 @@ def blog_index(request):
 
 def blog_post(request, slug):
 	""" View for a single blog post """
-	return HttpResponse("Single blog post here " + slug)
+	post = BlogPost.objects.get(path=slug)
+
+	context = RequestContext(request, {
+		'post': post,
+		})
+
+	return render(request, 'blog.html', context)
 
 def history(request):
 	"""view for the static chapter history page"""

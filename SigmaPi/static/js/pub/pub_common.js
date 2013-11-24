@@ -22,12 +22,16 @@ $(document).ready(function(){
 			case 'login':
 				$('#nav-secure').addClass('active');
 				break;
+			case 'blog':
+				$('#nav-home').addClass('active');
+				break;
 			}
 	}
 	else
 	{
 		$('#nav-home').addClass('active');
 	}
+
 	$('.sub-header').css('margin-top','0px'); //can't do this in the css for some reason.
 
 	var thresh = 100; //The height of the top banner
