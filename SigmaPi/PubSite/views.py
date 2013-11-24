@@ -36,6 +36,27 @@ def blog_post(request, slug):
 	return render(request, 'blog.html', context)
 
 @login_required
+def edit_blog(request, slug):
+	""" View for editing a blog post """
+
+	post = BlogPost.objects.filter(path=slug)[0]
+
+	# Find the existing post.
+	if request.method == 'POST':
+		form = BlogPostForm(request.POST, instance=post)
+		if form.is_valid():
+			form.save();
+			return redirect('PubSite.views.blog_post', post.path)
+	
+	form = BlogPostForm(instance=post)
+	context = RequestContext(request, {
+		'form': form,
+		'post': post
+		})
+
+	return render(request, 'edit_blog.html', context)
+
+@login_required
 def add_blog(request):
 	"""
 		Adds a new blog post to the server
@@ -53,7 +74,6 @@ def add_blog(request):
 			blogpost.date = datetime.now()
 			blogpost.save()
 
-			return redirect('PubSite.views.blog_post', blogpost.path)
 		else:
 			context = RequestContext(request, {
 				'form':form,
