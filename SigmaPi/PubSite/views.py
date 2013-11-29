@@ -4,6 +4,8 @@ from django.template import RequestContext
 from django.template.defaultfilters import slugify
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import permission_required
+
 from datetime import datetime
 
 from PubSite.models import BlogPost, BlogPostForm
@@ -51,7 +53,7 @@ def edit_blog(request, slug):
 	form = BlogPostForm(instance=post)
 	context = RequestContext(request, {
 		'form': form,
-		'post': post
+		'post': post,
 		})
 
 	return render(request, 'edit_blog.html', context)
@@ -81,11 +83,11 @@ def add_blog(request):
 				})
 
 			return render(request, 'add_blog.html', context)
-	else:
-		form = BlogPostForm()
-		context = RequestContext(request, {
-			'form': form,
-			})
+
+	form = BlogPostForm()
+	context = RequestContext(request, {
+		'form': form,
+		})
 	return render(request, 'add_blog.html', context)
 
 def history(request):
