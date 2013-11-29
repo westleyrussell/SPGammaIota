@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django import forms
+from datetime import datetime
 
 class Party(models.Model):
 	"""
@@ -22,9 +23,11 @@ class Guest(models.Model):
 		Model to represent a party guest
 	"""
 	name = models.CharField(max_length=100)
-	birthDate = models.DateField()
-	gender = models.CharField(max_length=100, blank=True)
+	birthDate = models.DateField(blank=True)
+	gender = models.CharField(max_length=100)
 	cardID = models.CharField(max_length=100, blank=True)
+	createdAt = models.DateTimeField(auto_now_add=True)
+	updatedAt = models.DateTimeField(auto_now=True)
 
 	def __unicode__(self):
 		return self.name
@@ -41,6 +44,7 @@ class PartyGuest(models.Model):
 	party = models.ForeignKey(Party, related_name="party_for_guest", default=1)
 	guest = models.ForeignKey(Guest, related_name="guest", default=1)
 	addedBy = models.ForeignKey(User, related_name="added_by", default=1)
+	createdAt = models.DateTimeField(auto_now_add=True)
 
 	def __unicode__(self):
 		return self.guest.name

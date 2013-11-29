@@ -1,0 +1,15 @@
+{% extends "secure_base.html" %}
+
+{%block  local_includes %}
+	{% load staticfiles %}
+	<link rel='stylesheet' type='text/css' href='{% static "css/secure/party/party_common.css" %}' />
+	<script type="text/javascript" src="{% static 'js/party/guest.js' %}"></script>
+{% endblock %}
+
+{% block module_nav %}
+	<div id="party-nav" class="ui inverted menu">
+		<div class="header item">
+			<i class="users icon"></i>Party List
+		</div>
+	</div>
+{% endblock %}

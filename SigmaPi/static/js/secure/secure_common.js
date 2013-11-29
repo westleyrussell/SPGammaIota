@@ -1,8 +1,11 @@
 $(document).ready(function(){
 	
+	$('#secure_nav').sidebar({
+		duration: 150,
+	});
 	
 	$('#nav_toggle').click(function(){
-			$('.ui.sidebar').sidebar('toggle');
+			$('#secure_nav').sidebar('toggle');
 	});
 
 });

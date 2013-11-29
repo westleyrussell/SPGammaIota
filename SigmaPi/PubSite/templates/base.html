@@ -23,6 +23,7 @@
 		<div class="overlay-message">Sigma Pi - Gamma Iota</div>
 	</div>
 	{% block navbar %}
+
 		<div id="pub-nav" class="ui large inverted menu">
 			<a id="nav-home" href='/' class="item">
 				<i class="home icon"></i> Home
@@ -36,7 +37,12 @@
 			<a id="nav-brothers" class="item" href="/users">
 				<i class="user icon"></i> Brothers
 			</a>
-			<a id="nav-secure" class="item" href="/login">
+			<a id="nav-secure" class="item" 
+			{% if user.is_authenticated %} 
+				href="/secure" 
+			{% else % } 
+				href="/login" 
+			{% endif %}>
 				<i class="lock icon"></i> Secure
 			</a>
 		</div>

@@ -1,12 +1,35 @@
-#top-banner {
-	background-color: #F5F5F5;
-	width: 100%;
-	height: 100px;
-	display: block;
+body {
+	margin: 0;
 }
 
-	#top-banner #nav_toggle {
-		float: left;
-		width: 100px;
-		height: 100px;
+#nav_toggle {
+	width: 50px;
+	color: #CCC;
+	height: 40px;
+	margin-right:10px;
+	display: block;
+	position: fixed;
+	right: 0;
+	cursor: hand;
+	font-size: 2.5rem;
+}
+	
+	#nav_toggle i {
 	}
+
+
+	#top-nav .title {
+		float: left;
+		display: inline;
+		margin-left: 2px;
+		margin-top: 3px;
+		font-size: 2em;
+		color: #F3F3F3;
+		font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+	}
+
+
+#secure_nav {
+	background-color: #F37575;
+	overflow: hidden;
+}

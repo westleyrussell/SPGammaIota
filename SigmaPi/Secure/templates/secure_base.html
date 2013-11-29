@@ -19,22 +19,24 @@
 
 <body>
 
-<div id="top-banner">
-    <i id="nav_toggle" class="huge list layout link icon"></i>
-    <span class="banner-text"
+
+
+<div id="nav_toggle">
+	<i class="reorder icon link icon"></i>
 </div>
 
-
-
-<div id="secure_nav" class="ui vertical labeled icon sidebar menu">
-	<div class="item wrapper">
-		<div class="large vertical menu">
-			<a class="item" id="party_list">
-				<i class="male icon"></i> Party List
-			</a>
-		</div>
+<div id="secure_nav" class="ui top sidebar inverted menu">
+	<div class="header item">
+		<i class="lock icon"></i> Secure
 	</div>
+	<a class="item" id="party_list" href='/secure/parties'>
+		<i class="male icon"></i> Party List
+	</a>
 </div>
+
+{% block module_nav %}
+
+{% endblock %}
 
 <div id="content">
 	{% block content %}{% endblock %}

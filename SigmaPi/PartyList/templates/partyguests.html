@@ -1,13 +1,28 @@
-{% extends "base.html" %}
+{% extends "party_base.html" %}
 
 {% block content %}
 
-<form action={{redirect}} method="post">
-<p><label for="id_name">Name:</label>
-    <input id="id_name" type="text" name="name" maxlength="100" /></p>
-<input type="submit" value="Submit" />
-</form>
 
+<div class="ui form">
+	<div class="two fields">
+		<div id="male-form" class="guest-submit field male">
+			<div class="ui icon input">
+				<input type="text" class="name" data-gender='M' placeholder="His name"/>
+				<i class="male icon"></i>
+			</div>
+		</div>
+		<div id="female-form" class="guest-submit field female">
+			<div class="ui icon input">
+				<input class="name" data-gender='F' placeholder="Her name"/>
+				<i class="female icon"></i>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type='text/javascript'>
+	document.ROOT_URL = '/secure/parties/' + '{{partyname}}';
+</script>
 </br>
 Guests for: {{partyname}}
 </br>
