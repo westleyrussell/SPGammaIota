@@ -2,6 +2,7 @@
 
 {% block local_includes %}
 	{% load staticfiles %}
+	<script type='text/javascript' src='{% static "js/carouFredSel-6.2.1/jquery.carouFredSel-6.2.1-packed.js" %}'></script>
 	<script type="text/javascript" src='{% static "js/pub/home.js" %}'></script>
 {% endblock %}
 
@@ -11,14 +12,20 @@
 
 {% block content %}
 <div class="center-body large-print">
-	<!-- Highlighted posts 
+	<!-- Highlighted posts -->
 	{% if highlighted_posts %}
 	<div class="ui items" id='feed'>
 		{% for post in highlighted_posts %}
 			<div class="item">
+				<a href="{% url 'PubSite.views.blog_post' post.path %}"/>
 				<div class="content">
-					<div class="meta" id="post-date">{{post.date}}</div>
-					<div class="name" id="post-title">{{post.title}}</div>
+					{% if post.image %}
+					<div class="image">
+						<img class="ui rounded image" src="/content/{{ post.image }}">
+					</div>
+					{% endif %}
+					<div class="meta" id="post-date"><br/>{{post.date}}</div>
+					<div class="name" id="post-title"><br/><a href="{% url 'PubSite.views.blog_post' post.path %}">{{post.title}}</a></div>
 					<p class="description" id="post-summary">
 						{{post.content}}
 					</p>
@@ -26,7 +33,7 @@
 			</div>
 		{% endfor %}
 	</div>
-	{% endif %}-->
+	{% endif %}
 
 
 	<!-- Recent posts -->
@@ -35,8 +42,9 @@
 	<div class="ui feed segment">
 		{% for post in recent_posts %}
 			<div class="event">
-				<div class="label">
-					{{post.title}}
+				<a href="{% url 'PubSite.views.blog_post' post.path %}"/>
+				<div class="name">
+					<a href="{% url 'PubSite.views.blog_post' post.path %}">{{post.title}}</a>
 				</div>
 				<div class="content">
 					<div class="date">

@@ -17,9 +17,6 @@ Scholarship Archives
 	-Test Bank Archive
 	-Textbook List
 Sigma Pi Ebay
-Forums/Discussion board
-Blogs 
-	-View/UI
 Committee Dashboard
 
 
@@ -28,6 +25,8 @@ Done:
 Blogs
 	-Model Done
 	-URL Structure in place
+	-View done
+	-Adding interface done.
 Brother/Alumni Directory
 	-Model Done
 	-URL Structure in Place

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<h1 id="home-header" class="sub-header ui inverted block header">{{post.title}}</h4>
+{% endblock %}
+
+{% block content %}
+
+	<div class="large-print center-body">
+		<div class="image">
+			<img class="ui rounded image" src="/content/{{ post.image }}">
+		</div> 
+		<br/>
+		{{post.content}}
+	</div> 
+
+	<br/><br/><br/>
+
+{% endblock %}
