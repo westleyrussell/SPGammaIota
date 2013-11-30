@@ -1,0 +1,14 @@
+{% extends "secure_base.html" %}
+
+{%block  local_includes %}
+	{% load staticfiles %}
+	<link rel='stylesheet' type='text/css' href='{% static "css/secure/blog/blog_common.css" %}' />
+{% endblock %}
+
+{% block module_nav %}
+	<div id="blog-nav" class="ui inverted menu">
+		<div class="header item">
+			<i class="book icon"></i>Blog
+		</div>
+	</div>
+{% endblock %}

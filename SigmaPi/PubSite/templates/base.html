@@ -37,12 +37,7 @@
 			<a id="nav-brothers" class="item" href="/users">
 				<i class="users icon"></i> Brothers
 			</a>
-			<a id="nav-secure" class="item" 
-			{% if user.is_authenticated %} 
-				href="/secure" 
-			{% else % } 
-				href="/login" 
-			{% endif %}>
+			<a id="nav-secure" class="item" href="/secure">
 				<i class="lock icon"></i> Secure
 			</a>
 		</div>

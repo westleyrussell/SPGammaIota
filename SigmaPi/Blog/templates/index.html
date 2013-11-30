@@ -17,7 +17,7 @@
 	<div class="ui items" id='feed'>
 		{% for post in highlighted_posts %}
 			<div class="item">
-				<a href="{% url 'PubSite.views.blog_post' post.path %}"/>
+				<a href="{% url 'Blog.views.blog_post' post.path %}"/>
 				<div class="content">
 					{% if post.image %}
 					<div class="image">
@@ -25,7 +25,7 @@
 					</div>
 					{% endif %}
 					<div class="meta" id="post-date"><br/>{{post.date}}</div>
-					<div class="name" id="post-title"><br/><a href="{% url 'PubSite.views.blog_post' post.path %}">{{post.title}}</a></div>
+					<div class="name" id="post-title"><br/><a href="{% url 'Blog.views.blog_post' post.path %}">{{post.title}}</a></div>
 					<p class="description" id="post-summary">
 						{{post.content}}
 					</p>
@@ -42,9 +42,9 @@
 	<div class="ui feed segment">
 		{% for post in recent_posts %}
 			<div class="event">
-				<a href="{% url 'PubSite.views.blog_post' post.path %}"/>
+				<a href="{% url 'Blog.views.blog_post' post.path %}"/>
 				<div class="name">
-					<a href="{% url 'PubSite.views.blog_post' post.path %}">{{post.title}}</a>
+					<a href="{% url 'Blog.views.blog_post' post.path %}">{{post.title}}</a>
 				</div>
 				<div class="content">
 					<div class="date">

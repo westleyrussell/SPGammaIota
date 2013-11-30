@@ -29,9 +29,16 @@
 	<div class="header item">
 		<i class="lock icon"></i> Secure
 	</div>
+	<a class="item" id="blog" href="/secure/blog">
+		<i class="book icon"></i>Blog
+	</a>
 	<a class="item" id="party_list" href='/secure/parties'>
 		<i class="male icon"></i> Party List
 	</a>
+
+	<div class="right menu">
+		<a class="item" href="/"><i class="large icon home"></i></a>
+	</div>
 </div>
 
 {% block module_nav %}
@@ -39,7 +46,10 @@
 {% endblock %}
 
 <div id="content">
-	{% block content %}{% endblock %}
+	{% block content %}
+	<br/>
+	<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+	{% endblock %}
 </div>
 
 </body>
