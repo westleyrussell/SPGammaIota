@@ -10,5 +10,12 @@
 		<div class="header item">
 			<i class="book icon"></i>Blog
 		</div>
+		<a class="item" href="{% url 'Blog.views.secure_index' %}">
+			View All
+		</a>
+		<a class="item" href="{% url 'Blog.views.add_blog' %}">
+			New Post
+		</a>
+
 	</div>
 {% endblock %}

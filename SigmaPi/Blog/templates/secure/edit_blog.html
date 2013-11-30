@@ -1,13 +1,12 @@
-{% extends 'secure_base.html' %}
-
-{% block header %}
-	<h1 id="home-header" class="sub-header ui inverted block header">Add Blog Post</h4>
-{% endblock %}
+{% extends 'secure/blog_base.html' %}
 
 {% block content %}
+<h1 class="ui header">Manage Blog Posts - Edit Post</h1>
 
+<h4 class="ui header">Make your changes to this blog post below.</h4>
+<br/>
 <div class="large-print center-body">
-	<form enctype="multipart/form-data" method="post" action="{% url 'Blog.views.edit_blog' post.path %}" class="ui error form segment">
+	<form enctype="multipart/form-data" method="post" action="{% url 'Blog.views.edit_blog' post.path %}" class="ui error form horizontal segment">
 		{% csrf_token %}
 		{% if error %}
 		<div class="ui error message">

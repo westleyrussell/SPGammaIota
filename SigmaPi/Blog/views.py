@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import RequestContext
 from django.template.defaultfilters import slugify
+from django.utils.html import strip_tags
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
@@ -36,7 +37,14 @@ def blog_post(request, slug):
 
 @login_required
 def secure_index(request):
-	return HttpResponse("Test");
+
+	posts = BlogPost.objects.order_by("-date")
+
+	context = RequestContext(request, {
+		'posts': posts,
+		})
+
+	return render(request, 'secure/blog_index.html', context);
 
 @login_required
 def edit_blog(request, slug):
@@ -49,7 +57,7 @@ def edit_blog(request, slug):
 		form = BlogPostForm(request.POST, instance=post)
 		if form.is_valid():
 			form.save();
-			return redirect('Blog.views.blog_post', post.path)
+			return redirect('Blog.views.secure_index')
 	
 	form = BlogPostForm(instance=post)
 	context = RequestContext(request, {
@@ -77,6 +85,7 @@ def add_blog(request):
 			blogpost.date = datetime.now()
 			blogpost.save()
 
+			return redirect('Blog.views.secure_index')
 		else:
 			context = RequestContext(request, {
 				'form':form,
@@ -90,3 +99,21 @@ def add_blog(request):
 		'form': form,
 		})
 	return render(request, 'secure/add_blog.html', context)
+
+@login_required
+def delete_blog(request):
+	"""
+		Deletes the blog with the id that is sent in the post request
+	"""
+
+	if request.method == 'POST':
+		blog_id = strip_tags(request.POST['post_id'])
+
+		post = BlogPost.objects.get(pk=blog_id)
+		post.delete()
+
+	return redirect('Blog.views.secure_index')
+
+
+
+
