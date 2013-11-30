@@ -32,6 +32,13 @@ class BlogPost(models.Model):
 	class Meta:
 		verbose_name = "Blog Post"
 		verbose_name_plural = "Blog Posts"
+		permissions = (
+			("add_post", "Can add a new post"),
+			("edit_post", "Can edit an existing post"),
+			("delete_post", "Can delete an existing post"),
+			("administrate_posts", "Can administrate posts"),
+			)
+        
 
 class BlogPostForm(ModelForm):
 	"""

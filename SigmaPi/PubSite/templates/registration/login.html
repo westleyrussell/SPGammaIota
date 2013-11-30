@@ -11,12 +11,20 @@
 
 {% if user.is_authenticated %}
 
-<a href="{% url 'django.contrib.auth.views.logout_then_login' %}">Logout</a>
+<h1 class="ui header">You Are Already Logged In.</h1>
+You cannot log in again because you are already logged in.<br/><br/>
+Did you mean to <a href="{% url 'django.contrib.auth.views.logout_then_login' %}">logout?</a><br/><br/>
 
 {% else %}
 
 {% load url from future %}
-	<form class="ui form segment" method="post" action="{% url 'django.contrib.auth.views.login' %}">
+
+	<h1 class="ui header">Please Login Below.</h1>
+	To access restricted sections of the website, please enter your credentials below.<br/><br/>
+
+	If you do not have access and believe that you should, please contact the webmaster.<br/><br/><br/>
+
+	<form class="ui form horizontal segment" method="post" action="{% url 'django.contrib.auth.views.login' %}">
 	{% csrf_token %}
 		<div class="field">
 			<label>Username</label>
@@ -47,6 +55,8 @@
 		<input class="ui red submit button" type="submit" value="login" />
 		<input type="hidden" name="next" value="{{next}}" />
 	</form>
+	<br/>
+	<br/><br/>
 {% endif %}
 </div>
 

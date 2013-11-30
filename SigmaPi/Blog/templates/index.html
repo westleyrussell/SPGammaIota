@@ -4,6 +4,7 @@
 	{% load staticfiles %}
 	<script type='text/javascript' src='{% static "js/carouFredSel-6.2.1/jquery.carouFredSel-6.2.1-packed.js" %}'></script>
 	<script type="text/javascript" src='{% static "js/pub/home.js" %}'></script>
+	<link rel="stylesheet" type="text/css" href='{% static "css/pub_home.css" %}'/>
 {% endblock %}
 
 {% block header %}
@@ -11,35 +12,29 @@
 {% endblock %}
 
 {% block content %}
-<div class="center-body large-print">
-	<!-- Highlighted posts -->
-	{% if highlighted_posts %}
-	<div class="ui items" id='feed'>
+<!-- Highlighted posts -->
+{% if highlighted_posts %}
+<div class="html_carousel">
+	<div id="feed">
 		{% for post in highlighted_posts %}
-			<div class="item">
-				<a href="{% url 'Blog.views.blog_post' post.path %}"/>
-				<div class="content">
-					{% if post.image %}
-					<div class="image">
-						<img class="ui rounded image" src="/content/{{ post.image }}">
-					</div>
-					{% endif %}
-					<div class="meta" id="post-date"><br/>{{post.date}}</div>
-					<div class="name" id="post-title"><br/><a href="{% url 'Blog.views.blog_post' post.path %}">{{post.title}}</a></div>
-					<p class="description" id="post-summary">
-						{{post.content}}
-					</p>
+			<div class="slide">
+				<a href="{% url 'Blog.views.blog_post' post.path %}">
+				<img src="/content/{{ post.image }}">
+				<div>
+					<h4>{{post.date}} - {{post.title}}</h4>
 				</div>
+			</a>
 			</div>
 		{% endfor %}
 	</div>
-	{% endif %}
-
-
+</div>
+{% endif %}
+<div class="center-body large-print">
+	<br/><br/><br/><br/>
 	<!-- Recent posts -->
 	{% if recent_posts %}
+	<div class="ui feed horizontal segment">
 	<h4>Recent Updates</h4>
-	<div class="ui feed segment">
 		{% for post in recent_posts %}
 			<div class="event">
 				<a href="{% url 'Blog.views.blog_post' post.path %}"/>

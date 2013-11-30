@@ -7,4 +7,5 @@ urlpatterns = patterns('',
 	url(r'^history[/]$', 'PubSite.views.history'),
 	url(r'^service[/]$', 'PubSite.views.service'),
 	url(r'^blog/', include('Blog.urls')),
+	url(r'^403/', 'PubSite.views.permission_denied'),
 )

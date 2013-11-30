@@ -31,5 +31,13 @@ body {
 
 #secure_nav {
 	background-color: #F37575;
-	overflow: hidden;
+	height:43px;
+}
+
+#module_nav {
+	margin-top:-16px;
+}
+
+#home_button {
+	margin-top:-5px;
 }

@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
 {% block header %}
-	<h1 id="home-header" class="sub-header ui inverted block header">{{post.title}}</h4>
+	<h1 id="home-header" class="sub-header ui inverted block header">{{post.date}} - {{post.title}}</h4>
 {% endblock %}
 
 {% block content %}
 
 	<div class="large-print center-body">
 		<div class="image">
-			<img class="ui rounded image" src="/content/{{ post.image }}">
+			<img class="ui image" src="/content/{{ post.image }}">
 		</div> 
 		<br/>
 		{{post.content}}

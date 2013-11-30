@@ -16,30 +16,44 @@
 </head>
 
 <body>
-
+<!--
 <div id="nav_toggle">
 	<i class="reorder icon link icon"></i>
-</div>
+</div>-->
 
-<div id="secure_nav" class="ui top sidebar inverted menu">
+<div id="secure_nav" class="ui floating menu">
 	<div class="header item">
 		<i class="lock icon"></i> Secure
 	</div>
+
+	{% if perms.Blog.administrate_posts %}
 	<a class="item" id="blog" href="/secure/blog">
 		<i class="book icon"></i>Blog
 	</a>
+	{% endif %}
 	<a class="item" id="party_list" href='/secure/parties'>
 		<i class="male icon"></i> Party List
 	</a>
-
 	<div class="right menu">
-		<a class="item" href="/"><i class="large icon home"></i></a>
+		<div id="profile_dropdown" class="ui item dropdown">
+			Welcome, {{ user.first_name }}.<i class="icon dropdown"></i>
+			<div class="menu">
+				<a class="item" href="#">Edit Profile</a>
+				<a class="item" href="#">Account Settings</a>
+				{% if user.is_staff %}
+					<a class="item" href="/admin/">Admin</a>
+				{% endif %}
+				<a class="item" href="/logout/">Logout</a>
+			</div>
+		</div>
+		<a class="item" id="home_button" href="/"><i class="large icon home"></i></a>
 	</div>
 </div>
 
+<div id="module_nav">
 {% block module_nav %}
-
 {% endblock %}
+</div>
 
 <div id="content">
 	{% block content %}
