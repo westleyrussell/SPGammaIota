@@ -37,6 +37,7 @@ class Guest(models.Model):
 		verbose_name_plural = "Guests"
 		verbose_name = "Guest"
 
+
 class PartyGuest(models.Model):
 	""" 
 		Model to represent a guest for a specific party.

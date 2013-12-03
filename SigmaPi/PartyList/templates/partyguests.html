@@ -6,16 +6,24 @@
 <div class="ui form">
 	<div class="two fields">
 		<div id="male-form" class="guest-submit field male">
-			<div class="ui icon input">
-				<input type="text" class="name" data-gender='M' placeholder="His name"/>
-				<i class="male icon"></i>
-			</div>
+			<form id="male-form" class="guestAdd-form">
+				<div class="ui icon input">
+					<input type='text' name='name' class='name' data-gender='M' placeholder='His name'/>
+					<i class="male icon"></i>
+				</div>
+				<input hidden type="text" name="gender" value='{{addForm_M.gender}}'/>
+				<input style="visibility:hidden" type="submit"/><!--must be 'hidden' but still rendered or else the 'enter' wont trigger submit -->
+			</form>
 		</div>
 		<div id="female-form" class="guest-submit field female">
-			<div class="ui icon input">
-				<input class="name" data-gender='F' placeholder="Her name"/>
-				<i class="female icon"></i>
-			</div>
+			<form id="female-form" class="guestAdd-form">
+				<div class="ui icon input">
+					<input type='text' class='name' data-gender='F' placeholder='Her name'/>
+					<i class="female icon"></i>
+				</div>
+				<input hidden type="text" name="gender" value='{{addForm_F.gender}}'/>
+				<input style="visibility:hidden" type="submit"/>
+			</form>
 		</div>
 	</div>
 </div>
@@ -28,15 +36,17 @@ Guests for: {{partyname}}
 </br>
 
 {% if partyguests %}
-
-	{% for pg in partyguests %}
-	</br>
-	Name: {{ pg.guest.name }} </br>
-	Birth date: {{ pg.guest.birthDate }} </br>
-	Gender: {{ pg.guest.gender }} </br>
-	Card ID: {{ pg.guest.cardID }} </br>
-	Added by: {{ pg.addedBy.username }} </br>
-	{% endfor %}
+	<div class="ui selection list">
+		{% for pg in partyguests %}
+			<li class="guest">
+				<form class="entry" data-id="{{pg.guest.id}}">
+					<input value="{{ pg.guest.name }}" class="name editable"/>
+					<span class="addedBy">{{ pg.addedBy.username }}</span>
+					<input hidden type="text" name="gender" value="{{pg.guest.gender}}"/>
+				</form>
+			</li>
+		{% endfor %}
+	</div>
 
 {% endif %}
 
