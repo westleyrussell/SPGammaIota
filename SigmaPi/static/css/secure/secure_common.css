@@ -1,5 +1,6 @@
 body {
 	margin: 0;
+	background-color: #DEDEDE;
 }
 
 #nav_toggle {
@@ -14,22 +15,29 @@ body {
 	font-size: 2.5rem;
 }
 	
-	#nav_toggle i {
-	}
+#nav_toggle i {
+}
 
-
-	#top-nav .title {
-		float: left;
-		display: inline;
-		margin-left: 2px;
-		margin-top: 3px;
-		font-size: 2em;
-		color: #F3F3F3;
-		font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-	}
+#top-nav .title {
+	float: left;
+	display: inline;
+	margin-left: 2px;
+	margin-top: 3px;
+	font-size: 2em;
+	color: #F3F3F3;
+	font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
 
 
 #secure_nav {
 	background-color: #F37575;
-	overflow: hidden;
+	height:43px;
+}
+
+#module_nav {
+	margin-top:-16px;
+}
+
+#home_button {
+	margin-top:-5px;
 }

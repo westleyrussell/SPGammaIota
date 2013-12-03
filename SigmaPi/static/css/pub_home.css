@@ -1,0 +1,28 @@
+.html_carousel {
+    padding:0;
+    height: 300px;
+    width: 100%;
+    margin:0px;
+    display: block;
+    overflow:hidden;
+}
+
+.html_carousel div.slide {
+    position: relative;
+    height: 300px;
+}
+
+.html_carousel div.slide div {
+    background-color: rgba(0,0,0,0.6);
+    width: 100%;
+    position: absolute;
+    padding-bottom: 10px;
+    bottom: 0;
+}
+
+.html_carousel div.slide h4 {
+    font-size: 35px;
+    padding: 30px 0 0 100px;
+    color: white;
+    margin: 0;
+}

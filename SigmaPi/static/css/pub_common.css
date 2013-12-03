@@ -60,6 +60,12 @@ body {
   height: 100px;
 }
 
+div.caption p {
+  text-align: center;
+  font-size: smaller;
+  text-indent: 0;
+}
+
 html {
   height: 100%;
   font-size: 100%;
