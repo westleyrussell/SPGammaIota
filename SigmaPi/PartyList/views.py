@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.template import RequestContext
 from datetime import datetime
 from django.utils import simplejson
-from PartyList.widgets import AddGuestForm
+from PartyList.widgets import GuestForm
 
 
 @login_required
@@ -34,8 +34,8 @@ def guests(request, party):
 			'partyname': party,
 			'partyguests': partyguests,
 			'redirect': '/secure/parties/' + party + '/guests',
-			'addForm_M' : AddGuestForm(gender='M'),
-			'addForm_F' : AddGuestForm(gender='F')
+			'addForm_M' : GuestForm(),
+			'addForm_F' : GuestForm()
 		})
 	return render(request, 'partyguests.html', context)
 
