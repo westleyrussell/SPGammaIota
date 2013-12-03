@@ -3,7 +3,7 @@
 */
 function pollServer(){
 
-	$.getJSON(document.ROOT_URL + '/guests/poll',{ last: LAST})
+	$.getJSON(document.ROOT_URL + 'guests/poll',{ last: LAST})
 		.success(function(response) {
 			if (response.gcount > 0){
 				LAST = now();
@@ -25,7 +25,7 @@ function pollServer(){
 function submitGuest(form) {
 
 	data = form.serialize();
-	$.post('/create', data)
+	$.post('guests/create', data)
 		.success(function(response) {
 			data = $.parseJSON(response);
 			form.find('.name').val('');
@@ -40,7 +40,7 @@ function submitGuest(form) {
 */
 function updateGuest(form) {
 	data = form.serialize();
-	$.post('/update/:' + form.data('id'),data)
+	$.post('guests/update/:' + form.data('id'),data)
 		.success(function(response){
 
 		})
@@ -54,7 +54,7 @@ function updateGuest(form) {
 	Delete a guest with a given id
 */
 function deleteGuest(form) {
-	$.post('/delete/:' + form.data('id'))
+	$.post('guests/delete/:' + form.data('id'))
 		.success(function(){
 			//remove the guest
 		})
