@@ -13,7 +13,8 @@ import json
 def userCanEdit(user=None,pg=None):
 	"""return true if the given user can edit the party guest making this function 
 	allows us to add more cases in which a type of user can edit a guest"""
-	if pg.addedBy is user:
+	print pg.addedBy, user
+	if pg.addedBy == user:
 		return True
 
 	return False
@@ -28,9 +29,10 @@ def success(message="",code=200):
 
 def getFullGuest(party,id):
 	"""get a guest and its associated partyGuest model, return as a tuple"""
-	guest = Guests.objects.get(id=id)
+	guest = Guest.objects.get(id=id)
 	party = Party.objects.get(name__exact=party)
-	pGuest = PartyGuest(party=party,guest=guest)
+	pGuest = PartyGuest.objects.get(party=party,guest=guest)
+
 	return guest,pGuest
 
 @login_required
@@ -38,28 +40,33 @@ def getFullGuest(party,id):
 def create(request,party):
 	"""create a guest object as well as a partyguest object for the given party"""
 	
-	guest = GuestForm(request.POST)
-	guest.save()
+	form = GuestForm(request.POST)
+	if form.is_valid():
+		guest = form.save()
+		party = Party.objects.get(name__exact=party)
+		pGuest = PartyGuest(party=party, guest=guest,addedBy=request.user)
+		pGuest.save()
+		return HttpResponse(guest.id,status=200)
+	else:
+		return error('invalid guest paramaters or format',code=500)
 
-	party = Party.objects.get(name__exact=party)
-	pGuest = PartyGuest(party=party, guest=guest,addedBy=request.user)
-	pGuest.save()
-
-	return HttpResponse(guest.id,status=200)
 
 @login_required
 @csrf_exempt
 def update(request,party,id):
 	"""update a guest (keyd by the supplied id) for the value provided"""
 	try:
-		guest,pg = getFullGuest(party,id)
+		guest,pg = getFullGuest(party,int(id))
 	except:
 		return error('guest does not exist')
 
 	if userCanEdit(user=request.user,pg=pg):
 		form = GuestForm(request.POST,instance=guest)
-		form.save()
-		return success()
+		if form.is_valid():
+			form.save()
+			return success()
+		else:
+			return error('invalid form returned')
 	else:
 		return error('not allowed to edit guest',code=504)
 

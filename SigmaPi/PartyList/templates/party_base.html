@@ -4,6 +4,8 @@
 	{% load staticfiles %}
 	<link rel='stylesheet' type='text/css' href='{% static "css/secure/party/party_common.css" %}' />
 	<script type="text/javascript" src="{% static 'js/party/guest.js' %}"></script>
+
+	{% block party_includes %}{% endblock %}
 {% endblock %}
 
 {% block module_nav %}

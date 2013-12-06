@@ -3,7 +3,7 @@
 */
 function pollServer(){
 
-	$.getJSON(document.ROOT_URL + 'guests/poll',{ last: LAST})
+	$.getJSON(document.ROOT_URL + '/guests/poll',{ last: LAST})
 		.success(function(response) {
 			if (response.gcount > 0){
 				LAST = now();
@@ -25,6 +25,7 @@ function pollServer(){
 function submitGuest(form) {
 
 	data = form.serialize();
+	console.log(data)
 	$.post('guests/create', data)
 		.success(function(response) {
 			data = $.parseJSON(response);
@@ -39,10 +40,12 @@ function submitGuest(form) {
 	Send a guest name update to the server, keyed with the guests id
 */
 function updateGuest(form) {
+	console.log('updating...');
 	data = form.serialize();
-	$.post('guests/update/:' + form.data('id'),data)
+	console.log(data);
+	$.post('guests/update/' + form.data('id'),data)
 		.success(function(response){
-
+			console.log('success updating!');
 		})
 		.fail(function(response){
 			//alert the user that they cannot update this guest
@@ -89,7 +92,7 @@ $(document).ready(function(){
 		form.keyup(function(){
 			//wait a a few seconds, then send an update request
 			clearTimeout(editTimeout);
-			editTimeout = setInterval(function(){updateGuest(form);},2000);
+			editTimeout = setTimeout(function(){updateGuest(form);},2000);
 		});
 	});
 

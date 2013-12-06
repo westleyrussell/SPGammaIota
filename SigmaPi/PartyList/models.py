@@ -23,7 +23,7 @@ class Guest(models.Model):
 		Model to represent a party guest
 	"""
 	name = models.CharField(max_length=100)
-	birthDate = models.DateField(blank=True)
+	birthDate = models.DateField(blank=True,auto_now=True)
 	gender = models.CharField(max_length=100)
 	cardID = models.CharField(max_length=100, blank=True)
 	createdAt = models.DateTimeField(auto_now_add=True)

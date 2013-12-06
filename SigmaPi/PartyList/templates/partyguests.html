@@ -1,5 +1,10 @@
 {% extends "party_base.html" %}
 
+{% block party_includes %}
+	{% load staticfiles %}
+	<link rel='stylesheet' type='text/css' href='{% static "css/secure/party/guests.css" %}' />
+{% endblock %}
+
 {% block content %}
 
 
@@ -11,7 +16,7 @@
 					<input type='text' name='name' class='name' data-gender='M' placeholder='His name'/>
 					<i class="male icon"></i>
 				</div>
-				<input hidden type="text" name="gender" value='{{addForm_M.gender}}'/>
+				<input hidden type="text" name="gender" value='M'/>
 				<input style="visibility:hidden" type="submit"/><!--must be 'hidden' but still rendered or else the 'enter' wont trigger submit -->
 			</form>
 		</div>
@@ -21,7 +26,7 @@
 					<input type='text' class='name' data-gender='F' placeholder='Her name'/>
 					<i class="female icon"></i>
 				</div>
-				<input hidden type="text" name="gender" value='{{addForm_F.gender}}'/>
+				<input hidden type="text" name="gender" value='F'/>
 				<input style="visibility:hidden" type="submit"/>
 			</form>
 		</div>
@@ -40,10 +45,13 @@ Guests for: {{partyname}}
 		{% for pg in partyguests %}
 			<li class="guest">
 				<form class="entry" data-id="{{pg.guest.id}}">
-					<input value="{{ pg.guest.name }}" class="name editable"/>
+					<input name="name" value="{{ pg.guest.name }}" class="name editable"/>
 					<span class="addedBy">{{ pg.addedBy.username }}</span>
 					<input hidden type="text" name="gender" value="{{pg.guest.gender}}"/>
 				</form>
+				{% if pg.addedBy == user %}
+					<span class="delete"> X </span>
+				{% endif %}
 			</li>
 		{% endfor %}
 	</div>

@@ -34,8 +34,6 @@ def guests(request, party):
 			'partyname': party,
 			'partyguests': partyguests,
 			'redirect': '/secure/parties/' + party + '/guests',
-			'addForm_M' : GuestForm(),
-			'addForm_F' : GuestForm()
 		})
 	return render(request, 'partyguests.html', context)
 
