@@ -16,3 +16,15 @@ class GuestForm(ModelForm):
 	def __init__(self,*args, **kwargs):
 		super(GuestForm,self).__init__(*args, **kwargs)
 		#do extra stuff here if necessary
+
+class List():
+	"""a class that holds a list of partyguests (of a specific gender)
+	has some book keeping information. This makes it easier to display 
+	and organize guests in the template"""
+
+	def __init__(self,gender):
+		self.gender = gender
+		self.guests = []
+
+	def size(self):
+		return len(guests)

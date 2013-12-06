@@ -3,7 +3,7 @@
 */
 function pollServer(){
 
-	$.getJSON(document.ROOT_URL + '/guests/poll',{ last: LAST})
+	$.getJSON('guests/poll',{ last: LAST})
 		.success(function(response) {
 			if (response.gcount > 0){
 				LAST = now();
@@ -57,9 +57,9 @@ function updateGuest(form) {
 	Delete a guest with a given id
 */
 function deleteGuest(form) {
-	$.post('guests/delete/:' + form.data('id'))
+	$.post('guests/destroy/' + form.data('id'))
 		.success(function(){
-			//remove the guest
+			form.closest('.guest').slideUp();
 		})
 		.fail(function(respone){
 			//alert the user that they cannot delete this guest
@@ -86,17 +86,21 @@ $(document).ready(function(){
 		return false;
 	});
 
-	$('.entry').each(function(){
-		var editTimeout = 0;
-		var form = $(this)
+	$('.guest').each(function(){
+
+		var form = $(this).find('.entry');
 		form.keyup(function(){
+			var editTimeout = 0;
 			//wait a a few seconds, then send an update request
 			clearTimeout(editTimeout);
-			editTimeout = setTimeout(function(){updateGuest(form);},2000);
+			editTimeout = setTimeout(function(){updateGuest(form);},800);
+		});
+
+		$(this).find('.delete').click(function(){
+			deleteGuest(form);
 		});
 	});
 
 	LAST = now();
-
 	setInterval(pollServer, POLL_WAIT);
 });

@@ -33,29 +33,33 @@
 	</div>
 </div>
 
-<script type='text/javascript'>
-	document.ROOT_URL = '/secure/parties/' + '{{partyname}}';
-</script>
 </br>
 Guests for: {{partyname}}
 </br>
 
-{% if partyguests %}
-	<div class="ui selection list">
-		{% for pg in partyguests %}
-			<li class="guest">
-				<form class="entry" data-id="{{pg.guest.id}}">
-					<input name="name" value="{{ pg.guest.name }}" class="name editable"/>
-					<span class="addedBy">{{ pg.addedBy.username }}</span>
-					<input hidden type="text" name="gender" value="{{pg.guest.gender}}"/>
-				</form>
-				{% if pg.addedBy == user %}
-					<span class="delete"> X </span>
-				{% endif %}
-			</li>
-		{% endfor %}
-	</div>
-
+{% if lists %}
+	{% for list in lists %}
+		<div class="ui relaxed list {{list.gender}}">
+			{% for pg in list.guests %}
+				<div class="guest item">
+					{% if pg.addedBy == user %}
+						<div class="ui right floated icon delete button">
+							<i class="delete icon"></i>
+						</div>
+					{% endif %}
+					<div class="content">
+						<form class="entry" data-id="{{pg.guest.id}}">
+							<input name="name" value="{{ pg.guest.name }}" class="name editable"/>
+							<input hidden type="text" name="gender" value="{{pg.guest.gender}}"/>
+						</form>
+						<div class="right floated description addedBy">{{pg.addedBy}}</div>
+					</div>	
+				</div>
+			{% endfor %}
+		</div>
+	{% endfor %}
 {% endif %}
+
+
 
 {% endblock %}

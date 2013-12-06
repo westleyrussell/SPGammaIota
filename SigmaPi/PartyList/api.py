@@ -77,7 +77,7 @@ def update(request,party,id):
 def destroy(request,party,id):
 	"""delete a guest (keyd by the supplied id), so long as the current user has domain over them"""
 	try:
-		guest,pg = getFullGuest(party,id)
+		guest,pg = getFullGuest(party,int(id))
 	except:
 		return error('guest does not exist')
 
