@@ -52,7 +52,14 @@ Guests for: {{partyname}}
 							<input name="name" value="{{ pg.guest.name }}" class="name editable"/>
 							<input hidden type="text" name="gender" value="{{pg.guest.gender}}"/>
 						</form>
-						<div class="right floated description addedBy">{{pg.addedBy}}</div>
+						<div class="right floated description addedBy">
+							<!-- if we decide to implement multiple 'added by' fields
+							{% for adder in pg.addedBy %}
+								<span class="user"> {% if adder == user %} You {% else %} {{adder}} {% endif %} </span>
+							{% endfor %}
+							-->
+							<span class="user">{% if pg.addedBy == user %} You {% else %} {{pg.addedBy}} {% endif %}
+						</div>
 					</div>	
 				</div>
 			{% endfor %}
