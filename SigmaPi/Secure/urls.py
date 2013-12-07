@@ -7,6 +7,7 @@ urlpatterns = patterns('',
 	url(r'^archives/', include('Archives.urls')),
     url(r'^parties/', include('PartyList.urls')),
     url(r'^blog/', include('Blog.secure_urls')),
+    url(r'^users/', include('UserInfo.secure_urls')),
 )
 
 

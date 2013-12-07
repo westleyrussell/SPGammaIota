@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.template import RequestContext
+from django.contrib.auth.decorators import permission_required, login_required
 
 from UserInfo import utils
-from UserInfo.models import UserInfo
+from UserInfo.models import UserInfo, EditUserInfoForm
 
 
 def users(request):
@@ -134,3 +135,57 @@ def profile(request):
 		return single_user(request, request.user.username)
 	else:
 		return HttpResponse("Not Authenticated")
+
+@permission_required('UserInfo.manage_users', login_url='Secure.views.home')
+def add_users(request):
+	"""
+		Provides a view for the profile of a logged in user.
+	"""
+
+	if request.method == 'POST':
+
+		return redirect("UserInfo.views.manage_users")
+
+	return render(request, 'secure/add_users.html', None)
+
+@permission_required('UserInfo.manage_users', login_url='Secure.views.home')
+def manage_users(request):
+	"""
+		Provides a view to manage all of the users in the system.
+	"""
+
+	all_users = User.objects.all().order_by("last_name")
+
+	context = RequestContext(request, {
+		'all_users': all_users,
+		})
+
+	return render(request, 'secure/manage_users.html', context)
+
+@login_required
+def edit_user(request, user):
+	"""
+		Provides a view to edit a single user.
+	"""
+	requested_user = User.objects.get(username__exact=user)
+	if (not requested_user == request.user) and not request.user.is_staff:
+		return redirect('PubSite.views.permission_denied')
+
+	if request.method == 'POST':
+		form = EditUserInfoForm(request.POST, instance=requested_user.userinfo)
+		if form.is_valid():
+			form.save()
+			return redirect("UserInfo.views.manage_users")
+	else:
+		form = EditUserInfoForm(instance=requested_user.userinfo)
+	
+
+
+	context = RequestContext(request, {
+		'requested_user': requested_user,
+		'form': form,
+		'error': form.errors
+		})
+
+	return render(request, 'secure/edit_user.html', context)
+

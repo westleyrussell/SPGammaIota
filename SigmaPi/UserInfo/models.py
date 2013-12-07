@@ -1,4 +1,6 @@
 from django.db import models
+from django.forms import ModelForm
+from django import forms
 from django.contrib.auth.models import User
 
 class UserInfo(models.Model):
@@ -30,3 +32,21 @@ class UserInfo(models.Model):
 	class Meta:
 		verbose_name_plural = "User Info"
 		verbose_name = "User Info"
+		permissions = (
+			("manage_users", "Can manage users."),
+			)
+
+class EditUserInfoForm(ModelForm):
+	"""
+		Form for editing a user
+	"""
+	phoneNumber = forms.IntegerField(required=False)
+	major = forms.CharField(max_length=100, required=False)
+	hometown = forms.CharField(max_length=100, required=False)
+	activities = forms.CharField(widget=forms.Textarea, required=False)
+	interests = forms.CharField(widget=forms.Textarea, required=False)
+	favoriteMemory = forms.CharField(widget=forms.Textarea, required=False)
+
+	class Meta:
+		model = UserInfo
+		exclude = ['picture', 'graduationYear', 'classYear', 'user', 'bigBrother']
