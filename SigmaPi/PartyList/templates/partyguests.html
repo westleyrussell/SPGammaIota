@@ -17,7 +17,7 @@
 					<i class="male icon"></i>
 				</div>
 				<input hidden type="text" name="gender" value='M'/>
-				<input style="visibility:hidden" type="submit"/><!--must be 'hidden' but still rendered or else the 'enter' wont trigger submit -->
+				<input style="visibility:hidden" type="submit"/>
 			</form>
 		</div>
 		<div id="female-form" class="guest-submit field female">
@@ -53,11 +53,6 @@ Guests for: {{partyname}}
 							<input hidden type="text" name="gender" value="{{pg.guest.gender}}"/>
 						</form>
 						<div class="right floated description addedBy">
-							<!-- if we decide to implement multiple 'added by' fields
-							{% for adder in pg.addedBy %}
-								<span class="user"> {% if adder == user %} You {% else %} {{adder}} {% endif %} </span>
-							{% endfor %}
-							-->
 							<span class="user">{% if pg.addedBy == user %} You {% else %} {{pg.addedBy}} {% endif %}
 						</div>
 					</div>	

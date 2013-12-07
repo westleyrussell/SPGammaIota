@@ -40,15 +40,27 @@ def getFullGuest(party,id):
 def create(request,party):
 	"""create a guest object as well as a partyguest object for the given party"""
 	
-	form = GuestForm(request.POST)
-	if form.is_valid():
-		guest = form.save()
-		party = Party.objects.get(name__exact=party)
-		pGuest = PartyGuest(party=party, guest=guest,addedBy=request.user)
-		pGuest.save()
-		return HttpResponse(guest.id,status=200)
+	# see if the guest already exists
+	guest = None
+	try:
+		guest = Guest.objects.get(name__exact=request.POST.get('name'))
+	except:
+		pass
+
+	if guest:
+		partyguest = PartyGuest.objects.filter(party__exact=Party.objects.get(name__exact=party), guest__exact=guest)
+		if partyguest: # if this guest is already on the list for this party
+			return error('guest already on list',code=500)
 	else:
-		return error('invalid guest paramaters or format',code=500)
+		form = GuestForm(request.POST)
+		if form.is_valid():
+			guest = form.save()
+		else:
+			return error('invalid guest paramaters or format',code=500)
+
+	pGuest = PartyGuest(party=Party.objects.get(name__exact=party), guest=guest, addedBy=request.user)
+	pGuest.save()
+	return HttpResponse(guest.id,status=200)
 
 
 @login_required
@@ -83,7 +95,6 @@ def destroy(request,party,id):
 
 	if userCanEdit(user=request.user,pg=pg):
 		pg.delete()
-		guest.delete()
 		return success()
 	else:
 		return error('not allowed to delete guest',code=504)
