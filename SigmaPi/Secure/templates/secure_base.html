@@ -44,7 +44,7 @@
 			Welcome, {{ user.first_name }}.<i class="icon dropdown"></i>
 			<div class="menu">
 				<a class="item" href="{% url 'UserInfo.views.edit_user' user.username %}">Edit Profile</a>
-				<a class="item" href="{% url 'django.contrib.auth.views.password_change' %}">Change Password</a>
+				<a class="item" href="{% url 'UserInfo.views.change_password' %}">Change Password</a>
 				{% if user.is_staff %}
 					<a class="item" href="/admin/">Admin</a>
 				{% endif %}

@@ -20,7 +20,12 @@ Did you mean to <a href="{% url 'django.contrib.auth.views.logout_then_login' %}
 {% else %}
 
 {% load url from future %}
-
+	{% if form.errors %}
+	<div class="ui info error message">
+		<div class="header">Error</div>
+		Incorrect username or password.  Try again.
+	</div>
+	{% endif %}
 	<h1 class="ui header">Please Login Below.</h1>
 	To access restricted sections of the website, please enter your credentials below.<br/><br/>
 

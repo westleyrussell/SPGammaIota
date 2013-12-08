@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.template import RequestContext
 from django.contrib.auth.decorators import permission_required, login_required
+from django.contrib.auth.forms import PasswordChangeForm
 from django.utils.html import strip_tags
 
 from UserInfo import utils
@@ -157,7 +158,7 @@ def add_users(request):
 				context['message'].append("Username " + to_add + " is taken.")
 			else:
 				try:
-					__create_user(to_add)
+					utils.create_user(to_add)
 					context['message'].append("User " + to_add + " successfully added.")
 				except:
 					context['message'].append("Error adding " + to_add + ".")
@@ -173,7 +174,7 @@ def add_users(request):
 					context['message'].append("Username " + user + " is taken.")
 				else:
 					try:
-						__create_user(user)
+						utils.create_user(user)
 						added = added + 1
 					except:
 						context['message'].append("Error adding " + user + ".")
@@ -181,34 +182,6 @@ def add_users(request):
 			context['message'].append(str(added) + " users successfully added.")
 
 	return render(request, 'secure/add_users.html', context)
-
-def __create_user(username):
-	user_info = scrapify.find_user(username)
-
-	names = user_info['Name'].split(' ')
-
-	try:
-		user_obj = User.objects.create()
-		user_obj.username = username
-		user_obj.email = user_info['Email']
-		user_obj.first_name = names[0]
-		user_obj.last_name = names[len(names) - 1]
-
-		password = User.objects.make_random_password()
-		print(password)
-		user_obj.set_password(password)
-
-		user_info_obj = UserInfo.objects.create(user=user_obj)
-		user_info_obj.hometown = user_info['Hometown']
-		user_info_obj.major = user_info['Major']
-		user_info_obj.graduationYear = int(user_info['Class'])
-
-		user_obj.save()
-		user_info_obj.save()
-	except:
-		if user_obj:
-			user_obj.delete()
-		raise
 
 @permission_required('UserInfo.manage_users', login_url='Secure.views.home')
 def manage_users(request):
@@ -250,4 +223,26 @@ def edit_user(request, user):
 		})
 
 	return render(request, 'secure/edit_user.html', context)
+
+@login_required
+def change_password(request):
+	"""
+		Provides a view where a user can change their change_password
+	"""
+
+	context = RequestContext(request, {
+		'message': []
+		})
+
+	if request.method == 'POST':
+		form = PasswordChangeForm(user=request.user, data=request.POST)
+		if form.is_valid():
+			form.save()
+			context['message'].append("Password successfully changed.")
+		else:
+			context['message'].append("Error changing password.  Check that your passwords match and that your old password is correct.")
+
+	context['form'] = PasswordChangeForm(user=request.user)
+
+	return render(request, 'secure/reset_password.html', context)
 
