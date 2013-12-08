@@ -26,7 +26,6 @@ def guests(request, party):
 		View for all guests on the list for a party
 	"""
 	
-	
 	requested_party = Party.objects.get(name__exact=party)
 	partyguests = PartyGuest.objects.filter(party=requested_party)
 	guys = List('guys')
@@ -37,8 +36,15 @@ def guests(request, party):
 		else:
 			girls.guests.append(pg)
 
+	partymode = False
+	closedate = requested_party.date
+	closedatetime = datetime(closedate.year, closedate.month, closedate.day, 20)
+	if closedatetime < datetime.now():
+		partymode = True
+
 	context = RequestContext(request, {
 			'partyname': party,
+			'partymode': partymode,
 			'lists': [guys,girls],
 			'redirect': '/secure/parties/' + party + '/guests',
 		})

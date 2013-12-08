@@ -25,7 +25,12 @@
 	<div class="header item">
 		<i class="lock icon"></i> Secure
 	</div>
-
+	
+	{% if perms.UserInfo.manage_users %}
+		<a class="item" id="blog" href="/secure/users">
+			<i class="user icon"></i>Users
+		</a>
+	{% endif %}
 	{% if perms.Blog.administrate_posts %}
 	<a class="item" id="blog" href="/secure/blog">
 		<i class="book icon"></i>Blog
@@ -38,8 +43,7 @@
 		<div id="profile_dropdown" class="ui item dropdown">
 			Welcome, {{ user.first_name }}.<i class="icon dropdown"></i>
 			<div class="menu">
-				<a class="item" href="#">Edit Profile</a>
-				<a class="item" href="#">Account Settings</a>
+				<a class="item" href="{% url 'UserInfo.views.edit_user' user.username %}">Edit Profile</a>
 				{% if user.is_staff %}
 					<a class="item" href="/admin/">Admin</a>
 				{% endif %}

@@ -1,0 +1,38 @@
+{% extends "secure/user_base.html" %}
+
+{% block content %}
+
+	<h1 class="ui header">Manage Users - View All</h1>
+
+	<h4 class="ui header">View and edit existing users.</h4>
+
+	{% if all_users %}
+
+		<table class="ui basic table segment">
+			<thead>
+				<tr>
+					<th class="two wide">First Name</th>
+					<th class="two wide">Last Name</th>
+					<th class="one wide">Username</th>
+					<th class="one wide">Edit</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for user in all_users %}
+				<tr>
+					<td>{{ user.first_name }}</td>
+					<td>{{ user.last_name }}</td>
+					<td>{{ user.username }}</td>
+					<td>
+						<a href="{% url 'UserInfo.views.edit_user' user.username %}">Edit</a>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+	{% else %}
+	No users found.  <a href={% url 'UserInfo.views.add_users' %}">Create a new one.</a>
+	{% endif %}
+
+{% endblock %}

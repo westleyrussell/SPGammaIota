@@ -1,0 +1,71 @@
+{% extends "secure/user_base.html" %}
+
+{% block content %}
+<h1 class="ui header">Manage Users - Edit User: {{ requested_user.username }}</h1>
+
+<h4 class="ui header">Edit the fields below to change the user's info.</h4>
+<br/>
+<div class="large-print center-body">
+	<form enctype="multipart/form-data" method="post" action="{% url 'UserInfo.views.edit_user' requested_user.username %}" class="ui error horizontal segment form">
+		{% csrf_token %}
+		{% if error %}
+		<div class="ui error message">
+			<div class="header">Error</div>
+				<p>{{ error }}</p>
+		</div>
+		{% endif %}
+		<div class="field">
+	  		<label>Major</label>
+	  		<div class="ui left labeled input">
+	  			{{form.major}}
+	  			<div class="ui corner label">
+	  			</div>
+	  		</div>
+		</div>
+		<div class="field">
+			<label>Phone Number</label>
+			<div class="ui left labeled input">
+	  			{{form.phoneNumber}}
+	  			<div class="ui corner label">
+				</div>
+	  		</div>
+		</div>
+		<div class="field">
+			<label>Hometown</label> 
+			<div class="ui left labeled input">
+				{{form.hometown}}
+				  			<div class="ui corner label">
+			</div>
+			</div>
+		</div>
+		<div class="field">
+			<label>Activities</label> 
+			<div class="ui left labeled input">
+				{{form.activities}}
+				  			<div class="ui corner label">
+			</div>
+			</div>
+		</div>
+		<div class="field">
+			<label>Interests</label> 
+			<div class="ui left labeled input">
+				{{form.interests}}
+				  			<div class="ui corner label">
+			</div>
+			</div>
+		</div>
+		<div class="field">
+			<label>Favorite Memory</label> 
+			<div class="ui left labeled input">
+				{{form.favoriteMemory}}
+				  			<div class="ui corner label">
+			</div>
+			</div>
+		</div>		
+			<button type="submit" class="ui blue submit button">Save</div>
+	</form>
+</div>
+
+<br/>
+<br/>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "secure_base.html" %}
+
+{%block  local_includes %}
+	{% load staticfiles %}
+	<link rel='stylesheet' type='text/css' href='{% static "css/secure/users/users_common.css" %}' />
+{% endblock %}
+
+{% block module_nav %}
+	<div id="blog-nav" class="ui inverted menu">
+		<div class="header item">
+			<i class="users icon"></i>User Management
+		</div>
+		{% if perms.UserInfo.manage_users %}
+		<a class="item" href="{% url 'UserInfo.views.manage_users' %}">
+			Manage Users
+		</a>
+		<a class="item" href="{% url 'UserInfo.views.add_users' %}">
+			Add Users
+		</a>
+		{% endif %}
+	</div>
+{% endblock %}
