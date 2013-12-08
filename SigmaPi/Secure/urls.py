@@ -5,7 +5,7 @@ from Secure import views
 
 urlpatterns = patterns('',
 	url(r'^$', views.home, name="home"),
-	url(r'^password/', password_change, {'template_name': 'reset_password.html', 'post_change_redirect' : views.home}),
+	url(r'^password/', password_change, {'template_name': 'secure/reset_password.html', 'post_change_redirect' : views.home}),
 	url(r'^archives/', include('Archives.urls')),
     url(r'^parties/', include('PartyList.urls')),
     url(r'^blog/', include('Blog.secure_urls')),
