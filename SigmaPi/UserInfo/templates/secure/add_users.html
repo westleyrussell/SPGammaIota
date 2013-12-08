@@ -1,8 +1,40 @@
 {% extends "secure/user_base.html" %}
-
+{% block title %}Sigma Pi Secure - Users - Add User {% endblock %}
 {% block content %}
 	<h1 class="ui header">Manage Users - Add User(s)</h1>
-
-	<h4 class="ui header">Add new users below.</h4>
+		{% if message %}
+		<div class="ui info message">
+			<div class="header">Message</div>
+			{% for msg in message %}
+			<p>{{ msg }}</p>
+			{% endfor %}
+		</div>
+		{% endif %}
+		<h4 class="ui header">Add Multiple Users</h4>
+		<p>Place each username to add on a newline.</p>
+		<form enctype="multipart/form-data" method="post" action="{% url 'UserInfo.views.add_users' %}" class="ui error horizontal segment form">
+			{% csrf_token %}
+			<div class="field">
+		  		<label>WPI Usernames</label>
+		  		<div class="ui left labeled input">
+		  			<textarea cols="40" id="id_usernames" name="usernames" rows="10"></textarea>
+		  		</div>
+		  		<input type="hidden" id="id_type" name="type" value="MULTIPLE"/>
+			</div>
+			<button type="submit" class="ui blue submit button">Add Users</button>
+		</form>
+	<br/><br/>
+		<h4 class="ui header">Add Single User</h4>
+		<form enctype="multipart/form-data" method="post" action="{% url 'UserInfo.views.add_users' %}" class="ui error horizontal segment form">
+			{% csrf_token %}
+			<div class="field">
+		  		<label>WPI Username</label>
+		  		<div class="ui left labeled input">
+		  			<input type="text" id="id_username" name="username" maxlength="50" />
+		  		</div>
+		  		<input type="hidden" id="id_type" name="type" value="SINGLE"/>
+			</div>
+			<button type="submit" class="ui blue submit button">Add User</button>
+		</form>
 
 {% endblock %}

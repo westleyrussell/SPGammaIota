@@ -3,9 +3,11 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.template import RequestContext
 from django.contrib.auth.decorators import permission_required, login_required
+from django.utils.html import strip_tags
 
 from UserInfo import utils
 from UserInfo.models import UserInfo, EditUserInfoForm
+from UserInfo import scrapify
 
 
 def users(request):
@@ -141,12 +143,72 @@ def add_users(request):
 	"""
 		Provides a view for the profile of a logged in user.
 	"""
+	context = RequestContext(request, {
+		'message': []
+		})
 
 	if request.method == 'POST':
+		add_type = request.POST['type']
 
-		return redirect("UserInfo.views.manage_users")
+		if add_type == "SINGLE":
+			to_add = strip_tags(request.POST['username'])
+			exists = User.objects.filter(username=to_add).count()
+			if exists:
+				context['message'].append("Username " + to_add + " is taken.")
+			else:
+				try:
+					__create_user(to_add)
+					context['message'].append("User " + to_add + " successfully added.")
+				except:
+					context['message'].append("Error adding " + to_add + ".")
 
-	return render(request, 'secure/add_users.html', None)
+		elif add_type == "MULTIPLE":
+			to_add = strip_tags(request.POST['usernames'])
+			to_add = to_add.split('\r\n')
+			added = 0
+
+			for user in to_add:
+				exists = User.objects.filter(username=user).count()
+				if exists:
+					context['message'].append("Username " + user + " is taken.")
+				else:
+					try:
+						__create_user(user)
+						added = added + 1
+					except:
+						context['message'].append("Error adding " + user + ".")
+
+			context['message'].append(str(added) + " users successfully added.")
+
+	return render(request, 'secure/add_users.html', context)
+
+def __create_user(username):
+	user_info = scrapify.find_user(username)
+
+	names = user_info['Name'].split(' ')
+
+	try:
+		user_obj = User.objects.create()
+		user_obj.username = username
+		user_obj.email = user_info['Email']
+		user_obj.first_name = names[0]
+		user_obj.last_name = names[len(names) - 1]
+
+		password = User.objects.make_random_password()
+		print(password)
+		user_obj.set_password(password)
+
+		user_info_obj = UserInfo.objects.create(user=user_obj)
+		user_info_obj.hometown = user_info['Hometown']
+		user_info_obj.major = user_info['Major']
+		user_info_obj.graduationYear = int(user_info['Class'])
+
+		user_obj.save()
+		user_info_obj.save()
+	except:
+		if user_obj:
+			user_obj.delete()
+		raise
 
 @permission_required('UserInfo.manage_users', login_url='Secure.views.home')
 def manage_users(request):
