@@ -39,15 +39,13 @@ function addGuest(guest) {
 */
 function submitGuest(form) {
 
-	data = form.serialize();
-	console.log(data)
-	$.post('guests/create', data)
+	var fdata = form.serialize();
+	console.log(form);
+	$.post('guests/create', fdata)
 		.success(function(response) {
 			data = $.parseJSON(response);
+			addGuest({name: form[0].name.value, gender: form[0].gender.value});
 			form.find('.name').val('');
-			location.reload(false); // force a page refresh so guests can be updated
-
-			//addGuest(response);
 		})
 		.fail(function(response){
 			console.log('failed to add guest');

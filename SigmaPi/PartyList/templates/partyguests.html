@@ -39,7 +39,22 @@
 {% endif %}
 
 {% if lists %}
+
 	{% for list in lists %}
+		<div hidden id="guest-template" class="guest item">
+			<div class="ui right floated delete">
+				<i class="delete icon"></i>
+			</div>
+			<div class="content">
+				<form class="entry" data-id="{{pg.guest.id}}">
+					<input name="name" value="" class="name editable"/>
+					<input hidden type="text" name="gender" class="gender" value=""/>
+				</form>
+				<div class="right floated description addedBy">
+					<span class="user">You</span>
+				</div>
+			</div>
+		</div>
 		<div class="ui relaxed list {{list.gender}}">
 			{% for pg in list.guests %}
 				<div class="guest item">
@@ -70,20 +85,7 @@
 {% endif %}
 
 <!-- Hacky way to add guests from the client side on the fly, without hardcoding the html and css in javascript. Replace this with the use of a front end MVC library such as Ember or Backbone. -->
-<div hidden id="guest-template" class="guest item">
-	<div class="ui right floated icon delete button">
-		<i class="delete icon"></i>
-	</div>
-	<div class="content">
-		<form class="entry" data-id="{{pg.guest.id}}">
-			<input name="name" value="" class="name editable"/>
-			<input style="visibility: hidden" type="text" name="gender" class="gender" value=""/>
-		</form>
-		<div class="right floated description addedBy">
-			<span class="user">You</span>
-		</div>
-	</div>
-</div>
+
 
 
 {% endblock %}
