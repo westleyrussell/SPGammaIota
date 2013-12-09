@@ -2,6 +2,8 @@
 	Utility functions for use within the UserInfo modules
 """
 from datetime import date
+from django.conf import settings
+from django.core.mail import send_mail
 
 def get_senior_year():
 	"""
@@ -29,12 +31,11 @@ def create_user(username):
 	try:
 		user_obj = User.objects.create()
 		user_obj.username = username
-		user_obj.email = user_info['Email']
+		user_obj.email = username + "@wpi.edu"
 		user_obj.first_name = names[0]
 		user_obj.last_name = names[len(names) - 1]
 
 		password = User.objects.make_random_password()
-		print(password)
 		user_obj.set_password(password)
 
 		user_info_obj = UserInfo.objects.create(user=user_obj)
@@ -44,7 +45,26 @@ def create_user(username):
 
 		user_obj.save()
 		user_info_obj.save()
+
+		send_mail_to_new_user(user_obj.username, user_obj.email, password)
 	except:
 		if user_obj:
 			user_obj.delete()
 		raise
+
+def send_mail_to_new_user(username, email, password):
+	"""
+		Sends a notice to a new user that their account has been setup
+	"""
+	subject = "Welcome to the Sigma Pi Gamma Iota Website"
+	message = "Welcome to the Sigma Pi Gamma Iota website."
+	message = message + " An account has been created for you.  Your username is: "
+	message = message + username + ". Your password is: " + password + ". "
+	message = message + "You may acess the website at: http://sigmapiwpi.webfactional.com. "
+	message = message + "It is highly reccommended that you change your password upon logging in."
+
+	send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email])
+
+
+
+
