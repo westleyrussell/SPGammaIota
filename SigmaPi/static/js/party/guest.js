@@ -18,6 +18,21 @@ function pollServer(){
 		});
 }
 
+function addGuest(guest) {
+
+	template = $($('#guest-template').clone());
+	form = template.find('form');
+
+	console.log(guest);
+	form.find('.name').val(guest.name);
+	form.find('.gender').val(guest.gender);
+
+	list = guest.gender == 'M' ? $('.list.guys') : $('.list.girls');
+	console.log(list);
+	template.appendTo(list);
+	template.show();
+}
+
 /*
 	Submit the guest data in the supplied 
 	form field
@@ -30,6 +45,9 @@ function submitGuest(form) {
 		.success(function(response) {
 			data = $.parseJSON(response);
 			form.find('.name').val('');
+			location.reload(false); // force a page refresh so guests can be updated
+
+			//addGuest(response);
 		})
 		.fail(function(response){
 			console.log('failed to add guest');
@@ -42,11 +60,10 @@ function submitGuest(form) {
 function updateGuest(form) {
 	console.log('updating...');
 	data = form.serialize();
-	console.log(data);
 	$.post('guests/update/' + form.data('id'),data)
 		.success(function(response){
 			console.log('success updating!');
-		})
+		})	
 		.fail(function(response){
 			//alert the user that they cannot update this guest
 			console.log(response);

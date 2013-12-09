@@ -10,6 +10,7 @@ from PartyList.widgets import GuestForm
 
 import json
 
+
 def userCanEdit(user=None,pg=None):
 	"""return true if the given user can edit the party guest making this function 
 	allows us to add more cases in which a type of user can edit a guest"""
@@ -50,17 +51,20 @@ def create(request,party):
 	if guest:
 		partyguest = PartyGuest.objects.filter(party__exact=Party.objects.get(name__exact=party), guest__exact=guest)
 		if partyguest: # if this guest is already on the list for this party
-			return error('guest already on list',code=500)
+			return error('guest already on list',code=501)
 	else:
 		form = GuestForm(request.POST)
 		if form.is_valid():
 			guest = form.save()
 		else:
-			return error('invalid guest paramaters or format',code=500)
+			return error('invalid guest paramaters or format',code=502)
 
 	pGuest = PartyGuest(party=Party.objects.get(name__exact=party), guest=guest, addedBy=request.user)
 	pGuest.save()
-	return HttpResponse(guest.id,status=200)
+
+	response = {}
+	response['guest'] = guest.toJSON()
+	return HttpResponse(json.dumps(response),status=200)
 
 
 @login_required
@@ -116,7 +120,7 @@ def poll(request,party):
 	
 	guests = list(PartyGuest.objects.filter(createdAt__gte=last))
 	response = {}
-	response['guests'] = serializers.serialize('json',guests)
+	response['guests'] = [guest.toJSON() for guest in guests]
 	response['gcount'] = len(guests)
 
 	return HttpResponse(json.dumps(response), content_type="application/json")

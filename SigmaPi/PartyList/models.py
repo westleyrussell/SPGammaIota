@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django import forms
 from datetime import datetime
 
+import json
+
 class Party(models.Model):
 	"""
 		Model to represent a party.
@@ -32,10 +34,26 @@ class Guest(models.Model):
 	def __unicode__(self):
 		return self.name
 
+	def __iter__(self):
+		"""return a ** iterator of field,value"""
+		for i in self._meta.get_all_field_names():
+			yield (i, getattr(self,i))
+
 	#Setup meta info about this model
 	class Meta:
 		verbose_name_plural = "Guests"
 		verbose_name = "Guest"
+
+	def toJSON(self):
+		"""return a json object of the guest"""
+		data = {}
+		for field,val in self:
+			try:
+				data[field] = json.dumps(val)
+			except:
+				pass
+
+		return json.dumps(data)
 
 
 class PartyGuest(models.Model):
@@ -50,10 +68,22 @@ class PartyGuest(models.Model):
 	def __unicode__(self):
 		return self.guest.name
 
+	def __iter__(self):
+		"""return a ** iterator of field,value"""
+		for i in self._meta.get_all_field_names():
+			yield (i, getattr(self,i))
+
 	#Setup meta info about this model
 	class Meta:
 		verbose_name_plural = "Party Guests"
 		verbose_name = "Party Guest"
+
+	def toJSON(self):
+		data = {}
+		data['party'] = getattr(self,'party')
+		data['guest'] = getattr(self,'guest').toJSON()
+		data['addedBy'] = getattr(self,'addedBy')
+
 
 class PartyJob(models.Model):
 	"""

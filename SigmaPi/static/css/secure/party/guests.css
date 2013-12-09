@@ -6,6 +6,9 @@
 	color: rgb(194, 16, 228);
 }
 
+body {
+	background-color: rgba(234,230,220,.8);
+}
 .list {
 	width: 49%;
 }
@@ -16,12 +19,23 @@
 	float: right;
 }
 	.list .guest {
-		background-color: rgba(200,200,200,.5);		
 		margin:2px,0px;
 	}
 
-	.list .guest:hover{
-		background-color: rgba(234,230,220,.8);
+	.list.guys .guest {
+		background-color: rgba(240, 155, 155, 0.9);
+	}
+
+	.list.girls .guest {
+		background-color: rgba(74, 125, 233, 0.45);
+	}
+
+	.list.guys .guest:hover{
+		background-color: rgb(197, 114, 127);
+	}
+
+	.list.girls .guest:hover {
+		background-color: rgb(72, 126, 195);;
 	}
 
 		.list form {
@@ -33,11 +47,20 @@
 			border: none;
 			background: none;
 			font-size: 1em;
+			width: 500px;
 		}
 
 		.list .guest .addedBy {
 			float: left;
 			padding-right: 10px;
-			color: #ccc;
+			color: #FFF;
+		}
+
+		.list .guest .delete i:hover {
+			color: red;
+		}
+
+		.list .guest .delete i {
+			font-size: 1.3em;
 		}
 

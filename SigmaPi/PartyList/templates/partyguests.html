@@ -8,6 +8,7 @@
 {% block content %}
 
 {% if partymode %}
+	<p>Stuff</p>
 {% else %}
 <div class="ui form">
 	<div class="two fields">
@@ -24,7 +25,7 @@
 		<div id="female-form" class="guest-submit field female">
 			<form id="female-form" class="guestAdd-form">
 				<div class="ui icon input">
-					<input type='text' class='name' data-gender='F' placeholder='Her name'/>
+					<input type='text' name='name' class='name' data-gender='F' placeholder='Her name'/>
 					<i class="female icon"></i>
 				</div>
 				<input hidden type="text" name="gender" value='F'/>
@@ -46,7 +47,7 @@
 						</div>
 					{% else %}
 						{% if pg.addedBy == user %}
-							<div class="ui right floated icon delete button">
+							<div class="ui right floated delete">
 								<i class="delete icon"></i>
 							</div>
 						{% endif %}
@@ -66,6 +67,21 @@
 	{% endfor %}
 {% endif %}
 
+<!-- Hacky way to add guests from the client side on the fly, without hardcoding the html and css in javascript. Replace this with the use of a front end MVC library such as Ember or Backbone. -->
+<div hidden id="guest-template" class="guest item">
+	<div class="ui right floated icon delete button">
+		<i class="delete icon"></i>
+	</div>
+	<div class="content">
+		<form class="entry" data-id="{{pg.guest.id}}">
+			<input name="name" value="" class="name editable"/>
+			<input style="visibility: hidden" type="text" name="gender" class="gender" value=""/>
+		</form>
+		<div class="right floated description addedBy">
+			<span class="user">You</span>
+		</div>
+	</div>
+</div>
 
 
 {% endblock %}
