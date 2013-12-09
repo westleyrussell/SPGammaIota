@@ -2,7 +2,7 @@ SigmaPi/database
 SigmaPi/content/*
 *.pyc
 *.pyc
-
+SigmaPi/SigmaPi/settings.py
 *.pyc
 
 *.pyc
