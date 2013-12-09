@@ -41,3 +41,13 @@ body {
 #home_button {
 	margin-top:-5px;
 }
+
+.large-print {
+	font-size: larger;
+	color: #636363;
+}
+
+.center-body {
+	width: 80%;
+	margin: 0 auto;
+}
