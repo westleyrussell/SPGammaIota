@@ -41,6 +41,7 @@
 {% if lists %}
 
 	{% for list in lists %}
+	<!-- Hacky way to add guests from the client side on the fly, without hardcoding the html and css in javascript. Replace this with the use of a front end MVC library such as Ember or Backbone. -->
 		<div hidden id="guest-template" class="guest item">
 			<div class="ui right floated delete">
 				<i class="delete icon"></i>
@@ -83,8 +84,6 @@
 		</div>
 	{% endfor %}
 {% endif %}
-
-<!-- Hacky way to add guests from the client side on the fly, without hardcoding the html and css in javascript. Replace this with the use of a front end MVC library such as Ember or Backbone. -->
 
 
 
