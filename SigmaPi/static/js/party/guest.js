@@ -7,7 +7,6 @@ function pollServer(){
 		.success(function(response) {
 			if (response.gcount > 0){
 				LAST = now();
-				console.log(LAST);
 				response.guests.forEach(function(guest){
 
 				});
@@ -18,19 +17,28 @@ function pollServer(){
 		});
 }
 
+
+function error(message) {
+	t = $('#error-template');
+	$(t).find('.header').text(message);
+	$(t).find('.close').click(function(){
+		$(t).hide();
+	});
+	$(t).show();
+}
 function addGuest(guest) {
 
 	template = $($('#guest-template').clone());
 	form = template.find('form');
 
-	console.log(guest);
 	form.find('.name').val(guest.name);
 	form.find('.gender').val(guest.gender);
+	form.data('id',guest.id);
 
 	list = guest.gender == 'M' ? $('.list.guys') : $('.list.girls');
-	console.log(list);
 	template.appendTo(list);
 	template.show();
+	bindGuestHandlers.call(template);
 }
 
 /*
@@ -40,15 +48,13 @@ function addGuest(guest) {
 function submitGuest(form) {
 
 	var fdata = form.serialize();
-	console.log(form);
 	$.post('guests/create', fdata)
 		.success(function(response) {
-			data = $.parseJSON(response);
-			addGuest({name: form[0].name.value, gender: form[0].gender.value});
+			addGuest({name: form[0].name.value, gender: form[0].gender.value, id: response});
 			form.find('.name').val('');
 		})
 		.fail(function(response){
-			console.log('failed to add guest');
+			error('failed to add guest');
 		});
 }
 
@@ -56,15 +62,13 @@ function submitGuest(form) {
 	Send a guest name update to the server, keyed with the guests id
 */
 function updateGuest(form) {
-	console.log('updating...');
 	data = form.serialize();
 	$.post('guests/update/' + form.data('id'),data)
 		.success(function(response){
-			console.log('success updating!');
 		})	
 		.fail(function(response){
 			//alert the user that they cannot update this guest
-			console.log(response);
+			error(response);
 		});
 }
 
@@ -78,7 +82,7 @@ function deleteGuest(form) {
 		})
 		.fail(function(respone){
 			//alert the user that they cannot delete this guest
-			console.log(response);
+			error(response);
 		});
 }
 
@@ -89,33 +93,54 @@ function now() {
 	return d.getTime();
 }
 
+function bindGuestHandlers (){
+
+	var form = $(this).find('.entry');
+
+	form.keyup(function(){
+		var editTimeout = 0;
+		//wait a a few seconds, then send an update request
+		clearTimeout(editTimeout);
+		editTimeout = setTimeout(function(){updateGuest(form);},800);
+	});
+
+	$(this).find('.delete').click(function(){
+		deleteGuest(form);
+	});
+}
+
+function bindSignin () {
+	if ($('.checkbox .signin').length < 1) {
+		console.log('no stuff to do');
+		return false;
+	}
+
+	$('.guest').each(function(){
+		$(this).click(function(){
+			console.log('init');
+			$(this).find('.checkbox .signin').checkbox();
+		});
+	});
+}
+
 $(document).ready(function(){
 
 	//URL of the party page, this will be different for each party,
 	//but only needs to be calculated once
 	
 	POLL_WAIT = 10000; //10 seconds
+	COUNTER = $('#')
 
 	$('.guestAdd-form').submit(function(e){
 		submitGuest($(this));
 		return false;
 	});
 
-	$('.guest').each(function(){
+	$('.guest').each(bindGuestHandlers);
 
-		var form = $(this).find('.entry');
-		form.keyup(function(){
-			var editTimeout = 0;
-			//wait a a few seconds, then send an update request
-			clearTimeout(editTimeout);
-			editTimeout = setTimeout(function(){updateGuest(form);},800);
-		});
+	bindSignin();
 
-		$(this).find('.delete').click(function(){
-			deleteGuest(form);
-		});
-	});
 
 	LAST = now();
-	setInterval(pollServer, POLL_WAIT);
+	//setInterval(pollServer, POLL_WAIT);
 });

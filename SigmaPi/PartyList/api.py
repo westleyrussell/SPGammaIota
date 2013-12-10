@@ -62,9 +62,8 @@ def create(request,party):
 	pGuest = PartyGuest(party=Party.objects.get(name__exact=party), guest=guest, addedBy=request.user)
 	pGuest.save()
 
-	response = {}
-	response['guest'] = guest.toJSON()
-	return HttpResponse(json.dumps(response),status=200)
+	
+	return HttpResponse(guest.id,status=200)
 
 
 @login_required

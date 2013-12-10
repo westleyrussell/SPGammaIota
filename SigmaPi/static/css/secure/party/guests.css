@@ -6,6 +6,12 @@
 	color: rgb(194, 16, 228);
 }
 
+#partymode-nav {
+	position: fixed;
+	left: 0;
+	width: 100px;
+}
+
 body {
 	background-color: rgba(234,230,220,.8);
 }
@@ -20,6 +26,8 @@ body {
 }
 	.list .guest {
 		margin:2px,0px;
+		-webkit-box-shadow: 0px 5px 7px rgba(50, 50, 50, 0.5);
+		padding-left: 5px !important;
 	}
 
 	.list.guys .guest {

@@ -26,5 +26,6 @@ class List():
 		self.gender = gender
 		self.guests = []
 
+
 	def size(self):
-		return len(guests)
+		return len(self.guests)

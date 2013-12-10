@@ -10,7 +10,16 @@
 {% block content %}
 
 {% if partymode %}
-	<p>Stuff</p>
+	
+	<div class="ui form">
+		<div id="filter" class="field">
+			<div class="ui icon input">
+				<input type="text" name='filter' placeholder="Search">
+				<i class="search icon"></i>
+			</div>
+		</div>
+	</div>
+
 {% else %}
 <div class="ui form">
 	<div class="two fields">
@@ -40,7 +49,16 @@
 
 {% if lists %}
 
+	<div id="partymode-nav" class="ui vertical secondary menu">
+		{% for list in lists %}
+			<a class="item">
+				{{list.gender}} <div class="ui red label">{{list.size}}</div>
+			</a>
+		{% endfor %}
+	</div>
+
 	{% for list in lists %}
+
 	<!-- Hacky way to add guests from the client side on the fly, without hardcoding the html and css in javascript. Replace this with the use of a front end MVC library such as Ember or Backbone. -->
 		<div hidden id="guest-template" class="guest item">
 			<div class="ui right floated delete">
@@ -60,8 +78,8 @@
 			{% for pg in list.guests %}
 				<div class="guest item">
 					{% if partymode %}
-						<div class="ui right floated icon">
-							<input type="checkbox"/>
+						<div class="ui right floated toggle checkbox">
+							<input type="checkbox" class="signin"/>
 						</div>
 					{% else %}
 						{% if pg.addedBy == user %}
@@ -85,6 +103,10 @@
 	{% endfor %}
 {% endif %}
 
+<div hidden id="error-template" class="ui error message">
+	<i class="close icon"></i>
+	<div class="header"></div>
+</div>
 
 
 {% endblock %}

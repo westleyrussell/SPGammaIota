@@ -39,10 +39,9 @@ def guests(request, party):
 	partymode = False
 	closedate = requested_party.date
 	closedatetime = datetime(closedate.year, closedate.month, closedate.day, 20)
+
 	if closedatetime < datetime.now():
 		partymode = True
-
-	partymode = False #override default for local testing
 
 	context = RequestContext(request, {
 			'partyname': party,
