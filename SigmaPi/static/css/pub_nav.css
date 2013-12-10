@@ -6,7 +6,7 @@
 #banner-top {
   width:100%;
   height:100px;
-  background-image: url("../img/right_banner.png");
+  background-image: url("/static/img/right_banner.png");
   background-position: right top;
   background-attachment: fixed;
   background-size: inherit;

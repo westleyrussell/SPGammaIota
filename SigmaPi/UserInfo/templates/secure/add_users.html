@@ -9,7 +9,7 @@
 			<p>{{ msg }}</p>
 			{% endfor %}
 		</div>
-		{% endif %}
+		{% endif %}<!--
 		<h4 class="ui header">Add Multiple Users</h4>
 		<p>Place each username to add on a newline.</p>
 		<form enctype="multipart/form-data" method="post" action="{% url 'UserInfo.views.add_users' %}" class="ui error horizontal segment form">
@@ -23,7 +23,7 @@
 			</div>
 			<button type="submit" class="ui blue submit button">Add Users</button>
 		</form>
-	<br/><br/>
+	<br/><br/>-->
 		<h4 class="ui header">Add Single User</h4>
 		<form enctype="multipart/form-data" method="post" action="{% url 'UserInfo.views.add_users' %}" class="ui error horizontal segment form">
 			{% csrf_token %}
@@ -32,8 +32,32 @@
 		  		<div class="ui left labeled input">
 		  			<input type="text" id="id_username" name="username" maxlength="50" />
 		  		</div>
-		  		<input type="hidden" id="id_type" name="type" value="SINGLE"/>
 			</div>
+			<div class="field">
+		  		<label>First Name</label>
+		  		<div class="ui left labeled input">
+		  			<input type="text" id="id_firstname" name="firstname" maxlength="50" />
+		  		</div>
+			</div>
+			<div class="field">
+		  		<label>Last Name</label>
+		  		<div class="ui left labeled input">
+		  			<input type="text" id="id_lastname" name="lastname" maxlength="50" />
+		  		</div>
+			</div>
+			<div class="field">
+		  		<label>Major</label>
+		  		<div class="ui left labeled input">
+		  			<input type="text" id="id_major" name="major" maxlength="50" />
+		  		</div>
+			</div>
+			<div class="field">
+		  		<label>Class Year</label>
+		  		<div class="ui left labeled input">
+		  			<input type="text" id="id_class" name="class" maxlength="50" />
+		  		</div>
+			</div>
+		  	<input type="hidden" id="id_type" name="type" value="SINGLE"/>
 			<button type="submit" class="ui blue submit button">Add User</button>
 		</form>
 

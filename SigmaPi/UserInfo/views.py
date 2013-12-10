@@ -153,16 +153,24 @@ def add_users(request):
 
 		if add_type == "SINGLE":
 			to_add = strip_tags(request.POST['username'])
+			first_name = strip_tags(request.POST['firstname'])
+			last_name = strip_tags(request.POST['lastname'])
+			major = strip_tags(request.POST['major'])
+			year = strip_tags(request.POST['class'])
+
 			exists = User.objects.filter(username=to_add).count()
 			if exists:
 				context['message'].append("Username " + to_add + " is taken.")
 			else:
 				try:
-					utils.create_user(to_add)
+					utils.create_user(to_add, first_name, last_name, major, year)
 					context['message'].append("User " + to_add + " successfully added.")
 				except:
 					context['message'].append("Error adding " + to_add + ".")
+	return render(request, 'secure/add_users.html', context)
 
+"""
+Note: Not used currently because webscraping is not working outside WPI network
 		elif add_type == "MULTIPLE":
 			to_add = strip_tags(request.POST['usernames'])
 			to_add = to_add.split('\r\n')
@@ -180,9 +188,7 @@ def add_users(request):
 						context['message'].append("Error adding " + user + ".")
 
 			context['message'].append(str(added) + " users successfully added.")
-
-	return render(request, 'secure/add_users.html', context)
-
+"""
 @permission_required('UserInfo.manage_users', login_url='Secure.views.home')
 def manage_users(request):
 	"""

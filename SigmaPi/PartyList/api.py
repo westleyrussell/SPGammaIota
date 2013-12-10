@@ -14,7 +14,6 @@ import json
 def userCanEdit(user=None,pg=None):
 	"""return true if the given user can edit the party guest making this function 
 	allows us to add more cases in which a type of user can edit a guest"""
-	print pg.addedBy, user
 	if pg.addedBy == user:
 		return True
 
