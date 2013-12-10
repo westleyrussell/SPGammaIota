@@ -4,16 +4,12 @@
 
 {% block content %}
 
-</br>
-Jobs for: {{partyname}}
-</br>
-
 {% if partyjobs %}
 
 	{% for pj in partyjobs %}
 	</br>
-	Job: {{ pj.job }} </br>
-	User: {{ pj.user.username }} </br>
+	<b>{{ pj.job }}</b> <br>
+	{{ pj.user.first_name }} {{ pj.user.last_name }} </br>
 	{% endfor %}
 
 {% endif %}

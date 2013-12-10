@@ -12,13 +12,13 @@
 
 	{% for p in all_parties %}
 		</br>
-		{{ p.displayname }}</br>
+		<b>{{ p.displayname }}</b></br>
 		{{ p.date }}</br>
-		<a href="{% url 'PartyList.views.guests' p.name %}">
-			guests
+		<a id="guests" href="{% url 'PartyList.views.guests' p.name %}">
+			Guests
 		</a></br>
-		<a href="{% url 'PartyList.views.jobs' p.name %}">
-			jobs
+		<a id="jobs" href="{% url 'PartyList.views.jobs' p.name %}">
+			Jobs
 		</a></br>
 	{% endfor %}
 
