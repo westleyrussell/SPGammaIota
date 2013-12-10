@@ -11,6 +11,8 @@ class Party(models.Model):
 	"""
 	name = models.CharField(max_length=100)
 	date = models.DateField()
+	guycount = models.IntegerField(default=0)
+	girlcount = models.IntegerField(default=0)
 
 	def __unicode__(self):
 		return self.name
@@ -64,6 +66,7 @@ class PartyGuest(models.Model):
 	guest = models.ForeignKey(Guest, related_name="guest", default=1)
 	addedBy = models.ForeignKey(User, related_name="added_by", default=1)
 	createdAt = models.DateTimeField(auto_now_add=True)
+	signedIn = models.BooleanField(default=False)
 
 	def __unicode__(self):
 		return self.guest.name
@@ -83,6 +86,7 @@ class PartyGuest(models.Model):
 		data['party'] = getattr(self,'party')
 		data['guest'] = getattr(self,'guest').toJSON()
 		data['addedBy'] = getattr(self,'addedBy')
+		data['signedIn'] = getattr(self,'signedIn')
 
 
 class PartyJob(models.Model):
