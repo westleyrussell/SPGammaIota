@@ -1,3 +1,7 @@
+.filter {
+	display: none !important;
+}
+
 .guest-submit.male i {
 	color: blue;
 }
@@ -11,6 +15,14 @@
 	left: 0;
 	width: 100px;
 }
+
+	#partymode-nav .menu {
+		width: 140px;
+	}
+
+	#partymode-nav .header {
+		text-align: center;
+	}
 
 body {
 	background-color: rgba(234,230,220,.8);

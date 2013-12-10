@@ -41,6 +41,24 @@ function addGuest(guest) {
 	bindGuestHandlers.call(template);
 }
 
+
+function filterGuests(stub) {
+	stub = stub.toLowerCase();
+	if (stub == '') {
+		$('.guest').removeClass('filter');
+		return;
+	}
+	$('.guest').each(function(){
+		text = $(this).find('.name').val().toLowerCase();
+		console.log(text.substring(0,stub.length),stub);
+		if(text.substring(0,stub.length) == stub) {
+			$(this).removeClass('filter');
+			return true;
+		} else {
+			$(this).addClass('filter');
+		}
+	});
+}
 /*
 	Submit the guest data in the supplied 
 	form field
@@ -54,7 +72,7 @@ function submitGuest(form) {
 			form.find('.name').val('');
 		})
 		.fail(function(response){
-			error('failed to add guest');
+			error('failed to add guest:' + response);
 		});
 }
 
@@ -117,9 +135,52 @@ function bindSignin () {
 
 	$('.guest').each(function(){
 		$(this).click(function(){
-			console.log('init');
 			$(this).find('.checkbox .signin').checkbox();
 		});
+	});
+}
+
+function updateCount(gender,delta) {
+	document.COUNTER[gender] = document.COUNTER[gender] + delta;
+	$('#'+gender+'-count').text(document.COUNTER[gender]);
+}
+
+
+function bindPartyHandlers() {
+
+	$('#partymode-nav .menu').each(function(){
+		var gender = $(this).data('gender');
+		$(this).find('.button').click(function(){
+			if ($(this).hasClass('incr')) {
+				updateCount(gender,1);
+			} else {
+				updateCount(gender,-1);
+			}
+		});
+	});
+
+	var timer;
+	$('#filter').keyup(function(){
+		var stub = $(this).find('input[name="filter"]').val();
+		clearTimeout(timer);
+		console.log(stub)
+		timer = setTimeout(function(){
+			filterGuests(stub);
+		},200);
+	});
+
+	$('.guest').each(function(){
+
+		gender = $(this).parent('.list')
+		$(this).click(function(){
+			$(this).find('input[type="checkbox"').click();
+		});
+
+		$(this).find('input[type="checkbox"').click(function(){
+			if ($(this).prop('checked')) {
+				updateCount
+			}
+		})
 	});
 }
 
@@ -129,16 +190,27 @@ $(document).ready(function(){
 	//but only needs to be calculated once
 	
 	POLL_WAIT = 10000; //10 seconds
-	COUNTER = $('#')
 
-	$('.guestAdd-form').submit(function(e){
-		submitGuest($(this));
-		return false;
-	});
+	if ($('#filter').length > 0) {
+		//we are in partymode
 
-	$('.guest').each(bindGuestHandlers);
+		bindPartyHandlers();
+	} else {
+		$('.guestAdd-form').submit(function(e){
+			submitGuest($(this));
+			return false;
+		});
 
-	bindSignin();
+		$('.guest').each(bindGuestHandlers);
+
+		$('.guest>.content .name').tsort();
+
+
+
+		bindSignin();
+	}
+
+
 
 
 	LAST = now();

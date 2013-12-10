@@ -5,12 +5,13 @@
 {% block party_includes %}
 	{% load staticfiles %}
 	<link rel='stylesheet' type='text/css' href='{% static "css/secure/party/guests.css" %}' />
+	<script type="text/javascript" src="{% static 'js/jquery.tinysort.min.js' %}"></script>
 {% endblock %}
 
 {% block content %}
 
 {% if partymode %}
-	
+
 	<div class="ui form">
 		<div id="filter" class="field">
 			<div class="ui icon input">
@@ -51,9 +52,38 @@
 
 	<div id="partymode-nav" class="ui vertical secondary menu">
 		{% for list in lists %}
-			<a class="item">
-				{{list.gender}} <div class="ui red label">{{list.size}}</div>
-			</a>
+			<script type="text/javascript">
+				if (! document.COUNTER) {
+					document.COUNTER = {};
+				}
+
+				document.COUNTER['{{list.gender}}'] = {{list.size}};
+			</script>
+
+			{% if partymode %}
+				<div class="ui menu" data-gender="{{list.gender}}">
+					<div class="header item">
+						{{list.gender}}
+					</div>
+					<div class="ui icon small button decr">
+						<i class="minus icon"></i>
+					</div>
+					<div id="{{list.gender}}-count" class="ui red label">
+						{{list.size}}
+					</div>
+					<div class="ui icon small button incr">
+						<i class="add icon"></i>
+					</div>
+				</div>
+			{% else %}
+
+				<div class="header item">
+					{{list.gender}} <div id="{{list.gender}}-count" class="ui red label"> {{list.size}} </div>
+				</div>
+
+
+			{% endif %}
+
 		{% endfor %}
 	</div>
 
@@ -78,7 +108,7 @@
 			{% for pg in list.guests %}
 				<div class="guest item">
 					{% if partymode %}
-						<div class="ui right floated toggle checkbox">
+						<div class="ui right floated">
 							<input type="checkbox" class="signin"/>
 						</div>
 					{% else %}
