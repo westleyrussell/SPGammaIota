@@ -12,7 +12,7 @@
 
 	{% for p in all_parties %}
 		</br>
-		{{ p.name }}</br>
+		{{ p.displayname }}</br>
 		{{ p.date }}</br>
 		<a href="{% url 'PartyList.views.guests' p.name %}">
 			guests

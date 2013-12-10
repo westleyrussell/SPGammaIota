@@ -13,7 +13,7 @@ def index(request):
 	"""
 		View for all parties
 	"""
-	
+
 	parties = Party.objects.all()
 	context = RequestContext(request, {
 		'all_parties': parties,
@@ -25,7 +25,7 @@ def guests(request, party):
 	"""
 		View for all guests on the list for a party
 	"""
-	
+	print type(party)
 	requested_party = Party.objects.get(name__exact=party)
 	partyguests = PartyGuest.objects.filter(party=requested_party)
 	guys = List('guys')

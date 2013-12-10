@@ -17,6 +17,13 @@ class Party(models.Model):
 	def __unicode__(self):
 		return self.name
 
+	def save(self):
+		self.name = self.name.replace(" ","_")
+		super(Party,self).save()
+
+	def displayname(self):
+		return self.name.replace("_"," ")
+
 	#Setup meta info about this model
 	class Meta:
 		verbose_name_plural = "Parties"
@@ -59,7 +66,7 @@ class Guest(models.Model):
 
 
 class PartyGuest(models.Model):
-	""" 
+	"""
 		Model to represent a guest for a specific party.
 	"""
 	party = models.ForeignKey(Party, related_name="party_for_guest", default=1)
