@@ -70,3 +70,8 @@ html {
   height: 100%;
   font-size: 100%;
 }
+
+#facebooklogo {
+  color: rgba(59,89,152,1);
+  text-decoration: none;
+}
