@@ -57,7 +57,7 @@ def send_mail_to_new_user(username, email, password):
 	message = "Welcome to the Sigma Pi Gamma Iota website."
 	message = message + " An account has been created for you.  Your username is: "
 	message = message + username + ". Your password is: " + password + ". "
-	message = message + "You may acess the website at: http://sigmapiwpi.webfactional.com. "
+	message = message + "You may acess the website at: https://sigmapigammaiota.org. "
 	message = message + "It is highly reccommended that you change your password upon logging in."
 
 	send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email])
