@@ -51,6 +51,12 @@
 {% if lists %}
 
 	<div id="partymode-nav" class="ui vertical secondary menu">
+		<a class="my_list item">
+			My List
+		</a>
+		<a class="full_list active item">
+			Full List
+		</a>
 		{% for list in lists %}
 			<script type="text/javascript">
 				if (! document.COUNTER) {
@@ -68,7 +74,7 @@
 					<div class="ui icon small button decr">
 						<i class="minus icon"></i>
 					</div>
-					<div id="{{list.gender}}-count" class="ui red label">
+					<div id="{{list.gender}}-count" class="ui label">
 						{{list.size}}
 					</div>
 					<div class="ui icon small button incr">
@@ -78,7 +84,7 @@
 			{% else %}
 
 				<div class="header item">
-					{{list.gender}} <div id="{{list.gender}}-count" class="ui red label"> {{list.size}} </div>
+					{{list.gender}} <div id="{{list.gender}}-count" class="ui label"> {{list.size}} </div>
 				</div>
 
 
@@ -90,7 +96,7 @@
 	{% for list in lists %}
 
 	<!-- Hacky way to add guests from the client side on the fly, without hardcoding the html and css in javascript. Replace this with the use of a front end MVC library such as Ember or Backbone. -->
-		<div hidden id="guest-template" class="guest item">
+		<div hidden id="guest-template" class="guest item mine">
 			<div class="ui right floated delete">
 				<i class="delete icon"></i>
 			</div>
@@ -106,7 +112,7 @@
 		</div>
 		<div class="ui relaxed list {{list.gender}}">
 			{% for pg in list.guests %}
-				<div class="guest item">
+				<div class="guest item {% if pg.addedBy == user %} mine {% endif %}">
 					{% if partymode %}
 						<div class="ui right floated">
 							<input type="checkbox" class="signin"/>

@@ -13,7 +13,8 @@
 #partymode-nav {
 	position: fixed;
 	left: 0;
-	width: 100px;
+	width: 130px;
+	background-color: rgb(137, 119, 160);
 }
 
 	#partymode-nav .menu {
@@ -22,6 +23,23 @@
 
 	#partymode-nav .header {
 		text-align: center;
+	}
+
+	#partymode-nav a.item {
+		padding-bottom:5px;
+		margin-bottom:0;
+	}
+
+	#partymode-nav a.item.active {
+		background-color: rgb(141, 103, 175);
+	}
+
+	#partymode-nav #guys-count {
+		background-color: rgb(189, 80, 80);
+	}
+
+	#partymode-nav #girls-count {
+		background-color: rgb(128, 202, 243);
 	}
 
 body {
@@ -41,6 +59,7 @@ body {
 		-webkit-box-shadow: 0px 5px 7px rgba(50, 50, 50, 0.5);
 		padding-left: 5px !important;
 	}
+
 
 	.list.guys .guest {
 		background-color: rgba(240, 155, 155, 0.9);
@@ -74,6 +93,10 @@ body {
 			float: left;
 			padding-right: 10px;
 			color: #FFF;
+		}
+
+		.list .guest div.delete {
+			margin-left: 0px !important;
 		}
 
 		.list .guest .delete i:hover {

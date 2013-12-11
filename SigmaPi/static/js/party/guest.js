@@ -19,12 +19,16 @@ function pollServer(){
 
 
 function error(message) {
+	/*
 	t = $('#error-template');
 	$(t).find('.header').text(message);
 	$(t).find('.close').click(function(){
 		$(t).hide();
 	});
 	$(t).show();
+	*/
+
+	alert(message);
 }
 function addGuest(guest) {
 
@@ -70,6 +74,8 @@ function submitGuest(form) {
 		.success(function(response) {
 			addGuest({name: form[0].name.value, gender: form[0].gender.value, id: response});
 			form.find('.name').val('');
+			var gender = form[0].gender.value == 'M' ? 'guys' : 'girls';
+			updateCount(gender,1);
 		})
 		.fail(function(response){
 			error('failed to add guest:' + response);
@@ -97,6 +103,10 @@ function deleteGuest(form) {
 	$.post('guests/destroy/' + form.data('id'))
 		.success(function(){
 			form.closest('.guest').slideUp();
+			var gender = form[0].gender.value == 'M' ? 'guys' : 'girls';
+			console.log('success');
+			updateCount(gender,-1);
+
 		})
 		.fail(function(respone){
 			//alert the user that they cannot delete this guest
@@ -112,19 +122,21 @@ function now() {
 }
 
 function bindGuestHandlers (){
-
 	var form = $(this).find('.entry');
 
-	form.keyup(function(){
-		var editTimeout = 0;
-		//wait a a few seconds, then send an update request
-		clearTimeout(editTimeout);
-		editTimeout = setTimeout(function(){updateGuest(form);},800);
-	});
-
-	$(this).find('.delete').click(function(){
-		deleteGuest(form);
-	});
+	if($(this).hasClass('mine')) {
+		form.keyup(function(){
+			var editTimeout = 0;
+			//wait a a few seconds, then send an update request
+			clearTimeout(editTimeout);
+			editTimeout = setTimeout(function(){updateGuest(form);},800);
+		});
+	}else{
+		$(this).find('input.name').prop('disabled',true);
+		$(this).find('div.delete').click(function(){
+			deleteGuest(form);
+		});
+	}
 }
 
 function bindSignin () {
@@ -178,7 +190,7 @@ function bindPartyHandlers() {
 
 		$(this).find('input[type="checkbox"').click(function(){
 			if ($(this).prop('checked')) {
-				updateCount
+				updateCount();
 			}
 		})
 	});
@@ -195,22 +207,43 @@ $(document).ready(function(){
 		//we are in partymode
 
 		bindPartyHandlers();
+
+		bindSignin();
+		console.log('binding party mode');
 	} else {
 		$('.guestAdd-form').submit(function(e){
 			submitGuest($(this));
 			return false;
 		});
 
-		$('.guest').each(bindGuestHandlers);
-
-		$('.guest>.content .name').tsort();
+		$('.guest:visible').each(bindGuestHandlers);
 
 
+		var hidden = null
+		$('.my_list').click(function(){
+			if ($(this).hasClass('active')) {
+				return;
+			}
 
-		bindSignin();
+			$(this).addClass('active');
+			$('.full_list').removeClass('active');
+
+			hidden = $('.guest:not(.mine)');
+			hidden.hide();
+		});
+
+		$('.full_list').click(function(){
+			if ($(this).hasClass('active')) {
+				return;
+			}
+			$(this).addClass('active');
+			$('.my_list').removeClass('active');
+
+			if (hidden) {
+				hidden.show();
+			}
+		})
 	}
-
-
 
 
 	LAST = now();
