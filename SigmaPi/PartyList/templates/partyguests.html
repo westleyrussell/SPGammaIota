@@ -132,7 +132,7 @@
 							<input hidden type="text" name="gender" value="{{pg.guest.gender}}"/>
 						</form>
 						<div class="right floated description addedBy">
-							<span class="user">{% if pg.addedBy == user %} You {% else %} {{pg.addedBy}} {% endif %}
+							<span class="user">{% if pg.addedBy == user %} You {% else %} {{pg.addedBy.first_name}} {{pg.addedBy.last_name}} {% endif %}
 						</div>
 					</div>
 				</div>
