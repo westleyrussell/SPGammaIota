@@ -78,7 +78,7 @@ function submitGuest(form) {
 			updateCount(gender,1);
 		})
 		.fail(function(response){
-			error('failed to add guest:' + response);
+			error('failed to add guest:' + response.responseText);
 		});
 }
 
@@ -92,7 +92,7 @@ function updateGuest(form) {
 		})	
 		.fail(function(response){
 			//alert the user that they cannot update this guest
-			error(response);
+			error(response.responseText);
 		});
 }
 
@@ -110,7 +110,7 @@ function deleteGuest(form) {
 		})
 		.fail(function(respone){
 			//alert the user that they cannot delete this guest
-			error(response);
+			error(response.responseText);
 		});
 }
 

@@ -51,12 +51,14 @@
 {% if lists %}
 
 	<div id="partymode-nav" class="ui vertical secondary menu">
+		{% if not partymode %}
 		<a class="my_list item">
 			My List
 		</a>
 		<a class="full_list active item">
 			Full List
 		</a>
+		{% endif %}
 		{% for list in lists %}
 			<script type="text/javascript">
 				if (! document.COUNTER) {
