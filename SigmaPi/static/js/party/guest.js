@@ -125,14 +125,16 @@ function bindGuestHandlers (){
 	var form = $(this).find('.entry');
 
 	if($(this).hasClass('mine')) {
+		/*
 		form.keyup(function(){
 			var editTimeout = 0;
 			//wait a a few seconds, then send an update request
 			clearTimeout(editTimeout);
 			editTimeout = setTimeout(function(){updateGuest(form);},800);
-			$(this).find('div.delete').click(function(){
-				deleteGuest(form);
-			});
+		});
+		*/
+		$(this).find('div.delete').click(function(){
+			deleteGuest(form);
 		});
 	}else{
 		$(this).find('input.name').prop('disabled',true);

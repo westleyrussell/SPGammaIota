@@ -90,6 +90,10 @@ body {
 			width: 500px;
 		}
 
+		.list .guest.mine .name {
+			color: black;
+		}
+
 		.list .guest .addedBy {
 			float: left;
 			padding-right: 10px;
