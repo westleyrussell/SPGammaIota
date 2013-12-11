@@ -45,7 +45,7 @@ def guests(request, party):
 
 	partymode = False
 	context = RequestContext(request, {
-			'partyname': party,
+			'partyname': requested_party.displayname,
 			'partymode': partymode,
 			'lists': [guys,girls],
 			'redirect': '/secure/parties/' + party + '/guests',
@@ -61,7 +61,7 @@ def jobs(request, party):
 	requested_party = Party.objects.get(name__exact=party)
 	partyjobs = PartyJob.objects.filter(party=requested_party)
 	context = RequestContext(request, {
-			'partyname': party,
+			'partyname': requested_party.displayname,
 			'partyjobs': partyjobs
 		})
 	return render(request, 'partyjobs.html', context)
