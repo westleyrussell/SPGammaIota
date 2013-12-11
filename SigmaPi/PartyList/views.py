@@ -43,6 +43,7 @@ def guests(request, party):
 	if closedatetime < datetime.now():
 		partymode = True
 
+	partymode = False
 	context = RequestContext(request, {
 			'partyname': requested_party.displayname,
 			'partymode': partymode,
