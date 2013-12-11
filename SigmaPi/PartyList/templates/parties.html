@@ -10,17 +10,31 @@
 
 {% if all_parties %}
 
-	{% for p in all_parties %}
-		</br>
-		<b>{{ p.displayname }}</b></br>
-		{{ p.date }}</br>
-		<a id="guests" href="{% url 'PartyList.views.guests' p.name %}">
-			Guests
-		</a></br>
-		<a id="jobs" href="{% url 'PartyList.views.jobs' p.name %}">
-			Jobs
-		</a></br>
+	<table class="ui basic table">
+    <tbody>
+	{% for p in all_parties reversed %}
+
+  	    <tr>
+	      <td class="ten wide ui header">{{ p.displayname }}</td>
+	      <td class="two wide">{{ p.date }}</td>
+	      <td class="one wide">
+			<a class="ui active button" id="jobs" href="{% url 'PartyList.views.jobs' p.name %}">
+			Jobs</a>
+		  </td>
+	      <td class="three wide">
+			<a class="ui active button" id="guests" href="{% url 'PartyList.views.guests' p.name %}">
+			  <i class="user icon"></i>
+				Guest List
+			</a>
+	      </td>
+	    </tr>
+
+
 	{% endfor %}
+
+    </tbody>
+	</table>
+
 
 {% endif %}
 

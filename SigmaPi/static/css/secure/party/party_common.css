@@ -21,5 +21,13 @@
 	text-decoration: none;
 }
 
+.inline_elements * {
+	display: inline-block;
+}
+
+.width50 {
+	width: 100%;
+}
+
 /* For partyguests page */
 
