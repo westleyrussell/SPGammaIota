@@ -104,7 +104,7 @@
 			</div>
 			<div class="content">
 				<form class="entry" data-id="{{pg.guest.id}}">
-					<input name="name" value="" class="name editable"/>
+					<input disabled='true' name="name" value="" class="name editable"/>
 					<input hidden type="text" name="gender" class="gender" value=""/>
 				</form>
 				<div class="right floated description addedBy">
@@ -128,11 +128,11 @@
 					{% endif %}
 					<div class="content">
 						<form class="entry" data-id="{{pg.guest.id}}">
-							<input name="name" value="{{ pg.guest.name }}" class="name editable"/>
+							<input disabled='true' name="name" value="{{ pg.guest.name }}" class="name editable"/>
 							<input hidden type="text" name="gender" value="{{pg.guest.gender}}"/>
 						</form>
 						<div class="right floated description addedBy">
-							<span class="user">{% if pg.addedBy == user %} You {% else %} {{pg.addedBy}} {% endif %}
+							<span class="user">{% if pg.addedBy == user %} You {% else %} {{pg.addedBy.first_name}} {{pg.addedBy.last_name}} {% endif %}
 						</div>
 					</div>
 				</div>

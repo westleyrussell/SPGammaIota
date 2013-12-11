@@ -43,7 +43,8 @@ def create_user(username, first_name, last_name, major, year):
 		user_obj.save()
 		user_info_obj.save()
 
-		#send_mail_to_new_user(user_obj.username, user_obj.email, password)
+		if not settings.DEBUG:
+			send_mail_to_new_user(user_obj.username, user_obj.email, password)
 	except:
 		if user_obj:
 			user_obj.delete()
