@@ -44,7 +44,6 @@ def guests(request, party):
 		girls.signed_in = requested_party.girlcount
 		partymode = True
 
-	partymode = True
 	context = RequestContext(request, {
 			'partyname': requested_party.displayname,
 			'partymode': partymode,

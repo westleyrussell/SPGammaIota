@@ -76,7 +76,7 @@
 					<div class="ui icon small button decr">
 						<i class="minus icon"></i>
 					</div>
-					<div id="{{list.gender}}-count" class="ui label">
+					<div id="{{list.gender}}-count" class="ui label guest-counter">
 						{{list.size}}
 					</div>
 					<div class="ui icon small button incr">
@@ -115,7 +115,7 @@
 		<div class="ui relaxed list {{list.gender}}">
 			{% for pg in list.guests %}
 				<div data-id="{{pg.guest.id}}" data-gender="{{list.gender}}" 
-					 class="guest item {% if pg.addedBy == user or partymode%} mine {% endif %}
+					 class="guest item {% if pg.addedBy == user %} mine {% endif %}
 					 		{%if partymode and pg.signedIn %} signedIn {% endif %}">
 					{% if partymode %}
 						<div class="ui right floated">

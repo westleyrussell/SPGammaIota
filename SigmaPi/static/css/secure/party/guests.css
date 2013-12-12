@@ -34,12 +34,21 @@
 		background-color: rgb(141, 103, 175);
 	}
 
+	#partymode-nav .guest-counter {
+		font-size: .9rem;
+		width: 53px;
+		text-align: center;
+	}
 	#partymode-nav #guys-count {
 		background-color: rgb(189, 80, 80);
 	}
 
 	#partymode-nav #girls-count {
 		background-color: rgb(128, 202, 243);
+	}
+
+	#partymode-nav .ui.menu .icon.button:last-child{
+		float: right;
 	}
 
 body {
@@ -67,11 +76,11 @@ body {
 	}
 
 	.list.guys .guest.signedIn {
-		background-color: rgb(235, 80, 80);
+		background-color: rgba(233, 88, 88, 0.86)
 	}
 
 	.list.girls .guest.signedIn {
-		background-color: rgb(7, 85, 168);
+		background-color: rgba(92, 151, 214, 0.73);
 	}
 
 	.list.girls .guest {
@@ -96,6 +105,7 @@ body {
 			background: none;
 			font-size: 1em;
 			width: 500px;
+			color: rgba(0, 0, 0, 0.71)
 		}
 
 		.list .guest.mine .name {
