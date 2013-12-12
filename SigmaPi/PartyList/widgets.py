@@ -25,11 +25,11 @@ class List():
 	def __init__(self,gender):
 		self.gender = gender
 		self.guests = []
-		self.signed_in = 0
+		self.signed_in = None
 
 
 	def size(self):
-		if self.signed_in > 0:
+		if self.signed_in:
 			return self.signed_in
 		else:
 			return len(self.guests)
