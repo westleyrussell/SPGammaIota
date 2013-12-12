@@ -49,7 +49,7 @@ class Guest(models.Model):
 			yield (i, getattr(self,i))
 
 	def __cmp__(self,other):
-		print "hey, your comparing me!"
+		#print "hey, your comparing me!"
 		#apparently django does not use this during the order_by query
 
 	#Setup meta info about this model
