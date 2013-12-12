@@ -115,7 +115,7 @@
 		<div class="ui relaxed list {{list.gender}}">
 			{% for pg in list.guests %}
 				<div data-id="{{pg.guest.id}}" data-gender="{{list.gender}}" 
-					 class="guest item {% if pg.addedBy == user %} mine {% endif %}
+					 class="guest item {% if pg.addedBy == user or partymode%} mine {% endif %}
 					 		{%if partymode and pg.signedIn %} signedIn {% endif %}">
 					{% if partymode %}
 						<div class="ui right floated">
