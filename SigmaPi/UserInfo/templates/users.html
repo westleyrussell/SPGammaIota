@@ -17,7 +17,9 @@
       <a id="senior-nav" class="item">Seniors</a>
       <a id="junior-nav" class="item">Juniors</a>
       <a id="sophomore-nav" class="item">Sophomores</a>
+      {% if freshmen %}
       <a id="freshman-nav" class="item">Freshmen</a>
+      {% endif %}
     </div>
 
 	<div class="center-body large-print">
@@ -183,6 +185,7 @@
 				{% endfor %}
 				<!-- End Sophomores -->
 				<!-- Start freshmen -->
+				{% if freshmen %}
 				<div id="freshman"></div>
 				<h1 class="ui inverted purple block header">Freshmen</h1>
 				{% for freshman in freshmen %}
@@ -199,6 +202,7 @@
 				</div>
 				<div class="ui divider"></div>		
 				{% endfor %}
+				{% endif %}
 				<!-- End freshmen -->				
 	</div>
 {% endblock %}
