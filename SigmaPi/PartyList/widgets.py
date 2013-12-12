@@ -29,7 +29,7 @@ class List():
 
 
 	def size(self):
-		if self.signed_in:
+		if self.signed_in >= 0:
 			return self.signed_in
 		else:
 			return len(self.guests)
