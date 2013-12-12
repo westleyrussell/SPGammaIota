@@ -40,7 +40,7 @@ class EditUserInfoForm(ModelForm):
 	"""
 		Form for editing a user
 	"""
-	phoneNumber = forms.IntegerField(required=False)
+	phoneNumber = forms.CharField(max_length=100, required=False)
 	major = forms.CharField(max_length=100, required=False)
 	hometown = forms.CharField(max_length=100, required=False)
 	activities = forms.CharField(widget=forms.Textarea, required=False)

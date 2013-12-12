@@ -47,19 +47,19 @@ def users(request):
 		herald = None
 
 	# Get the rest of the users.  Exclude pledges or any execs.
-	seniors = User.objects.filter(userinfo__graduationYear=senior_year).prefetch_related('userinfo')
+	seniors = User.objects.filter(userinfo__graduationYear=senior_year).prefetch_related('userinfo').order_by("last_name")
 	seniors = seniors.exclude(groups__name='Pledges')
 	seniors = seniors.exclude(groups__name='Alumni')
 
-	juniors = User.objects.filter(userinfo__graduationYear=(senior_year + 1)).prefetch_related('userinfo')
+	juniors = User.objects.filter(userinfo__graduationYear=(senior_year + 1)).prefetch_related('userinfo').order_by("last_name")
 	juniors = juniors.exclude(groups__name='Pledges')
 	juniors = juniors.exclude(groups__name='Alumni')
 
-	sophomores = User.objects.filter(userinfo__graduationYear=(senior_year + 2)).prefetch_related('userinfo') 
+	sophomores = User.objects.filter(userinfo__graduationYear=(senior_year + 2)).prefetch_related('userinfo').order_by("last_name")
 	sophomores = sophomores.exclude(groups__name='Pledges')
 	sophomores = sophomores.exclude(groups__name='Alumni')
 
-	freshmen = User.objects.filter(userinfo__graduationYear=(senior_year + 3)).prefetch_related('userinfo')
+	freshmen = User.objects.filter(userinfo__graduationYear=(senior_year + 3)).prefetch_related('userinfo').order_by("last_name")
 	freshmen = freshmen.exclude(groups__name='Pledges')
 	freshmen = freshmen.exclude(groups__name='Alumni')
 
