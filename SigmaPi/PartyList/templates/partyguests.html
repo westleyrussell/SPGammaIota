@@ -8,6 +8,14 @@
 	<script type="text/javascript" src="{% static 'js/jquery.tinysort.min.js' %}"></script>
 {% endblock %}
 
+{% block nav_extra %}
+
+		<a class="header item" href="guests/export">
+			<i class="download icon"></i>Export List
+		</a>
+
+{% endblock %}
+
 {% block content %}
 
 {% if partymode %}

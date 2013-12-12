@@ -166,10 +166,10 @@ def export_list(request,party):
 	response['Content-Disposition'] = 'attachment; filename="guests.csv"'
 
 	writer = csv.writer(response)
-	writer.writerow(['Name','Added By'])
+	writer.writerow(['Name'])
 
 	for pg in partyguests:
-		writer.writerow([pg.guest.name,pg.addedBy])
+		writer.writerow([pg.guest.name])
 
 	return response
 

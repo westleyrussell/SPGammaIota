@@ -149,7 +149,7 @@
 		if (PARTYMODE) {
 			$.post('count',{'gender': gender, 'delta': delta})
 				.error(function(response){
-					error(response.responseText);
+					console.log(response.responseText); //ignore and work locally
 				});
 		}
 	}
