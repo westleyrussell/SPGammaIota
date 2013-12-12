@@ -48,6 +48,9 @@ class Guest(models.Model):
 		for i in self._meta.get_all_field_names():
 			yield (i, getattr(self,i))
 
+	def __cmp__(self,other):
+		print "hey, your comparing me!"
+
 	#Setup meta info about this model
 	class Meta:
 		verbose_name_plural = "Guests"

@@ -9,7 +9,7 @@ from django.core import serializers
 from PartyList.widgets import GuestForm
 
 import json
-
+import csv
 
 def userCanEdit(user=None,pg=None):
 	"""return true if the given user can edit the party guest making this function 
@@ -150,6 +150,28 @@ def destroy(request,party,id):
 		return success()
 	else:
 		return error('not allowed to delete guest',code=504)
+
+
+@login_required
+@csrf_exempt
+def export_list(request,party):
+	"""export the guest list as a csv file. This uses the native csv module
+	that comes bundled with python. Using excel would require a 3rd party 
+	module, and hardly provides benefits over a standard csv format"""
+
+	requested_party = Party.objects.get(name__exact=party)
+	partyguests = PartyGuest.objects.filter(party=requested_party).order_by('guest__name')
+
+	response = HttpResponse(content_type='text/csv')
+	response['Content-Disposition'] = 'attachment; filename="guests.csv"'
+
+	writer = csv.writer(response)
+	writer.writerow(['Name','Added By'])
+
+	for pg in partyguests:
+		writer.writerow([pg.guest.name,pg.addedBy])
+
+	return response
 
 
 @login_required

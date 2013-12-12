@@ -9,6 +9,7 @@ urlpatterns = patterns('',
 	url(r'^(?P<party>\w+)/guests/signIn/(?P<id>[0-9]+)$', 'PartyList.api.signin'),
 	url(r'^(?P<party>\w+)/guests/signOut/(?P<id>[0-9]+)$', 'PartyList.api.signout'),
 	url(r'^(?P<party>\w+)/guests/poll', 'PartyList.api.poll'),
+	url(r'^(?P<party>\w+)/guests/export', 'PartyList.api.export_list'),
 	url(r'^(?P<party>\w+)/jobs$', 'PartyList.views.jobs'),
 	url(r'^(?P<party>\w+)/count$', 'PartyList.api.updateCount'),
 )
