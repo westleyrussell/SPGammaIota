@@ -114,7 +114,9 @@
 		</div>
 		<div class="ui relaxed list {{list.gender}}">
 			{% for pg in list.guests %}
-				<div class="guest item {% if pg.addedBy == user %} mine {% endif %}">
+				<div data-id="{{pg.guest.id}}" data-gender="{{list.gender}}" 
+					 class="guest item {% if pg.addedBy == user %} mine {% endif %}
+					 		{%if partymode and pg.signedIn %} signedIn {% endif %}">
 					{% if partymode %}
 						<div class="ui right floated">
 							<input type="checkbox" class="signin"/>

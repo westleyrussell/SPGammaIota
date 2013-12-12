@@ -41,9 +41,11 @@ def guests(request, party):
 	closedatetime = datetime(closedate.year, closedate.month, closedate.day, 20)
 
 	if closedatetime < datetime.now():
+		guys.signed_in = requested_party.guycount
+		girls.signed_in = requested_party.girlcount
 		partymode = True
 
-	partymode = False
+	partymode = True
 	context = RequestContext(request, {
 			'partyname': requested_party.displayname,
 			'partymode': partymode,

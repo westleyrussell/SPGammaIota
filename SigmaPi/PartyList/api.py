@@ -35,6 +35,7 @@ def getFullGuest(party,id):
 
 	return guest,pGuest
 
+
 @login_required
 @csrf_exempt
 def create(request,party):
@@ -83,6 +84,55 @@ def update(request,party,id):
 			return error('invalid form returned')
 	else:
 		return error('not allowed to edit guest',code=504)
+
+@login_required
+@csrf_exempt
+def updateCount(request,party):
+	"""adjust the guest count for a given party and gender"""
+
+	party = Party.objects.get(name__exact=party)
+	try:
+		gender = request.POST.get('gender')
+		delta = int(request.POST.get('delta'))
+	except:
+		return error('erroneous gender or delta parameters in POST request')
+	if gender == 'guys':
+		party.guycount+=delta
+	elif gender == 'girls':
+		party.girlcount+=delta
+	else:
+		return error('improper gender parameter')
+
+	party.save()
+	return success('count updated successfully')
+
+@login_required
+@csrf_exempt
+def signin(request,party,id):
+	"""signin a guest with given id"""
+	try:
+		party = Party.objects.get(name__exact=party)
+		g,pg = getFullGuest(party,id)
+		pg.signedIn = True
+		pg.save()
+	except:
+		return error('issue signing in guest')
+
+	return success('fine')
+
+@login_required
+@csrf_exempt
+def signout(request,party,id):
+	"""signin a guest with given id"""
+	try:
+		party = Party.objects.get(name__exact=party)
+		g,pg = getFullGuest(party,id)
+		pg.signedIn = False
+		pg.save()
+	except:
+		return error('issue signing out guest')
+
+	return success('fine')
 
 
 

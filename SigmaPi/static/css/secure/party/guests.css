@@ -66,6 +66,14 @@ body {
 
 	}
 
+	.list.guys .guest.signedIn {
+		background-color: rgb(235, 80, 80);
+	}
+
+	.list.girls .guest.signedIn {
+		background-color: rgb(7, 85, 168);
+	}
+
 	.list.girls .guest {
 		background-color: rgba(74, 125, 233, 0.45);
 	}
