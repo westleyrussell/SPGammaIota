@@ -16,7 +16,7 @@ class UserInfo(models.Model):
 
 	user = models.OneToOneField(User)
 	picture = models.FileField(upload_to=filepath, null=True)
-	phoneNumber = models.CharField(default="555-555-5555", max_length=100)
+	phoneNumber = models.CharField(default="", max_length=100)
 	graduationYear = models.PositiveIntegerField(default=2015)
 	classYear = models.CharField(default="Lambda", max_length=20)
 	major = models.CharField(max_length=100, blank=True)
