@@ -25,7 +25,7 @@ class List():
 	def __init__(self,gender):
 		self.gender = gender
 		self.guests = []
-		self.signed_in = None
+		self.signed_in = -1
 
 
 	def size(self):
