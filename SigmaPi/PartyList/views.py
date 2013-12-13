@@ -26,7 +26,7 @@ def guests(request, party):
 		View for all guests on the list for a party
 	"""
 	requested_party = Party.objects.get(name__exact=party)
-	partyguests = PartyGuest.objects.filter(party=requested_party)
+	partyguests = PartyGuest.objects.filter(party=requested_party).order_by('guest__name')
 	guys = List('guys')
 	girls = List('girls')
 	for pg in partyguests:
