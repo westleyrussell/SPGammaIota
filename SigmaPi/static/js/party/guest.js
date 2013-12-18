@@ -55,8 +55,7 @@
 		}
 		$('.guest').each(function(){
 			text = $(this).find('.name').val().toLowerCase();
-			console.log(text.substring(0,stub.length),stub);
-			if(text.substring(0,stub.length) == stub) {
+			if(text.indexOf(stub) != -1) {
 				$(this).removeClass('filter');
 				return true;
 			} else {
