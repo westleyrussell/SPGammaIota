@@ -2,13 +2,10 @@ TODO List
 
 TODO:
 
-Brother/Aumni Directory
-	-View
-Calendar
+Alumni Calendar
 Brotherhood Archives
-	-Gold Standard
 Party list
-	-View
+Pi Points
 Rush Tracker
 Treasurer
 	-Budget breakdown
@@ -23,16 +20,4 @@ Committee Dashboard
 Done:
 
 Blogs
-	-Model Done
-	-URL Structure in place
-	-View done
-	-Adding interface done.
 Brother/Alumni Directory
-	-Model Done
-	-URL Structure in Place
-Brotherhood Archives
-	-Model done
-	-URL Structure in place.
-Party List
-	-Model Done
-	-URL Structure in place
