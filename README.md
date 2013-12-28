@@ -1,6 +1,14 @@
-SPGammaIota
-===========
+# Sigma Pi Gamma Iota Chapter's website
 
-New Website for Sigma Pi Gamma Iota Chapter
+This repository contains the files for Sigma Pi Gamma Iota Chaper's new website, which can be found at: https://sigmapigammaiota.org/
 
-We should probably have a dev meeting before anyone really starts anything so we can get a sense of direction going.
+## To get started:
+
+Dependencies are listed the SigmaPi/requirements.txt file. To automatically install all of the dependencies, you can use [Pip](http://www.pip-installer.org/en/latest/index.html)! I would also recommend using [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/) to isolate this project from your desktop Python environment, but that is not strictly necessary.
+
+* Run `pip install SigmaPi/requirements.txt` to install the dependencies.
+* Run `python SigmaPi/manage.py runserver 0.0.0.0:8000` to start the app and host it locally.
+* Connect to http://localhost:8000/ from a browser to see the site.
+
+NOTE:
+* If this is your first time starting the app, you may have to run `python SigmaPi/manage.py syncdb` and follow the prompts to create an admin account.
