@@ -1,5 +1,8 @@
 # Django settings for SigmaPi project.
 import os
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+
+TEMPLATE_CONTEXT_PROCESSORS += ('django.core.context_processors.request',)
 
 BASE_DIR = os.getcwd()
 
@@ -136,6 +139,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'PubSite',
+    'Library',
     'Blog',
     'UserInfo',
     'Archives',
@@ -173,3 +177,4 @@ LOGGING = {
         },
     }
 }
+
