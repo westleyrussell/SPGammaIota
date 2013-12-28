@@ -1,57 +1,100 @@
 <!DOCTYPE HTML5>
 <html lane="en">
 <head>
+
 	{% load staticfiles %}
+
 	<script type='text/javascript' src='{% static "js/jquery-1.8.2.min.js" %}'></script>
 	<script type="text/javascript" src='{% static "js/semantic.min.js" %}'></script>
+	<script type="text/javascript" src='{% static "js/jquery.dataTables.min.js" %}'></script>
 	<script type="text/javascript" src='{% static "js/secure/secure_common.js" %}'></script>
 
 	<link rel="stylesheet" type="text/css" href='{% static "css/semantic/css/semantic.css" %}'/>
 	<link rel="stylesheet" type="text/css" href='{% static "css/secure/secure_common.css" %}'/>
 
 	{% block local_includes %}
-		<!-- include on child templates to add page specific js and css files -->
+	<!-- include on child templates to add page specific js and css files -->
 	{% endblock %}
-	<title>{% block title %}{% endblock %}</title>
+
+	<title>
+	{% block title %}
+	{% endblock %}
+	</title>
+
 </head>
 
 <body>
-<!--
-<div id="nav_toggle">
-	<i class="reorder icon link icon"></i>
-</div>-->
 
 <div id="secure_nav" class="ui floating menu">
 	<div class="header item">
 		<i class="lock icon"></i> Secure
 	</div>
-	
+
+{# {% url 'apps.reports.views.report_list' as url %} #}
+{# <li{% ifequal url request.path %} class="active"{% endifequal %}> #}
+    {# <a href="{{ url }}">Reports</a> #}
+{# </li> #}
+
+
 	{% if perms.UserInfo.manage_users %}
-		<a class="item" id="blog" href="/secure/users">
+		{% if '/secure/users' in request.path %}
+		<a class="item active" id="users" href="{{ '/secure/users' }}">
+		{% else %}
+		<a class="item" id="users" href="{{ '/secure/users' }}">
+		{% endif %}
 			<i class="user icon"></i>Users
 		</a>
 	{% endif %}
+
 	{% if perms.Blog.administrate_posts %}
-	<a class="item" id="blog" href="/secure/blog">
-		<i class="book icon"></i>Blog
-	</a>
+		{% if '/secure/blog' in request.path %}
+		<a class="item active" id="blog" href="{{ '/secure/blog' }}">
+		{% else %}
+		<a class="item" id="blog" href="{{ '/secure/blog' }}">
+		{% endif %}
+			<i class="book icon"></i>Blog
+		</a>
 	{% endif %}
-	<a class="item" id="party_list" href='/secure/parties'>
-		<i class="male icon"></i> Party List
+
+	{% if '/secure/parties' in request.path %}
+	<a class="item active" id="party_list" href="{{ '/secure/parties' }}">
+	{% else %}
+	<a class="item" id="party_list" href="{{ '/secure/parties' }}">
+	{% endif %}
+		<i class="male icon"></i>Party List
 	</a>
+
+	{% if '/secure/library' in request.path %}
+	<a class="item active" id="library" href="{{ '/secure/library' }}">
+	{% else %}
+	<a class="item" id="library" href="{{ '/secure/library' }}">
+	{% endif %}
+		<i class="archive icon"></i>Library
+	</a>
+
 	<div class="right menu">
 		<div id="profile_dropdown" class="ui item dropdown">
-			Welcome, {{ user.first_name }}.<i class="icon dropdown"></i>
+			Welcome, {{ user.first_name }}.
+			<i class="icon dropdown"></i>
 			<div class="menu">
-				<a class="item" href="{% url 'UserInfo.views.edit_user' user.username %}">Edit Profile</a>
-				<a class="item" href="{% url 'UserInfo.views.change_password' %}">Change Password</a>
+				<a class="item" href="{% url 'UserInfo.views.edit_user' user.username %}">
+					Edit Profile
+				</a>
+
+				<a class="item" href="{% url 'UserInfo.views.change_password' %}">
+					Change Password
+				</a>
+
 				{% if user.is_staff %}
-					<a class="item" href="/admin/">Admin</a>
+				<a class="item" href="/admin/">Admin</a>
 				{% endif %}
+
 				<a class="item" href="/logout/">Logout</a>
 			</div>
 		</div>
+
 		<a class="item" id="home_button" href="/"><i class="large icon home"></i></a>
+
 	</div>
 </div>
 
@@ -61,9 +104,8 @@
 </div>
 
 <div id="content" class="large-print center-body">
-	{% block content %}
-
-	{% endblock %}
+{% block content %}
+{% endblock %}
 </div>
 
 </body>
