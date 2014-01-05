@@ -34,7 +34,7 @@
 		</table>
 
 	{% else %}
-	No users found.  <a href={% url 'UserInfo.views.add_users' %}">Create a new one.</a>
+	No users found.  <a href="{% url 'UserInfo.views.add_users' %}">Create a new one.</a>
 	{% endif %}
 
 {% endblock %}

@@ -1,11 +1,13 @@
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import permission_required, login_required
 from PartyList.models import Party, PartyGuest, PartyJob, AddMaleGuestForm
 from django.http import HttpResponse
 from django.template import RequestContext
 from datetime import datetime
 from django.utils import simplejson
-from PartyList.widgets import GuestForm, List
+from PartyList.widgets import GuestForm, PartyForm, EditPartyInfoForm, List
+from django.utils.html import strip_tags
+import dateutil.parser
 
 
 @login_required
@@ -66,18 +68,85 @@ def jobs(request, party):
 		})
 	return render(request, 'partyjobs.html', context)
 
-def contact(request):
-    if request.method == 'POST': # If the form has been submitted...
-        form = ContactForm(request.POST) # A form bound to the POST data
-        if form.is_valid(): # All validation rules pass
-            # Process the data in form.cleaned_data
-            # ...
-            return HttpResponseRedirect('/thanks/') # Redirect after POST
-    else:
-        form = ContactForm() # An unbound form
+@permission_required('PartyList.manage_parties', login_url='Secure.views.home')
+@login_required
+def add_party(request):
+	"""
+		Provides a view to add a party.
+	"""
+	context = RequestContext(request, {
+		'message': []
+		})
 
-    return render(request, 'guests.html', {
-        'form': form,
-    })
+	if request.method == 'POST':
+		form = PartyForm(request.POST)
+		if form.is_valid():
+			partyname = strip_tags(request.POST['name']).replace(" ","_")
+			partydate = strip_tags(request.POST['date'])
+			exists = Party.objects.filter(name=partyname, date=partydate).count()
+			if exists:
+				context['message'].append("A party with this name and date already exists.")
+			else:
+				party = form.save()
+				context['message'].append(party.displayname() + " successfully added.")
+		else:
+			context['message'].append("Error adding party.")
+	return render(request, 'add_party.html', context)
+
+@permission_required('PartyList.manage_parties', login_url='Secure.views.home')
+@login_required
+def manage_parties(request):
+	"""
+		Provides a view to manage all of the parties in the system.
+	"""
+
+	all_parties = Party.objects.all().order_by("date")
+
+	context = RequestContext(request, {
+		'all_parties': all_parties,
+		})
+
+	return render(request, 'manage_parties.html', context)
+
+@permission_required('PartyList.manage_parties', login_url='Secure.views.home')
+@login_required
+def edit_party(request, party, date):
+	"""
+		Provides a view to edit a single party.
+	"""
+	requested_party = Party.objects.get(name__exact=party, date__exact=date)
+
+	if request.method == 'POST':
+		form = EditPartyInfoForm(request.POST, instance=requested_party)
+		if form.is_valid():
+			partyname = strip_tags(request.POST['name']).replace(" ","_")
+			partydate = strip_tags(request.POST['date'])
+			exists = Party.objects.filter(name=partyname, date=partydate).count()
+			if exists:
+				return redirect("PartyList.views.manage_parties")
+			else:
+				form.save()
+				return redirect("PartyList.views.manage_parties")
+	else:
+		form = EditPartyInfoForm(instance=requested_party)
+	
 
 
+	context = RequestContext(request, {
+		'requested_party': requested_party,
+		'form': form,
+		'error': form.errors
+		})
+
+	return render(request, 'edit_party.html', context)
+
+@permission_required('PartyList.manage_parties', login_url='Secure.views.home')
+@login_required
+def delete_party(request, party, date):
+	"""
+		Deletes the party with the name that is sent in the post request
+	"""
+
+	party = Party.objects.get(name=party, date=date)
+	party.delete()
+	return redirect("PartyList.views.manage_parties")

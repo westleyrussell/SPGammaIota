@@ -1,0 +1,41 @@
+{% extends "party_base.html" %}
+
+{% block title %}Sigma Pi Secure - Parties - Edit Party {% endblock %}
+
+{% block content %}
+<h1 class="ui header">Manage Parties - Edit Party: {{ requested_party.displayname }}</h1>
+
+<h4 class="ui header">Edit the fields below to change the party's info.</h4>
+<br/>
+<div class="large-print center-body">
+	<form enctype="multipart/form-data" method="post" action="{% url 'PartyList.views.edit_party' requested_party.name requested_party.date %}" class="ui error horizontal segment form">
+		{% csrf_token %}
+		{% if error %}
+		<div class="ui error message">
+			<div class="header">Error</div>
+				<p>{{ error }}</p>
+		</div>
+		{% endif %}
+		<div class="field">
+	  		<label>Party Name</label>
+	  		<div class="ui left labeled input">
+	  			{{form.name}}
+	  			<div class="ui corner label">
+	  			</div>
+	  		</div>
+		</div>
+		<div class="field">
+			<label>Party Date</label>
+			<div class="ui left labeled input">
+	  			{{form.date}}
+	  			<div class="ui corner label">
+				</div>
+	  		</div>
+		</div>
+			<button type="submit" class="ui blue submit button">Save</div>
+	</form>
+</div>
+
+<br/>
+<br/>
+{% endblock %}
