@@ -16,7 +16,7 @@ def index(request):
 		View for all parties
 	"""
 
-	parties = Party.objects.all()
+	parties = Party.objects.all().order_by("date")
 	context = RequestContext(request, {
 		'all_parties': parties,
 	})
@@ -74,11 +74,13 @@ def add_party(request):
 	"""
 		Provides a view to add a party.
 	"""
+
 	context = RequestContext(request, {
 		'message': []
 		})
 
 	if request.method == 'POST':
+		request.POST['date'] = request.POST['date'].split('/')[2] + '-' + request.POST['date'].split('/')[0] + '-' + request.POST['date'].split('/')[1]
 		form = PartyForm(request.POST)
 		if form.is_valid():
 			partyname = strip_tags(request.POST['name']).replace(" ","_")
@@ -100,7 +102,7 @@ def manage_parties(request):
 		Provides a view to manage all of the parties in the system.
 	"""
 
-	all_parties = Party.objects.all().order_by("date")
+	all_parties = Party.objects.all().order_by("date").reverse()
 
 	context = RequestContext(request, {
 		'all_parties': all_parties,
@@ -114,9 +116,11 @@ def edit_party(request, party, date):
 	"""
 		Provides a view to edit a single party.
 	"""
+
 	requested_party = Party.objects.get(name__exact=party, date__exact=date)
 
 	if request.method == 'POST':
+		request.POST['date'] = request.POST['date'].split('/')[2] + '-' + request.POST['date'].split('/')[0] + '-' + request.POST['date'].split('/')[1]
 		form = EditPartyInfoForm(request.POST, instance=requested_party)
 		if form.is_valid():
 			partyname = strip_tags(request.POST['name']).replace(" ","_")
