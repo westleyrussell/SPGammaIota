@@ -1,33 +1,59 @@
 {% extends "base.html" %}
 {% block title %}Sigma Pi Gamma Iota - Service{% endblock %}
-
+{% block local_includes %}
+	{% load staticfiles %}
+	<script type='text/javascript' src='{% static "js/waypoints.min.js" %}'></script>
+	<script type='text/javascript' src='{% static "js/pub/pub_service.js" %}'></script>
+	<link rel="stylesheet" type="text/css" href='{% static "css/pub_service.css" %}'/>
+{% endblock %}
 {% block header %}
 {% load staticfiles %}
 	<h1 id="service-header" class="top-header ui inverted block header">Community Service and Campus Involvement</h4>
 {% endblock %}
 {% block content %}
-	<div class="large-print center-body">
-	Sigma Pi is very concerned with the activities and proceedings of the WPI community. 
-	<br/><br/>
-	<div class="ui right floated image">
-		<img class="ui large image" src="{% static "img/service/service2.jpg" %}">
-	</div>
-	Take a look at a few of our brothers out of dozens who assisted with freshman move-in day in August 2013. We all had a blast helping the new class move into the dorms!
-	 <br/><br/>
-	 In the Fall, we hold our annual Guitar-A-Thon event with the assitance of the brothers of Phi Sigma Kappa.  We work towards raising money for the <a href="http://amazingdayfoundation.org/"> Sean Feliciano Amazing Day Foundation</a> in order to raise awareness of and prevent suicides of college students.
-	<div class="ui left floated image">
-		<img class="ui large image" src="{% static "img/service/service1.jpg" %}">
-	</div>
-	 <br/><br/>
-	  In the same spirit, we look forward to our ACE project in the coming year. ACE, or Altruistic Campus Experience, is an annual effort by all Sigma Pi chapters. According to the I Believe manual, "it is the first international service project devoted to benefiting the faculty, administration, or host institution of the campus where individual chapters are located."
-	<br/><br/>
-	Also from I Believe:
-	<br/><br/>
-	"ACE is designed to help encourage our chapter members to develop pride and respect for their alma mater, while giving something back to the Fraternity's host institution. Each chapter is encouraged to conduct a service event that is specifically designed to benefit their campus. By becoming directly involved with our universities we hope to not only develop our members into better students, we also want to produce loyal alumni who will continue to give back to their alma mater long after each of them has graduated."
-	<br/><br/>
-	<h1 class="ui header">Coming Soon</h1>
-	The Tri-Wizard Tournament
-	(Co-Sponsored by Alpha Xi Delta)
 
+    <div id="service-nav" class="ui fixed small vertical secondary menu">
+      <a id="overview-nav" class="active item">Overview</a>
+      <a id="guitar-nav" class="item">Guitar-A-Thon</a>
+      <a id="ace-nav" class="item">ACE Project</a>
+      <a id="upcoming-nav" class="item">Upcoming Events</a>
+    </div>
+
+	<div class="large-print center-body">
+
+	<h1 id="overview" class="ui header">Overview</h1>
+	<div class="ui basic segment">
+		<div class="ui right floated image">
+			<img class="ui large image" src="{% static "img/service/service2.jpg" %}">
+			<center>Each year, we volunteer to assist with freshman move-in<br/>day at the end of August.</center>
+		</div>
+		Sigma Pi is very concerned with the activities and proceedings of the WPI community.
+		<br/><br/>
+		We strongly believe in the value of giving back to our community and each year we partake in many different service-oriented events.
+	</div>
+	<h1 id="guitar" class="ui header">Guitar-A-Thon</h1>
+	<div class="ui basic segment">
+		<div class="ui left floated image">
+			<img class="ui large image" src="{% static "img/service/service1.jpg" %}">
+		</div>
+		In the fall of each year, we hold our annual Guitar-A-Thon event with the assistance of the brothers of Phi Sigma Kappa.  
+		<br/><br/>
+		At this event, we work towards raising money for the <a href="http://amazingdayfoundation.org/"> Sean Feliciano Amazing Day Foundation</a> in order to raise awareness of and prevent suicides of college students.
+
+	</div>
+	<h1 id="ace" class="ui header">ACE Project</h1>
+	<div class="ui basic segment">
+		Every year, we look forward to our ACE project.  ACE, or Altruistic Campus Experience, is an annual effort by all Sigma Pi chapters to give back in a meaningful way to the community.  
+		<br/><br/>
+		According to the "I Believe" manual, the ACE project "is the first international service project devoted to benefiting the faculty, administration, or host institution of the campus where individual chapters are located."
+		<br/><br/>
+		The ACE project is "designed to help encourage our chapter members to develop pride and respect for their alma mater, while giving something back to the Fraternity's host institution. Each chapter is encouraged to conduct a service event that is specifically designed to benefit their campus. By becoming directly involved with our universities we hope to not only develop our members into better students, we also want to produce loyal alumni who will continue to give back to their alma mater long after each of them has graduated."
+	</div>
+	<h1 id="upcoming" class="ui header">Upcoming Events</h1>
+	<div class="ui basic segment">
+		We are always looking for new ways to give back to the community.  Here are the upcoming events that we are working on putting together!<br/><br/>
+		The Tri-Wizard Tournament<br/>
+		(Co-Sponsored by Alpha Xi Delta)
+	</div>
 	<br/><br/><br/>
 {% endblock %}
