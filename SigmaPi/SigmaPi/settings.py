@@ -83,8 +83,6 @@ STATICFILES_DIRS = (
 
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
-
-
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/secure/'
 
@@ -144,7 +142,8 @@ INSTALLED_APPS = (
     'UserInfo',
     'Archives',
     'PartyList',
-    'Secure'
+    'Secure',
+    'tinymce'
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
@@ -177,4 +176,17 @@ LOGGING = {
         },
     }
 }
+
+# TinyMCE Config
+TINYMCE_JS_URL = os.path.join(STATIC_ROOT, "js/tiny_mce/tiny_mce.min.js")
+TINYMCE_JS_ROOT = os.path.join(STATIC_ROOT, "js/tiny_mce")
+
+TINYMCE_DEFAULT_CONFIG = {
+    'plugins': "table,spellchecker,paste,searchreplace",
+    'theme': "modern",
+    'cleanup_on_startup': True,
+    'custom_undo_redo_levels': 10,
+}
+TINYMCE_SPELLCHECKER = True
+TINYMCE_COMPRESSOR = True
 

@@ -2,6 +2,10 @@
 
 {% block title %}Sigma Pi Secure - Blog - Edit Blog Post{% endblock %}
 
+{% block local_includes %}
+{% load staticfiles %}
+<script type='text/javascript' src='{% static "js/tinymce/tinymce.min.js" %}'></script>
+{% endblock %}
 
 {% block content %}
 <h1 class="ui header">Manage Blog Posts - Edit Post</h1>
