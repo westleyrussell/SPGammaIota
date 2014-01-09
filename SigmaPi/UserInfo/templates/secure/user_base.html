@@ -11,12 +11,22 @@
 			<i class="users icon"></i>User Management
 		</div>
 		{% if perms.UserInfo.manage_users %}
-		<a class="item" href="{% url 'UserInfo.views.manage_users' %}">
-			Manage Users
-		</a>
-		<a class="item" href="{% url 'UserInfo.views.add_users' %}">
-			Add Users
-		</a>
+
+		{% if not '/add' in request.path %}
+			<a class="active item" href="{% url 'UserInfo.views.manage_users' %}">
+				Manage Users
+			</a>
+			<a class="item" href="{% url 'UserInfo.views.add_users' %}">
+				Add Users
+			</a>
+		{% else %}
+			<a class="item" href="{% url 'UserInfo.views.manage_users' %}">
+				Manage Users
+			</a>
+			<a class="active item" href="{% url 'UserInfo.views.add_users' %}">
+				Add Users
+			</a>	
+		{% endif %}	
 		{% endif %}
 	</div>
 {% endblock %}

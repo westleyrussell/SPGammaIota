@@ -10,5 +10,17 @@
 		<div class="header item">
 			<i class="archive icon"></i>Archives
 		</div>
+		<a class="item" href="{% url 'Archives.views.guides' %}">
+			Guides
+		</a>
+		<a class="item" href="{% url 'Archives.views.minutes' %}">
+			Minutes
+		</a>
+		<a class="item" href="{% url 'Archives.views.bylaws' %}">
+			Bylaws
+		</a>
+		<a class="item" href="{% url 'Archives.views.rules' %}">
+			House Rules
+		</a>
 	</div>
 {% endblock %}

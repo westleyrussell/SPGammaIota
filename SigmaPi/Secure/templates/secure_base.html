@@ -30,12 +30,6 @@
 		<i class="lock icon"></i> Secure
 	</div>
 
-{# {% url 'apps.reports.views.report_list' as url %} #}
-{# <li{% ifequal url request.path %} class="active"{% endifequal %}> #}
-    {# <a href="{{ url }}">Reports</a> #}
-{# </li> #}
-
-
 	{% if perms.UserInfo.manage_users %}
 		{% if '/secure/users' in request.path %}
 		<a class="item active" id="users" href="{{ '/secure/users' }}">

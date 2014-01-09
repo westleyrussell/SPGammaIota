@@ -15,7 +15,7 @@ def bylaws(request):
 	"""
 		View for all bylaws.
 	"""
-	return HttpResponse("Bylaws")
+	return render(request, "secure/archives_bylaws.html", None)
 
 @login_required
 def single_bylaw(request, year, month, day):
@@ -29,7 +29,7 @@ def rules(request):
 	"""
 		View for all house rules
 	"""
-	return HttpResponse("House Rules")
+	return render(request, "secure/archives_rules.html", None)
 
 @login_required
 def single_rule(request, path):
@@ -43,7 +43,7 @@ def minutes(request):
 	"""
 		View for all minutes
 	"""
-	return HttpResponse("Meeting Minutes")
+	return render(request, "secure/archives_minutes.html", None)
 
 @login_required
 def single_minutes(request, year, month, day):
@@ -57,7 +57,7 @@ def guides(request):
 	"""
 		View for all guides
 	"""
-	return HttpResponse("Guides")
+	return render(request, "secure/archives_guides.html", None)
 
 @login_required
 def single_guide(request, path):
