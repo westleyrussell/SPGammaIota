@@ -10,7 +10,9 @@
 		<div class="header item">
 			<i class="archive icon"></i>Archives
 		</div>
-		<a class="item" href="{% url 'Archives.views.guides' %}">
+
+		{% if '/guides' in request.path %}
+		<a class="active item" href="{% url 'Archives.views.guides' %}">
 			Guides
 		</a>
 		<a class="item" href="{% url 'Archives.views.minutes' %}">
@@ -22,5 +24,58 @@
 		<a class="item" href="{% url 'Archives.views.rules' %}">
 			House Rules
 		</a>
+		{% elif '/minutes' in request.path %}
+		<a class="item" href="{% url 'Archives.views.guides' %}">
+			Guides
+		</a>
+		<a class="active item" href="{% url 'Archives.views.minutes' %}">
+			Minutes
+		</a>
+		<a class="item" href="{% url 'Archives.views.bylaws' %}">
+			Bylaws
+		</a>
+		<a class="item" href="{% url 'Archives.views.rules' %}">
+			House Rules
+		</a>
+		{% elif '/bylaws' in request.path %}
+		<a class="item" href="{% url 'Archives.views.guides' %}">
+			Guides
+		</a>
+		<a class="item" href="{% url 'Archives.views.minutes' %}">
+			Minutes
+		</a>
+		<a class="active item" href="{% url 'Archives.views.bylaws' %}">
+			Bylaws
+		</a>
+		<a class="item" href="{% url 'Archives.views.rules' %}">
+			House Rules
+		</a>
+		{% elif '/rules' in request.path %}
+		<a class="item" href="{% url 'Archives.views.guides' %}">
+			Guides
+		</a>
+		<a class="item" href="{% url 'Archives.views.minutes' %}">
+			Minutes
+		</a>
+		<a class="item" href="{% url 'Archives.views.bylaws' %}">
+			Bylaws
+		</a>
+		<a class="active item" href="{% url 'Archives.views.rules' %}">
+			House Rules
+		</a>	
+		{% else %}
+		<a class="active item" href="{% url 'Archives.views.guides' %}">
+			Guides
+		</a>
+		<a class="item" href="{% url 'Archives.views.minutes' %}">
+			Minutes
+		</a>
+		<a class="item" href="{% url 'Archives.views.bylaws' %}">
+			Bylaws
+		</a>
+		<a class="item" href="{% url 'Archives.views.rules' %}">
+			House Rules
+		</a>
+		{% endif %}	
 	</div>
 {% endblock %}

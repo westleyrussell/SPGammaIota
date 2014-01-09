@@ -1,0 +1,18 @@
+#content {
+	margin: 40 auto;
+	width: 80%;
+}
+
+#archives-nav {
+	margin: 0;
+	border-radius: 0;
+	-webkit-border-radius: 0;
+
+	-webkit-box-shadow: 0px 5px 7px rgba(50, 50, 50, 0.5);
+	-moz-box-shadow:    0px 5px 7px rgba(50, 50, 50, 0.5);
+	box-shadow:         0px 5px 7px rgba(50, 50, 50, 0.5);
+}
+
+form {
+	margin: 0;
+}
