@@ -29,14 +29,20 @@ class Bylaws(models.Model):
 		verbose_name_plural = "Bylaws"
 		verbose_name = "Bylaws"
 
-class HouseRule(models.Model):
+class HouseRules(models.Model):
 	"""
-		Model to represent a single house rule.
+		Model to represent a house rule.
 	"""
+	def houserulespath(self, filename):
+		"""
+			Defines where house rules should be stored.
+		"""
+		return "protected/houserules/" + timeStamped(filename)
+	date = models.DateField()
+	filepath = models.FileField(upload_to=houserulespath)
 
-	title = models.CharField(max_length=100)
-	content = models.TextField()
-	path = models.SlugField(max_length=15)
+	def __unicode__(self):
+		return self.date.__str__()
 
 	#Setup meta info about this model
 	class Meta:

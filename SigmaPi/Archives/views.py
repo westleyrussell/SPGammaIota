@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.shortcuts import render
 
 
 @login_required
@@ -7,7 +8,7 @@ def index(request):
 	"""
 		View for the index page of the archives
 	"""
-	return HttpResponse("Hello World")
+	return render(request, "secure/archives_index.html", None)
 
 @login_required
 def bylaws(request):

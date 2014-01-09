@@ -9,7 +9,7 @@
 
 	{% if posts %}
 
-		<table class="ui basic table segment">
+		<table id="blog_table" class="ui basic table segment">
 			<thead>
 				<tr>
 					<th class="one wide">Date Posted</th>
@@ -43,7 +43,18 @@
 				{% endfor %}
 			</tbody>
 		</table>
-
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$.fn.dataTableExt.oStdClasses["sFilter"] = "ui label black"
+				$.fn.dataTableExt.oStdClasses["sLength"] = "ui label black"
+				$.fn.dataTableExt.oStdClasses["sInfo"] = "ui message"
+				$.fn.dataTableExt.oStdClasses["sPagePrevEnabled"] = "ui button active"
+				$.fn.dataTableExt.oStdClasses["sPagePrevDisabled"] = "ui button disabled"
+				$.fn.dataTableExt.oStdClasses["sPageNextEnabled"] = "ui button active"
+				$.fn.dataTableExt.oStdClasses["sPageNextDisabled"] = "ui button disabled"
+				$('#blog_table').dataTable();
+			} );
+		</script>
 	{% else %}
 	No blog posts found.  <a href={% url 'Blog.views.add_blog' %}">Create a new one.</a>
 	{% endif %}

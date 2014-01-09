@@ -52,7 +52,7 @@
 		{% else %}
 		<a class="item" id="blog" href="{{ '/secure/blog' }}">
 		{% endif %}
-			<i class="book icon"></i>Blog
+			<i class="comment icon"></i>Blog
 		</a>
 	{% endif %}
 
@@ -69,7 +69,15 @@
 	{% else %}
 	<a class="item" id="library" href="{{ '/secure/library' }}">
 	{% endif %}
-		<i class="archive icon"></i>Library
+		<i class="book icon"></i>Library
+	</a>
+
+	{% if '/secure/archives' in request.path %}
+	<a class="item active" id="archives" href="{{ '/secure/archives' }}">
+	{% else %}
+	<a class="item" id="archives" href="{{ '/secure/archives' }}">
+	{% endif %}
+		<i class="archive icon"></i>Archives
 	</a>
 
 	<div class="right menu">

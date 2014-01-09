@@ -10,7 +10,7 @@
 
 	{% if all_users %}
 
-		<table class="ui basic table segment">
+		<table id="users_table" class="ui basic table segment">
 			<thead>
 				<tr>
 					<th class="two wide">First Name</th>
@@ -33,6 +33,18 @@
 			</tbody>
 		</table>
 
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$.fn.dataTableExt.oStdClasses["sFilter"] = "ui label black"
+				$.fn.dataTableExt.oStdClasses["sLength"] = "ui label black"
+				$.fn.dataTableExt.oStdClasses["sInfo"] = "ui message"
+				$.fn.dataTableExt.oStdClasses["sPagePrevEnabled"] = "ui button active"
+				$.fn.dataTableExt.oStdClasses["sPagePrevDisabled"] = "ui button disabled"
+				$.fn.dataTableExt.oStdClasses["sPageNextEnabled"] = "ui button active"
+				$.fn.dataTableExt.oStdClasses["sPageNextDisabled"] = "ui button disabled"
+				$('#users_table').dataTable();
+			} );
+		</script>
 	{% else %}
 	No users found.  <a href="{% url 'UserInfo.views.add_users' %}">Create a new one.</a>
 	{% endif %}
