@@ -5,12 +5,71 @@
 
 	<h1 class="ui header">House Guides
 		{% if perms.Archives.add_guide %}
-		<a class="ui teal button" href="{% url 'Archives.views.create_guide' %}">Add Guide</a>
+		<a id="add_guide_button" class="ui teal button">Add Guide</a>
 		{% endif %}
 	</h1>  
 
-	{% if guides %}
+	{% if perms.Archives.add_guide %}
+	{% if form.errors %}
+	<div id="add_guide_form">
+	{% else %}
+	<div id="add_guide_form" hidden>
+	{% endif %}
+		<form enctype="multipart/form-data" method="post" action="{% url 'Archives.views.guides' %}" class="ui error form">
+			{% csrf_token %}
+			{% if form.errors %}
+			<div class="ui error message">
+				<div class="header">Errors!</div>
+				<p>{{ form.errors }}</p>
+			</div>
+			{% endif %}
+			<div class="field">
+		  		<label>Title*</label>
+		  		<div class="ui left labeled input">
+		  			{{form.name}}
+		  			<div class="ui corner label">
+		  				<i class="asterisk icon"></i>
+		  			</div>
+		  		</div>
+			</div>
+			<div class="field">
+				<label>Description*</label>
+				<div class="ui left labeled input">
+		  			{{form.description}}
+		  			<div class="ui corner label">
+						<i class="asterisk icon"></i>
+					</div>
+		  		</div>
+			</div>
+			<div class="field">
+				<label>Guide File*</label> 
+				<div class="ui left labeled input">
+					{{form.filepath}}
+					<div class="ui corner label">
+						<i class="asterisk icon"></i>
+					</div>
+				</div>
+			</div>
+			<button type="submit" class="ui blue submit button">Submit</button>
+			<div id="add_guide_cancel" class="ui red button">Cancel</div>
+		</form>
+		<div class="ui horizontal divider"></div>
+		<br/>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function() {
 
+			$('#add_guide_button').click(function() {
+				$('#add_guide_form').slideToggle(450);
+			});
+			$('#add_guide_cancel').click(function() {
+				$('#add_guide_form').slideToggle(450);
+			});
+		} );
+	</script>
+	{% endif %}
+
+	{% if guides %}
 		<table id="guides_table" class="ui basic table segment">
 			<thead>
 				<tr>
@@ -54,6 +113,9 @@
 			} );
 		</script>
 	{% else %}
-	No house guides found. Check back later.
+	<div class="ui vertical segment">
+		No house guides found. Check back later.
+		<br/><br/>
+	</div>
 	{% endif %}
 {% endblock %}

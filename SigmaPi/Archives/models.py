@@ -1,4 +1,6 @@
 from django.db import models
+from django.forms import ModelForm
+from django import forms
 import datetime
 
 def timeStamped(fname, fmt='%Y-%m-%d_{fname}'):
@@ -29,6 +31,16 @@ class Bylaws(models.Model):
 		verbose_name_plural = "Bylaws"
 		verbose_name = "Bylaws"
 
+class BylawsForm(ModelForm):
+	"""
+		Form for adding a bylaws.
+	"""
+	filepath = forms.FileField()
+
+	class Meta:
+		model = Bylaws
+		exclude = ['date']
+
 class HouseRules(models.Model):
 	"""
 		Model to represent a house rule.
@@ -48,6 +60,16 @@ class HouseRules(models.Model):
 	class Meta:
 		verbose_name_plural = "House Rules"
 		verbose_name = "House Rule"
+
+class RulesForm(ModelForm):
+	"""
+		Form for adding a house rules.
+	"""
+	filepath = forms.FileField()
+
+	class Meta:
+		model = HouseRules
+		exclude = ['date']
 
 class MeetingMinutes(models.Model):
 	"""
@@ -71,7 +93,15 @@ class MeetingMinutes(models.Model):
 		verbose_name_plural = "Meeting Minutes"
 		verbose_name = "Meeting Minutes"
 
+class MinutesForm(ModelForm):
+	"""
+		Form for adding a meeting minutes.
+	"""
+	date = forms.DateField()
+	filepath = forms.FileField()
 
+	class Meta:
+		model = MeetingMinutes
 
 class Guide(models.Model):
 	"""
@@ -93,3 +123,16 @@ class Guide(models.Model):
 
 	def __unicode__(self):
 		return self.name
+
+class GuideForm(ModelForm):
+	"""
+		Form for adding a guide.
+	"""
+	name = forms.CharField(max_length=100)
+	description = forms.CharField(widget=forms.Textarea)
+	filepath = forms.FileField()
+
+	class Meta:
+		model = Guide
+		exclude = ['path']
+

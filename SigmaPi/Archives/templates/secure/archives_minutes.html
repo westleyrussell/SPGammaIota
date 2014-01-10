@@ -1,12 +1,69 @@
 {% extends 'secure/archives_base.html' %}
 {% block title %}Sigma Pi Secure - Archives - Minutes{% endblock %}
 
+{% block archives_includes %}
+	{% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href='{% static "css/jquery-ui/jquery-ui.min.css" %}' />
+	<script type="text/javascript" src="{% static 'js/jquery-ui/jquery-ui.min.js' %}"></script>
+{% endblock %}
+
 {% block content %}
 	<h1 class="ui header">Meeting Minutes
 		{% if perms.Archives.add_meetingminutes %}
-		<a class="ui teal button" href="{% url 'Archives.views.create_minutes' %}">Add Meeting Minutes</a>
+		<a class="ui teal button" id="add_minutes_button">Add Meeting Minutes</a>
 		{% endif %}
 	</h1>  
+
+	{% if perms.Archives.add_meetingminutes %}
+	{% if form.errors %}
+	<div id="add_minutes_form">
+	{% else %}
+	<div id="add_minutes_form" hidden>
+	{% endif %}
+		<form enctype="multipart/form-data" method="post" action="{% url 'Archives.views.minutes' %}" class="ui error form">
+			{% csrf_token %}
+			{% if form.errors %}
+			<div class="ui error message">
+				<div class="header">Errors!</div>
+				<p>{{ form.errors }}</p>
+			</div>
+			{% endif %}
+			<div class="field">
+		  		<label>Meeting Date*</label>
+		  		<div class="ui left labeled input">
+		  			<input type="text" id="datepicker" name="date" maxlength="50" />
+		  			<div class="ui corner label">
+		  				<i class="asterisk icon"></i>
+		  			</div>
+		  		</div>
+			</div>
+			<div class="field">
+				<label>Minutes File*</label>
+				<div class="ui left labeled input">
+		  			{{form.filepath}}
+		  			<div class="ui corner label">
+						<i class="asterisk icon"></i>
+					</div>
+		  		</div>
+			</div>
+			<button type="submit" class="ui blue submit button">Submit</button>
+			<div id="add_minutes_cancel" class="ui red button">Cancel</div>
+		</form>
+		<div class="ui horizontal divider"></div>
+		<br/>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#datepicker').datepicker();
+			$('#add_minutes_button').click(function() {
+				$('#add_minutes_form').slideToggle(450);
+			});
+			$('#add_minutes_cancel').click(function() {
+				$('#add_minutes_form').slideToggle(450);
+			});
+		} );
+	</script>
+	{% endif %}
 
 	{% if minutes %}
 
@@ -51,6 +108,10 @@
 			} );
 		</script>
 	{% else %}
-	No house rules found. Check back later.
+	<div class="ui vertical segment">
+		No meeting minutes found. Check back later.
+		<br/>
+		<br/>
+	</div>
 	{% endif %}
 {% endblock %}

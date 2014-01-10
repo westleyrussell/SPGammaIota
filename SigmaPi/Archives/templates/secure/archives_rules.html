@@ -4,12 +4,62 @@
 {% block content %}
 	<h1 class="ui header">House Rules
 		{% if perms.Archives.add_houserules %}
-		<a class="ui teal button" href="{% url 'Archives.views.create_rules' %}">Add House Rules</a>
+		<a class="ui teal button" id="add_rules_button">Update House Rules</a>
 		{% endif %}
-	</h1>  
+	</h1>
 
+	{% if perms.Archives.add_houserules %}
+	{% if form.errors %}
+	<div id="add_rules_form">
+	{% else %}
+	<div id="add_rules_form" hidden>
+	{% endif %}
+		<form enctype="multipart/form-data" method="post" action="{% url 'Archives.views.rules' %}" class="ui error form">
+			{% csrf_token %}
+			{% if form.errors %}
+			<div class="ui error message">
+				<div class="header">Errors!</div>
+				<p>{{ form.errors }}</p>
+			</div>
+			{% endif %}
+			<div class="field">
+				<label>House Rules File*</label>
+				<div class="ui left labeled input">
+		  			{{form.filepath}}
+		  			<div class="ui corner label">
+						<i class="asterisk icon"></i>
+					</div>
+		  		</div>
+			</div>
+			<button type="submit" class="ui blue submit button">Submit</button>
+			<div id="add_rules_cancel" class="ui red button">Cancel</div>
+		</form>
+		<div class="ui horizontal divider"></div>
+		<br/>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#add_rules_button').click(function() {
+				$('#add_rules_form').slideToggle(450);
+			});
+			$('#add_rules_cancel').click(function() {
+				$('#add_rules_form').slideToggle(450);
+			});
+		} );
+	</script>
+	{% endif %}
+
+
+	{% if latest %}
+	<div class="ui vertical segment">
+		The most recent version of the house rules may be viewed <a href="{{ latest.filepath.url }}">here.</a>
+		<br/>
+		<br/>
+	</div>
+	{% endif %}
 	{% if rules %}
-
+	<div class="ui basic vertical segment">
+		An archive of past house rules may be viewed below.<br/><br/>
 		<table id="rules_table" class="ui basic table segment">
 			<thead>
 				<tr>
@@ -50,7 +100,11 @@
 				$('#rules_table').dataTable();
 			} );
 		</script>
+	</div>
 	{% else %}
-	No house rules found. Check back later.
+	<div class="ui vertical segment">
+		No house rules found. Check back later.
+		<br/><br/>
+	</div>
 	{% endif %}
 {% endblock %}

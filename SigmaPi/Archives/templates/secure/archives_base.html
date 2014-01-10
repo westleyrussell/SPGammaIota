@@ -3,6 +3,7 @@
 {%block  local_includes %}
 	{% load staticfiles %}
 	<link rel='stylesheet' type='text/css' href='{% static "css/secure/archives/archives_common.css" %}' />
+	{% block archives_includes %} {% endblock %}
 {% endblock %}
 
 {% block module_nav %}

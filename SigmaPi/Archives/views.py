@@ -4,8 +4,10 @@ from django.template import RequestContext
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import permission_required
 from django.utils.html import strip_tags
+from django.template.defaultfilters import slugify
+from datetime import datetime
 
-from Archives.models import Guide, MeetingMinutes, HouseRules, Bylaws
+from Archives.models import Guide, GuideForm, MeetingMinutes, MinutesForm, HouseRules, RulesForm, Bylaws, BylawsForm
 
 
 @login_required
@@ -20,9 +22,29 @@ def bylaws(request):
 	"""
 		View for all bylaws.
 	"""
+	form = BylawsForm()
+
+	if request.method == 'POST':
+		if request.user.has_perm('Archives.add_bylaws'):
+			form = BylawsForm(request.POST, request.FILES)
+
+			if form.is_valid():
+				bylaw = form.save(commit=False)
+				bylaw.date = datetime.now()
+				bylaw.save()
+		else:
+			redirect('PubSite.views.permission_denied')
+
 	bylaws = Bylaws.objects.all()
+	if bylaws:
+		latest = bylaws.latest('date')
+	else:
+		latest = None
+
 	context = RequestContext(request, {
+		'latest': latest,
 		'bylaws': bylaws,
+		'form': form
 		})
 
 	return render(request, "secure/archives_bylaws.html", context)
@@ -40,19 +62,36 @@ def delete_bylaw(request):
 		post.delete()
 	return redirect('Archives.views.bylaws')
 
-@permission_required('Archives.add_bylaws', login_url='PubSite.views.permission_denied')
-def create_bylaw(request):
-	pass
-
 @login_required
 def rules(request):
 	"""
 		View for all house rules
 	"""
+	form = RulesForm()
+
+	# If its a POST, we're trying to update the rules.
+	if request.method == 'POST':
+		# Check permissions before going forward
+		if request.user.has_perm('Archives.add_houserules'):
+			form = RulesForm(request.POST, request.FILES)
+
+			if form.is_valid():
+				rule = form.save(commit=False)
+				rule.date = datetime.now()
+				rule.save()
+		else:
+			redirect('PubSite.views.permission_denied')
 
 	rules = HouseRules.objects.all()
+	if rules:
+		latest = rules.latest('date')
+	else:
+		latest = None
+
 	context = RequestContext(request, {
+		'latest': latest,
 		'rules': rules,
+		'form': form
 		})
 
 	return render(request, "secure/archives_rules.html", context)
@@ -70,19 +109,29 @@ def delete_rules(request):
 		post.delete()
 	return redirect('Archives.views.rules')
 
-@permission_required('Archives.add_houserules', login_url='PubSite.views.permission_denied')
-def create_rules(request):
-	pass
-
 @login_required
 def minutes(request):
 	"""
 		View for all minutes
 	"""
+	form = MinutesForm()
+
+	# If its a POST, we're trying to add meeting minutes.
+	if request.method == 'POST':
+		# Check for permissions first.
+		if request.user.has_perm('Archives.add_meetingminutes'):
+			form = MinutesForm(request.POST, request.FILES)
+
+			if form.is_valid():
+				minute = form.save()
+				form = MinutesForm()
+		else:
+			redirect('PubSite.views.permission_denied')
 
 	minutes = MeetingMinutes.objects.all()
 	context = RequestContext(request, {
 		'minutes': minutes,
+		'form': form,
 		})
 
 	return render(request, "secure/archives_minutes.html", context)
@@ -100,19 +149,32 @@ def delete_minutes(request):
 		post.delete()
 	return redirect('Archives.views.minutes')
 
-@permission_required('Archives.add_meetingminutes', login_url='PubSite.views.permission_denied')
-def create_minutes(request):
-	pass
-
 @login_required
 def guides(request):
 	"""
 		View for all guides
 	"""
 
+	form = GuideForm()
+
+	# If its a POST we're trying to create a guide.
+	if request.method == 'POST':
+		# Check if user has permission to do so first.
+		if request.user.has_perm('Archives.add_guide'):
+			form = GuideForm(request.POST, request.FILES)
+
+			if form.is_valid():
+				guide = form.save(commit=False)
+				guide.path = slugify(guide.name)
+				guide.save()
+				form = GuideForm()
+		else:
+			redirect('PubSite.views.permission_denied')
+
 	guides = Guide.objects.all()
 	context = RequestContext(request, {
 		'guides': guides,
+		'form': form,
 		})
 
 	return render(request, "secure/archives_guides.html", context)
@@ -129,7 +191,3 @@ def delete_guide(request):
 		post = Guide.objects.get(pk=guide_id)
 		post.delete()
 	return redirect('Archives.views.guides')
-
-@permission_required('Archives.add_guide', login_url='PubSite.views.permission_denied')
-def create_guide(request):
-	pass

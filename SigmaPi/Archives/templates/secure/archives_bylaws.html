@@ -4,12 +4,60 @@
 {% block content %}
 	<h1 class="ui header">Bylaws
 		{% if perms.Archives.add_bylaws %}
-		<a class="ui teal button" href="{% url 'Archives.views.create_bylaw' %}">Add Bylaws</a>
+		<a class="ui teal button" id="add_bylaws_button">Update Bylaws</a>
 		{% endif %}
 	</h1>  
+	{% if perms.Archives.add_bylaws %}
+	{% if form.errors %}
+	<div id="add_bylaws_form">
+	{% else %}
+	<div id="add_bylaws_form" hidden>
+	{% endif %}
+		<form enctype="multipart/form-data" method="post" action="{% url 'Archives.views.bylaws' %}" class="ui error form">
+			{% csrf_token %}
+			{% if form.errors %}
+			<div class="ui error message">
+				<div class="header">Errors!</div>
+				<p>{{ form.errors }}</p>
+			</div>
+			{% endif %}
+			<div class="field">
+				<label>Bylaws File*</label>
+				<div class="ui left labeled input">
+		  			{{form.filepath}}
+		  			<div class="ui corner label">
+						<i class="asterisk icon"></i>
+					</div>
+		  		</div>
+			</div>
+			<button type="submit" class="ui blue submit button">Submit</button>
+			<div id="add_bylaws_cancel" class="ui red button">Cancel</div>
+		</form>
+		<div class="ui horizontal divider"></div>
+		<br/>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#add_bylaws_button').click(function() {
+				$('#add_bylaws_form').slideToggle(450);
+			});
+			$('#add_bylaws_cancel').click(function() {
+				$('#add_bylaws_form').slideToggle(450);
+			});
+		} );
+	</script>
+	{% endif %}
 
+	{% if latest %}
+	<div class="ui vertical segment">
+		The most recent version of the bylaws may be viewed <a href="{{ latest.filepath.url }}">here.</a>
+		<br/>
+		<br/>
+	</div>
+	{% endif %}
 	{% if bylaws %}
-
+	<div class="ui basic vertical segment">
+		An archive of past bylaws may be viewed below.<br/><br/>
 		<table id="bylaws_table" class="ui basic table segment">
 			<thead>
 				<tr>
@@ -50,7 +98,11 @@
 				$('#bylaws_table').dataTable();
 			} );
 		</script>
+	</div>
 	{% else %}
-	No bylaws found. Check back later.
+	<div class="ui vertical segment">
+		No bylaws found. Check back later.
+		<br/><br/>
+	</div>
 	{% endif %}
 {% endblock %}
