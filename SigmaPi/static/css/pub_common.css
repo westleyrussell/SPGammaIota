@@ -9,13 +9,13 @@ html, body {
 
 #content {
   overflow:auto;
-  padding-bottom: 70px;
+  padding-bottom: 50px;
   }  /* must be same height as the footer */
 
 #footer {
   position: relative;
-  margin-top: -70px; /* negative value of footer height */
-  height: 70px;
+  margin-top: -50px; /* negative value of footer height */
+  height: 50px;
   border-top: 1px rgba(230,230,230,.8);
   background-color: rgba(9,9,9,.3);
   clear:both;
@@ -49,10 +49,10 @@ body {
 }
 
 #fb-link {
-  margin-top: 20;
+  margin-top: 10px;
   margin-left: 50px;
   position: absolute;
-  height: 50px;
+  height: 40px;
 }
 
 div.caption p {
