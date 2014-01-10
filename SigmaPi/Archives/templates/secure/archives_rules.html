@@ -27,7 +27,11 @@
 					</td>
 					{% if perms.Archives.delete_houserules %}
 					<td>
-						<a href="{% url 'Archives.views.delete_rules' rule.pk %}">Delete</a>
+						<form method="post" action="{% url 'Archives.views.delete_rules' %}">
+							{% csrf_token %}
+							<a href="#" onclick="$(this).closest('form').submit()">Delete</a>
+							<input type="hidden" name="post_id" value="{{ rule.pk }}"/>
+						</form>
 					</td>
 					{% endif %}
 				</tr>

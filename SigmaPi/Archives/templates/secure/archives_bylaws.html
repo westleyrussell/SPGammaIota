@@ -27,7 +27,11 @@
 					</td>
 					{% if perms.Archives.delete_bylaws %}
 					<td>
-						<a href="{% url 'Archives.views.delete_bylaw' bylaw.pk %}">Delete</a>
+						<form method="post" action="{% url 'Archives.views.delete_bylaw' %}">
+							{% csrf_token %}
+							<a href="#" onclick="$(this).closest('form').submit()">Delete</a>
+							<input type="hidden" name="post_id" value="{{ bylaw.pk }}"/>
+						</form>
 					</td>
 					{% endif %}
 				</tr>
