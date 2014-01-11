@@ -18,7 +18,7 @@
 	{% if form.errors %}
 	<div class="ui segment" id="add_minutes_form">
 	{% else %}
-	<div class="ui segment" id="add_minutes_form" hidden>
+	<div class="ui segment hidden" id="add_minutes_form">
 	{% endif %}
 		<form enctype="multipart/form-data" method="post" action="{% url 'Archives.views.minutes' %}" class="ui error form">
 			{% csrf_token %}

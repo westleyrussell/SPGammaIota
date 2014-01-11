@@ -97,7 +97,6 @@ def add_comment(request, link):
 		return redirect('PubSite.views.permission_denied')
 
 @permission_required('Links.add_like', login_url='PubSite.views.permission_denied')
-@csrf_exempt
 def change_like(request, link):
 	"""
 		Adds a like to a given link

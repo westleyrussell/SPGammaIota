@@ -11,7 +11,7 @@
 	</h1>
 
 	{% if perms.Links.add_link %}
-	<div id="add_link_form" class="ui segment" hidden>
+	<div id="add_link_form" class="ui segment hidden">
 		<form enctype="multipart/form-data" method="post" action="{% url 'Links.views.add_link' %}" class="ui form">
 			{% csrf_token %}
 			<div class="field">
@@ -41,7 +41,7 @@
 		<div class="ui list" id="links-list">
 		{% for link in links %}
 			<div id="link" class="item">
-				<i class="square url icon"></i>
+				<a href="{% url 'Links.views.visit_link' link.pk %}"><i class="square url icon"></i></a>
 				<div class="content">
 					<a class="header" href="{% url 'Links.views.visit_link' link.pk %}">{{link.title}}</a>
 					( {{ link.url }} )
@@ -56,7 +56,7 @@
 					</div>
 				</div>
 
-				<div id="{{link.pk}}" class="ui comments" hidden>
+				<div id="{{link.pk}}" class="ui comments hidden">
 					{% for comment in link.comment_set.all %}
 					<div class="comment">
 						<div class="content">
@@ -72,15 +72,14 @@
 						</div>
 					</div>
 					{% endfor %}
-					<form method="post" action="{% url 'Links.views.add_comment' link.pk %}" id="post-comment" class="ui reply form">
-						{% csrf_token %}
-         				<div class="field">
-         					{{commentform.comment}}
-         				</div>
-          				<button class="ui fluid blue labeled submit icon button">
-           					<i class="icon edit"></i> Post Comment
-        				</button>
-        			</form>
+					<div id="post-comment" class="ui form">
+						<div class="field">
+							<textarea cols="30" id="{{link.pk}}" class="comment-text" rows="10"></textarea>
+						</div>
+						<button class="ui fluid blue labeled submit icon button comment-button" id="{{link.pk}}">
+							<i class="icon edit"></i> Post Comment
+	        			</button>
+	        		</div>
 				</div>
 			</div>
 		{% endfor %}

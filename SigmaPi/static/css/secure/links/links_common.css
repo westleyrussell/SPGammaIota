@@ -17,6 +17,10 @@ form {
 	margin: 0;
 }
 
+.hidden {
+	display:none;
+}
+
 #details {
 	margin:2px;
 	font-size: 0.75rem;
@@ -44,6 +48,7 @@ form {
 }
 
 #post-comment {
+	margin: 15px 0px;
 	width: 40%;
 }
 
