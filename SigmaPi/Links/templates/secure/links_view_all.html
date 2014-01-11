@@ -1,1 +1,72 @@
 {% extends "secure/links_base.html" %}
+
+{% block title %}Sigma Pi Secure - Links {% endblock %}
+
+{% block content %}
+	{% if perms.Links.add_link %}
+	<div id="add_link_form" class="ui segment" hidden>
+		<form enctype="multipart/form-data" method="post" action="{% url 'Links.views.add_link' %}" class="ui form">
+			{% csrf_token %}
+			<div class="field">
+				<label>Title*</label>
+				<div class="ui left labeled input">
+		  			{{linkform.title}}
+		  			<div class="ui corner label">
+						<i class="asterisk icon"></i>
+					</div>
+		  		</div>
+			</div>
+			<div class="field">
+				<label>URL*</label>
+				<div class="ui left labeled input">
+		  			{{linkform.url}}
+		  			<div class="ui corner label">
+						<i class="asterisk icon"></i>
+					</div>
+		  		</div>
+			</div>
+			<button type="submit" class="ui blue submit button">Post Link</button>
+			<div id="add_link_cancel" class="ui red button">Cancel</div>
+		</form>
+		</div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#add_link_button').click(function() {
+				$('#add_link_form').slideToggle(450);
+			});
+			$('#add_link_cancel').click(function() {
+				$('#add_link_form').slideToggle(450);
+			});
+		} );
+	</script>
+	{% endif %}
+	<h1 class="ui header">Links</h1>
+
+
+	{% if links %}
+		<div class="ui list" id="links-list">
+		{% for link in links %}
+			<div id="link" class="item">
+				<i class="square url icon"></i>
+				<div class="content">
+					<a class="header" href="{% url 'Links.views.visit_link' link.pk %}">{{link.title}}</a>
+					( {{ link.url }} )
+					<div id="details">
+						<div id="metadata">
+						{{ link.commentCount }} Comments | {{ link.piValue }} Points
+						| Posted {{ link.date }} by {{ link.poster.first_name }} {{ link.poster.last_name }}
+						</div>
+						<div id="actions">
+							<a>Comment</a>
+							<a>Like</a>
+							<a>Dislike</a>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		{% endfor %}
+		</div>
+	{% endif %}
+
+{% endblock %}

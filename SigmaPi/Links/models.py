@@ -44,14 +44,24 @@ class Comment(models.Model):
 	link = models.ForeignKey(Link)
 	comment = models.TextField()
 
+class CommentForm(ModelForm):
+	"""
+		Form for adding a comment
+	"""
+	comment = forms.CharField(widget=forms.Textarea)
+
+	class Meta:
+		model = Comment
+		exclude = ['commentor', 'date', 'link']
+
 class LinkForm(ModelForm):
 	"""
 		Form for adding a link
 	"""
 
 	title = forms.CharField(max_length = 50)
-	url = forms.CharField(max_length=200)
+	url = forms.URLField(max_length=200)
 
 	class Meta:
 		model = Link
-		exclude = ['poster', 'date', 'title', 'url', 'times_accessed', 'last_accessed', 'promoted']
+		exclude = ['poster', 'date', 'timesAccessed', 'lastAccessed', 'piValue', 'commentCount', 'promoted']

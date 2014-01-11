@@ -2,6 +2,14 @@ html, body {
   height: 100%;
 }
 
+a {
+  color: #009FDA;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #0F80F8;
+}
 
 #wrapper {
   min-height: 100%;
