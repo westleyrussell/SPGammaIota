@@ -30,15 +30,37 @@
 		<i class="lock icon"></i> Secure
 	</div>
 
-	{% if perms.UserInfo.manage_users %}
-		{% if '/secure/users' in request.path %}
-		<a class="item active" id="users" href="{{ '/secure/users' }}">
-		{% else %}
-		<a class="item" id="users" href="{{ '/secure/users' }}">
-		{% endif %}
-			<i class="user icon"></i>Users
-		</a>
+	{% if '/secure/archives' in request.path %}
+	<a class="item active" id="archives" href="{{ '/secure/archives' }}">
+	{% else %}
+	<a class="item" id="archives" href="{{ '/secure/archives' }}">
 	{% endif %}
+		<i class="archive icon"></i>Archives
+	</a>
+
+	{% if '/secure/library' in request.path %}
+	<a class="item active" id="library" href="{{ '/secure/library' }}">
+	{% else %}
+	<a class="item" id="library" href="{{ '/secure/library' }}">
+	{% endif %}
+		<i class="book icon"></i>Library
+	</a>
+
+	{% if '/secure/links' in request.path %}
+	<a class="item active" id="links" href="{{ '/secure/links' }}">
+	{% else %}
+	<a class="item" id="links" href="{{ '/secure/links' }}">
+	{% endif %}
+		<i class="cloud icon"></i>Links
+	</a>
+
+	{% if '/secure/parties' in request.path %}
+	<a class="item active" id="party_list" href="{{ '/secure/parties' }}">
+	{% else %}
+	<a class="item" id="party_list" href="{{ '/secure/parties' }}">
+	{% endif %}
+		<i class="male icon"></i>Parties
+	</a>
 
 	{% if perms.Blog.change_blogpost %}
 		{% if '/secure/blog' in request.path %}
@@ -50,29 +72,15 @@
 		</a>
 	{% endif %}
 
-	{% if '/secure/parties' in request.path %}
-	<a class="item active" id="party_list" href="{{ '/secure/parties' }}">
-	{% else %}
-	<a class="item" id="party_list" href="{{ '/secure/parties' }}">
+	{% if perms.UserInfo.manage_users %}
+		{% if '/secure/users' in request.path %}
+		<a class="item active" id="users" href="{{ '/secure/users' }}">
+		{% else %}
+		<a class="item" id="users" href="{{ '/secure/users' }}">
+		{% endif %}
+			<i class="user icon"></i>Users
+		</a>
 	{% endif %}
-		<i class="male icon"></i>Party List
-	</a>
-
-	{% if '/secure/library' in request.path %}
-	<a class="item active" id="library" href="{{ '/secure/library' }}">
-	{% else %}
-	<a class="item" id="library" href="{{ '/secure/library' }}">
-	{% endif %}
-		<i class="book icon"></i>Library
-	</a>
-
-	{% if '/secure/archives' in request.path %}
-	<a class="item active" id="archives" href="{{ '/secure/archives' }}">
-	{% else %}
-	<a class="item" id="archives" href="{{ '/secure/archives' }}">
-	{% endif %}
-		<i class="archive icon"></i>Archives
-	</a>
 
 	<div class="right menu">
 		<div id="profile_dropdown" class="ui item dropdown">

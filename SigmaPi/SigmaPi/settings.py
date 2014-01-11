@@ -143,6 +143,7 @@ INSTALLED_APPS = (
     'Archives',
     'PartyList',
     'Secure',
+    'Links',
     'tinymce'
 )
 

@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     url(r'^blog/', include('Blog.secure_urls')),
     url(r'^users/', include('UserInfo.secure_urls')),
     url(r'^library/', include('Library.secure_urls')),
+    url(r'^links/', include('Links.urls')),
 )
 
 

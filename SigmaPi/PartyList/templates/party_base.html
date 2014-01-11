@@ -13,7 +13,7 @@
 {% block module_nav %}
 	<div id="party-nav" class="ui inverted menu">
 		<div class="header item">
-			<i class="users icon"></i>Party List
+			<i class="users icon"></i>Parties
 		</div>
 		{% if perms.PartyList.manage_parties %}
 		<a class="item" href="{% url 'PartyList.views.manage_parties' %}">

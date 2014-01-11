@@ -3,7 +3,6 @@ TODO List
 TODO:
 
 Alumni Calendar
-Brotherhood Archives
 Party list
 Pi Points
 Rush Tracker
@@ -16,8 +15,3 @@ Scholarship Archives
 Sigma Pi Ebay
 Committee Dashboard
 
-
-Done:
-
-Blogs
-Brother/Alumni Directory
