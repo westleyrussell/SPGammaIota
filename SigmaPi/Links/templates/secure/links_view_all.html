@@ -3,6 +3,13 @@
 {% block title %}Sigma Pi Secure - Links {% endblock %}
 
 {% block content %}
+	<h1 class="ui header">
+		Links
+		{% if perms.Links.add_link %}
+		<a class="ui teal button" id="add_link_button">Post Link</a>
+		{% endif %}
+	</h1>
+
 	{% if perms.Links.add_link %}
 	<div id="add_link_form" class="ui segment" hidden>
 		<form enctype="multipart/form-data" method="post" action="{% url 'Links.views.add_link' %}" class="ui form">
@@ -29,20 +36,7 @@
 			<div id="add_link_cancel" class="ui red button">Cancel</div>
 		</form>
 		</div>
-	<script type="text/javascript">
-		$(document).ready(function() {
-			$('#add_link_button').click(function() {
-				$('#add_link_form').slideToggle(450);
-			});
-			$('#add_link_cancel').click(function() {
-				$('#add_link_form').slideToggle(450);
-			});
-		} );
-	</script>
 	{% endif %}
-	<h1 class="ui header">Links</h1>
-
-
 	{% if links %}
 		<div class="ui list" id="links-list">
 		{% for link in links %}
@@ -53,20 +47,16 @@
 					( {{ link.url }} )
 					<div id="details">
 						<div id="metadata">
-						{{ link.commentCount }} Comments | {{ link.piValue }} Points
-						| Posted {{ link.date }} by {{ link.poster.first_name }} {{ link.poster.last_name }}
+						{{ link.commentCount }} Comments | <span class="like-counts" id="{{link.pk}}">{{ link.likeCount }}</span> Likes | Posted {{ link.date }} by {{ link.poster.first_name }} {{ link.poster.last_name }}
 						</div>
 						<div id="actions">
-							<a>Comment</a>
-							<a>Like</a>
-							<a>Dislike</a>
+							<a class="view_comments" id="{{link.pk}}">View Comments</a> |
+							<a class="like_button" id="{{link.pk}}">{% if link.pk in links_liked %}Dislike{% else %}Like{% endif %}</a>
 						</div>
 					</div>
 				</div>
-
 			</div>
 		{% endfor %}
 		</div>
 	{% endif %}
-
 {% endblock %}

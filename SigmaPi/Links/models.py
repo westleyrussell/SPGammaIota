@@ -14,7 +14,7 @@ class Link(models.Model):
 	url = models.URLField()
 	timesAccessed = models.PositiveIntegerField(default=0)
 	lastAccessed = models.DateField()
-	piValue = models.IntegerField(default=0)
+	likeCount = models.IntegerField(default=0)
 	commentCount = models.PositiveIntegerField(default=0)
 	promoted = models.BooleanField(default=False)
 
@@ -25,14 +25,13 @@ class Link(models.Model):
 		verbose_name = "Link"
 		verbose_name_plural = "Links"
 
-class Opinion(models.Model):
+class Like(models.Model):
 	"""
-		Model for a single like/dislike of a link
+		Model for a single like of a link
 	"""
 
-	opinionator = models.ForeignKey(User)
+	liker = models.ForeignKey(User)
 	link = models.ForeignKey(Link)
-	positiveOpinion = models.BooleanField(default=False)
 
 class Comment(models.Model):
 	"""
@@ -64,4 +63,4 @@ class LinkForm(ModelForm):
 
 	class Meta:
 		model = Link
-		exclude = ['poster', 'date', 'timesAccessed', 'lastAccessed', 'piValue', 'commentCount', 'promoted']
+		exclude = ['poster', 'date', 'timesAccessed', 'lastAccessed', 'likeCount', 'commentCount', 'promoted']

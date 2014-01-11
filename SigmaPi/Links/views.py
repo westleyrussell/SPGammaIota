@@ -4,8 +4,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import permission_required
 from datetime import datetime
 from django.utils.html import strip_tags
-
-from Links.models import Link, Opinion, Comment, LinkForm, CommentForm
+from django.views.decorators.csrf import csrf_exempt
+from django.utils import simplejson
+from django.http import HttpResponse
+from Links.models import Link, Like, Comment, LinkForm, CommentForm
 
 @login_required
 def view_all(request):
@@ -16,11 +18,13 @@ def view_all(request):
 	commentform = CommentForm()
 
 	links = Link.objects.all()
+	liked_links = Like.objects.filter(liker=request.user).values_list('link', flat=True)
 
 	context = RequestContext(request, {
 		'linkform':linkform,
 		'commentform':commentform,
 		'links': links,
+		'links_liked': liked_links,
 		})
 
 	return render(request, "secure/links_view_all.html", context)
@@ -55,7 +59,7 @@ def add_link(request):
 			link.date = datetime.now()
 			link.timesAccessed = 0
 			link.lastAccessed = datetime.now()
-			link.piValue = 0
+			link.likeCount = 0
 			link.commentCount = 0
 			link.promoted = False
 			link.save()
@@ -92,51 +96,38 @@ def add_comment(request, link):
 	else:
 		return redirect('PubSite.views.permission_denied')
 
-@permission_required('Links.add_opinion', login_url='PubSite.views.permission_denied')
-def change_opinion(request, link):
+@permission_required('Links.add_like', login_url='PubSite.views.permission_denied')
+@csrf_exempt
+def change_like(request, link):
 	"""
-		Adds an PiOpinion to a given link
+		Adds a like to a given link
 	"""
 	if request.method == 'POST':
 
 		try:
 			desired_link = Link.objects.get(pk=link)
-			op_id = strip_tags(request.POST['opin_id'])
 		except Exception, e:
 			return redirect('PubSite.views.permission_denied')
 
-		if op_id == 'P':
-			positive = True
-			pival = 1
-		else:
-			positive = False
-			pival = -1
-
-		# Check if user has opinionated on this before.
+		# Check if user has liked on this before.
 		try:
-			priorOpinion = Opinion.objects.get(link=desired_link, opinionator=request.user)
+			priorLike = Like.objects.get(link=desired_link, liker=request.user)
 
-			# If we pressed the same button as before, just remove the opinion completely.
-			if priorOpinion.positiveOpinion == positive:
-				desired_link.piValue = desired_link.piValue + pival
-				priorOpinion.delete()
-			else:
-				# if we pressed the opposite button, add 2 * its value to negate the old opinion and add a new one.
-				desired_link.piValue = desired_link.piValue + (2 * pival)
-				priorOpinion.positiveOpinion = positive
-				priorOpinion.save()
-				desired_link.save()
-		except Exception, e:
-			# if an opinion doesnt exist, just create one.
-			opinion = Opinion()
-			opinion.opinionator = request.user
-			opinion.link = desired_link
-			opinion.positiveOpinion = positive
-			opinion.save()
-			desired_link.piValue = desired_link.piValue + pival
+			desired_link.likeCount = desired_link.likeCount - 1
+			priorLike.delete()
 			desired_link.save()
+		except Exception, e:
+			# if a like doesnt exist, just create one.
+			like = Like()
+			like.liker = request.user
+			like.link = desired_link
+			like.save()
+			desired_link.likeCount = desired_link.likeCount + 1
+			desired_link.save()
+		response = {}
+		response['likes'] = desired_link.likeCount
+		return HttpResponse(simplejson.dumps(response), content_type="application/json")
 
-		return redirect('Links.views.view_all')
 	else:
 		return redirect('PubSite.views.permission_denied')
 

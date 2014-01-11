@@ -13,9 +13,6 @@
 		<div class="header item">
 			<i class="cloud icon"></i>Links
 		</div>
-		<a class="active item" href="{% url 'Links.views.view_all' %}">View All</a>
-		{% if perms.Links.add_link %}
-		<a class="item" id="add_link_button">Post Link</a>
-		{% endif %}
+		<a class="active item" href="{% url 'Links.views.view_all' %}">All Links</a>
 	</div>
 {% endblock %}

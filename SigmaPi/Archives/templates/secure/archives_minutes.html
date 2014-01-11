@@ -16,9 +16,9 @@
 
 	{% if perms.Archives.add_meetingminutes %}
 	{% if form.errors %}
-	<div id="add_minutes_form">
+	<div class="ui segment" id="add_minutes_form">
 	{% else %}
-	<div id="add_minutes_form" hidden>
+	<div class="ui segment" id="add_minutes_form" hidden>
 	{% endif %}
 		<form enctype="multipart/form-data" method="post" action="{% url 'Archives.views.minutes' %}" class="ui error form">
 			{% csrf_token %}
@@ -49,8 +49,6 @@
 			<button type="submit" class="ui blue submit button">Submit</button>
 			<div id="add_minutes_cancel" class="ui red button">Cancel</div>
 		</form>
-		<div class="ui horizontal divider"></div>
-		<br/>
 	</div>
 	<script type="text/javascript">
 		$(document).ready(function() {

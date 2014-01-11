@@ -29,6 +29,14 @@ form {
 #actions {
 }
 
+#like_button {
+	display:inline;
+}
+
+#view_comments {
+	display:inline;
+}
+
 #links-list {
 	margin: auto;
 	width: 80%;	
