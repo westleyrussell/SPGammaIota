@@ -40,7 +40,7 @@
 		</a>
 	{% endif %}
 
-	{% if perms.Blog.administrate_posts %}
+	{% if perms.Blog.change_blogpost %}
 		{% if '/secure/blog' in request.path %}
 		<a class="item active" id="blog" href="{{ '/secure/blog' }}">
 		{% else %}
