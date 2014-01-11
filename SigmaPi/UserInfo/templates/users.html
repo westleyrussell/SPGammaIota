@@ -24,11 +24,11 @@
 
 	<div class="center-body large-print">
 		<div id="exec"></div>
-		<h1 class="ui inverted purple block header">The Executive Council</h1>
+		<h2 class="ui inverted purple block header">The Executive Council</h1>
 				<!-- Start EC -->
 				{% if sage %}
 				<!--Sage Here-->
-				<h3 class="ui header">Sage</h3>
+				<h4 class="ui header">Sage</h3>
 				<div class="ui basic segment">
 					<img class="ui rounded med left floated image" src="/content/{{ sage.userinfo.picture }}">
 					<a href="{% url 'UserInfo.views.single_user' sage.username %}">{{ sage.first_name }} {{ sage.last_name }}</a><br/><br/>
@@ -45,7 +45,7 @@
 				{% endif %}
 				{% if second %}
 				<!--Second starts-->
-				<h3 class="ui header">2nd Counselor</h3>
+				<h4 class="ui header">2nd Counselor</h3>
 				<div class="ui basic segment">
 					<img class="ui rounded med left floated image" src="/content/{{ second.userinfo.picture }}">
 					<a href="{% url 'UserInfo.views.single_user' second.username %}">{{ second.first_name }} {{ second.last_name }}</a><br/><br/>
@@ -62,7 +62,7 @@
 				{% endif %}
 				{% if third %}
 				<!-- Start 3rd -->
-				<h3 class="ui header">3rd Counselor</h3>
+				<h4 class="ui header">3rd Counselor</h3>
 				<div class="ui basic segment">
 					<img class="ui rounded med left floated image" src="/content/{{ third.userinfo.picture }}">
 					<a href="{% url 'UserInfo.views.single_user' third.username %}">{{ third.first_name }} {{ third.last_name }}</a><br/><br/>
@@ -79,7 +79,7 @@
 				{% endif %}
 				{% if fourth %}
 				<!-- Start 4th -->
-				<h3 class="ui header">4th Counselor</h3>
+				<h4 class="ui header">4th Counselor</h3>
 				<div class="ui basic segment">
 					<img class="ui rounded med left floated image" src="/content/{{ fourth.userinfo.picture }}">
 					<a href="{% url 'UserInfo.views.single_user' fourth.username %}">{{ fourth.first_name }} {{ fourth.last_name }}</a><br/><br/>
@@ -96,7 +96,7 @@
 				{% endif %}
 				{% if first %}
 				<!-- Start 1st -->
-				<h3 class="ui header">1st Counselor</h3>
+				<h4 class="ui header">1st Counselor</h3>
 				<div class="ui basic segment">
 					<img class="ui rounded med left floated image" src="/content/{{ first.userinfo.picture }}">
 					<a href="{% url 'UserInfo.views.single_user' first.username %}">{{ first.first_name }} {{ first.last_name }}</a><br/><br/>
@@ -113,7 +113,7 @@
 				{% endif %}
 				{% if herald %}
 				<!-- Start Herald -->
-				<h3 class="ui header">Herald</h3>
+				<h4 class="ui header">Herald</h3>
 				<div class="ui basic segment">
 					<img class="ui rounded med left floated image" src="/content/{{ herald.userinfo.picture }}">
 					<a href="{% url 'UserInfo.views.single_user' herald.username %}">{{ herald.first_name }} {{ herald.last_name }}</a><br/><br/>
@@ -132,7 +132,7 @@
 
 				<!-- Start Seniors -->
 				<div id="senior"></div>	
-				<h1 class="ui inverted purple block header">Seniors</h1>
+				<h2 class="ui inverted purple block header">Seniors</h1>
 				{% for senior in seniors %}
 				<div class="ui basic segment">
 					<img class="ui rounded med left floated image" src="/content/{{ senior.userinfo.picture }}">
@@ -150,7 +150,7 @@
 				<!-- End Seniors -->
 				<!-- Start juniors-->
 				<div id="junior"></div>
-				<h1 class="ui inverted purple block header">Juniors</h1>
+				<h2 class="ui inverted purple block header">Juniors</h1>
 				{% for junior in juniors %}
 				<div class="ui basic segment">
 					<img class="ui rounded med left floated image" src="/content/{{ junior.userinfo.picture }}">
@@ -168,7 +168,7 @@
 				<!-- end juniors -->
 				<!-- start sophomores -->
 				<div id="sophomore"></div>
-				<h1 class="ui inverted purple block header">Sophomores</h1>
+				<h2 class="ui inverted purple block header">Sophomores</h1>
 				{% for sophomore in sophomores %}
 				<div class="ui basic segment">
 					<img class="ui rounded med left floated image" src="/content/{{ sophomore.userinfo.picture }}">
@@ -187,7 +187,7 @@
 				<!-- Start freshmen -->
 				{% if freshmen %}
 				<div id="freshman"></div>
-				<h1 class="ui inverted purple block header">Freshmen</h1>
+				<h2 class="ui inverted purple block header">Freshmen</h1>
 				{% for freshman in freshmen %}
 				<div class="ui basic segment">
 					<img class="ui rounded med left floated image" src="/content/{{ freshman.userinfo.picture }}">

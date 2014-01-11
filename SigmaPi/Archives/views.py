@@ -128,7 +128,11 @@ def minutes(request):
 		else:
 			redirect('PubSite.views.permission_denied')
 
-	minutes = MeetingMinutes.objects.all()
+
+	# Only get the minutes since the user was initiated.
+	user_initiated = request.user.userinfo.dateInitiated
+
+	minutes = MeetingMinutes.objects.filter(date__gt=user_initiated)
 	context = RequestContext(request, {
 		'minutes': minutes,
 		'form': form,
