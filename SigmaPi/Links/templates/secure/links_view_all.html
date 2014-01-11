@@ -55,6 +55,33 @@
 						</div>
 					</div>
 				</div>
+
+				<div id="{{link.pk}}" class="ui comments" hidden>
+					{% for comment in link.comment_set.all %}
+					<div class="comment">
+						<div class="content">
+							<span class="author"><i class="large user icon"></i>
+								{{comment.commentor.first_name}} {{comment.commentor.last_name}}
+							</span>
+							<div class="metadata">
+								<div class="date">{{comment.date}}</div>
+							</div>
+							<div class="comment_text">
+								{{comment.comment}}
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+					<form method="post" action="{% url 'Links.views.add_comment' link.pk %}" id="post-comment" class="ui reply form">
+						{% csrf_token %}
+         				<div class="field">
+         					{{commentform.comment}}
+         				</div>
+          				<button class="ui fluid blue labeled submit icon button">
+           					<i class="icon edit"></i> Post Comment
+        				</button>
+        			</form>
+				</div>
 			</div>
 		{% endfor %}
 		</div>

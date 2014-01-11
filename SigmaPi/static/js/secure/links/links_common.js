@@ -7,7 +7,18 @@ $(document).ready(function() {
 	});
 
 	$('.view_comments').click(function() {
-		console.log(this);
+		var element = this;
+		var link_id = $(element).attr('id');
+		var comments = "#"+link_id + ".comments";
+		$(comments).first().slideToggle(450);
+		if($(element).first().text() == "View Comments")
+		{
+			$(element).first().text("Hide Comments");
+		}
+		else
+		{
+			$(element).first().text("View Comments");
+		}
 	});
 
 	$('.like_button').click(function() {

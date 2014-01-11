@@ -26,9 +26,6 @@ form {
 	display:inline;
 }
 
-#actions {
-}
-
 #like_button {
 	display:inline;
 }
@@ -46,6 +43,18 @@ form {
 	margin-bottom: 10px;
 }
 
-#comments {
-
+#post-comment {
+	width: 40%;
 }
+
+.comments {
+	margin: 10px 60px;
+	font-size: 0.9rem;
+}
+
+.comment_text {
+	margin: auto 40px;
+	padding: 5px;
+	border-left:thin double rgba(0, 0, 0, 0.4);
+}
+

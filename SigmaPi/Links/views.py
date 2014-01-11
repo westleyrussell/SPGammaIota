@@ -17,7 +17,7 @@ def view_all(request):
 	linkform = LinkForm()
 	commentform = CommentForm()
 
-	links = Link.objects.all()
+	links = Link.objects.all().prefetch_related('comment_set')
 	liked_links = Like.objects.filter(liker=request.user).values_list('link', flat=True)
 
 	context = RequestContext(request, {
