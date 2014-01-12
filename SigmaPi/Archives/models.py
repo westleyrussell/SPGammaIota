@@ -30,6 +30,9 @@ class Bylaws(models.Model):
 	class Meta:
 		verbose_name_plural = "Bylaws"
 		verbose_name = "Bylaws"
+		permissions = (
+            ("access_bylaws", "Can access bylaws."),
+        )
 
 class BylawsForm(ModelForm):
 	"""
@@ -60,6 +63,9 @@ class HouseRules(models.Model):
 	class Meta:
 		verbose_name_plural = "House Rules"
 		verbose_name = "House Rule"
+		permissions = (
+            ("access_houserules", "Can access house rules."),
+        )
 
 class RulesForm(ModelForm):
 	"""
@@ -92,6 +98,9 @@ class MeetingMinutes(models.Model):
 	class Meta:
 		verbose_name_plural = "Meeting Minutes"
 		verbose_name = "Meeting Minutes"
+		permissions = (
+            ("access_meetingminutes", "Can access meeting minutes."),
+        )
 
 class MinutesForm(ModelForm):
 	"""
@@ -123,6 +132,13 @@ class Guide(models.Model):
 
 	def __unicode__(self):
 		return self.name
+
+	class Meta:
+		verbose_name_plural = "Guides"
+		verbose_name = "Guide"
+		permissions = (
+            ("access_guide", "Can access guides."),
+        )
 
 class GuideForm(ModelForm):
 	"""

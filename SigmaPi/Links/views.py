@@ -14,7 +14,7 @@ from datetime import datetime
 
 from Links.models import Link, Like, Comment, LinkForm, CommentForm
 
-@login_required
+@permission_required('Links.access_link', login_url='PubSite.views.permission_denied')
 def view_all(request):
 	"""
 		Displays all of the links in the system.
@@ -36,7 +36,7 @@ def view_all(request):
 
 	return render(request, "secure/links_view_all.html", context)
 
-@login_required
+@permission_required('Links.access_link', login_url='PubSite.views.permission_denied')
 def visit_link(request, link):
 	"""
 		Records a visit to the given link and redirects the user to it.
@@ -51,7 +51,7 @@ def visit_link(request, link):
 	except Exception, e:
 		return redirect('PubSite.views.permission_denied')
 
-@login_required
+@permission_required('Links.access_link', login_url='PubSite.views.permission_denied')
 def check_for_updates(request):
 	"""
 		Retrieve all comments posted after a given time.

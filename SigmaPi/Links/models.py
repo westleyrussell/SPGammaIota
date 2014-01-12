@@ -27,6 +27,7 @@ class Link(models.Model):
 		verbose_name_plural = "Links"
 		permissions = (
             ("promote_link", "Can promote links."),
+            ("access_link", "Can access links."),
         )
 
 class Like(models.Model):

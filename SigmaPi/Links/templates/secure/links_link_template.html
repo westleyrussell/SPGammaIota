@@ -31,7 +31,9 @@
 			</div>
 			<!-- Actions on a link -->
 			<div id="actions">
-				<a class="view_comments" id="{{link.pk}}">View Comments</a> |
+				<a class="view_comments" id="{{link.pk}}">View Comments</a> 
+				{% if perms.Links.add_like %}
+				|
 				<a class="like_button" id="{{link.pk}}" name="{% if link.pk in links_liked %}y{%else%}n{%endif%}">
 					{% if link.pk in links_liked %}
 					Unlike
@@ -39,6 +41,7 @@
 					Like
 					{% endif %}
 				</a>
+				{% endif %}
 			</div>
 		</div>
 	</div>
@@ -49,6 +52,7 @@
 		{% include 'secure/links_comment_template.html' %}
 		{% endfor %}
 		</div>
+		{% if perms.Links.add_comment %}
 		<div id="post-comment" class="ui form">
 			<div class="field">
 				<textarea cols="30" id="{{link.pk}}" class="comment-text" rows="10"></textarea>
@@ -57,5 +61,6 @@
 				<i class="icon edit"></i> Post Comment
 			</button>
 		</div>
+		{% endif %}
 	</div>
 </div>

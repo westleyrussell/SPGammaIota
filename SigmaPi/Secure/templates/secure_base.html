@@ -31,6 +31,7 @@
 		<i class="lock icon"></i> Secure
 	</div>
 
+	{% if perms.Archives.access_guide %}
 	{% if '/secure/archives' in request.path %}
 	<a class="item active" id="archives" href="{{ '/secure/archives' }}">
 	{% else %}
@@ -38,6 +39,7 @@
 	{% endif %}
 		<i class="archive icon"></i>Archives
 	</a>
+	{% endif %}
 
 	{% if '/secure/library' in request.path %}
 	<a class="item active" id="library" href="{{ '/secure/library' }}">
@@ -47,6 +49,7 @@
 		<i class="book icon"></i>Library
 	</a>
 
+	{% if perms.Links.access_link %}
 	{% if '/secure/links' in request.path %}
 	<a class="item active" id="links" href="{{ '/secure/links' }}">
 	{% else %}
@@ -54,6 +57,7 @@
 	{% endif %}
 		<i class="cloud icon"></i>Links
 	</a>
+	{% endif %}
 
 	{% if '/secure/parties' in request.path %}
 	<a class="item active" id="party_list" href="{{ '/secure/parties' }}">

@@ -10,14 +10,14 @@ from datetime import datetime
 from Archives.models import Guide, GuideForm, MeetingMinutes, MinutesForm, HouseRules, RulesForm, Bylaws, BylawsForm
 
 
-@login_required
+@permission_required('Archives.access_guide', login_url='PubSite.views.permission_denied')
 def index(request):
 	"""
 		View for the index page of the archives
 	"""
-	return guides(request)#render(request, "secure/archives_index.html", None)
+	return guides(request)
 
-@login_required
+@permission_required('Archives.access_bylaws', login_url='PubSite.views.permission_denied')
 def bylaws(request):
 	"""
 		View for all bylaws.
@@ -62,7 +62,7 @@ def delete_bylaw(request):
 		post.delete()
 	return redirect('Archives.views.bylaws')
 
-@login_required
+@permission_required('Archives.access_houserules', login_url='PubSite.views.permission_denied')
 def rules(request):
 	"""
 		View for all house rules
@@ -109,7 +109,7 @@ def delete_rules(request):
 		post.delete()
 	return redirect('Archives.views.rules')
 
-@login_required
+@permission_required('Archives.access_meetingminutes', login_url='PubSite.views.permission_denied')
 def minutes(request):
 	"""
 		View for all minutes
@@ -153,7 +153,7 @@ def delete_minutes(request):
 		post.delete()
 	return redirect('Archives.views.minutes')
 
-@login_required
+@permission_required('Archives.access_guide', login_url='PubSite.views.permission_denied')
 def guides(request):
 	"""
 		View for all guides
