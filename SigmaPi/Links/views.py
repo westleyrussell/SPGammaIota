@@ -7,6 +7,10 @@ from django.utils.html import strip_tags
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import simplejson
 from django.http import HttpResponse
+from django.utils import dateformat
+from django.core import serializers
+
+
 from Links.models import Link, Like, Comment, LinkForm, CommentForm
 
 @login_required
@@ -17,7 +21,7 @@ def view_all(request):
 	linkform = LinkForm()
 	commentform = CommentForm()
 
-	links = Link.objects.all().prefetch_related('comment_set')
+	links = Link.objects.all()
 	liked_links = Like.objects.filter(liker=request.user).values_list('link', flat=True)
 
 	context = RequestContext(request, {
@@ -44,6 +48,39 @@ def visit_link(request, link):
 	except Exception, e:
 		return redirect('PubSite.views.permission_denied')
 
+@login_required
+def check_for_updates(request):
+	"""
+		Retrieve all comments posted after a given time.
+	"""
+
+	try:
+		last_time = datetime.fromtimestamp(float(strip_tags(request.GET['last'])))
+		comments = Comment.objects.filter(date__gt=last_time).exclude(commentor=request.user).order_by('date')
+		links = Link.objects.all()
+
+		response = {}
+		response['comments'] = []
+
+		for comment in comments:
+			serialized = {}
+			serialized['content'] = comment.comment
+			serialized['poster'] = comment.commentor.first_name + " " + comment.commentor.last_name
+			serialized['date'] = dateformat.format(comment.date, 'F j, Y, P')
+			serialized['pk'] = comment.link.pk
+			response['comments'].append(serialized)
+
+		response['links'] = []
+		for link in links:
+			link_serial = {}
+			link_serial['pk'] = link.pk
+			link_serial['commentCount'] = link.commentCount
+			link_serial['likeCount'] = link.likeCount
+			response['links'].append(link_serial)
+
+		return HttpResponse(simplejson.dumps(response), content_type="application/json")
+	except Exception, e:
+		raise e
 
 @permission_required('Links.add_link', login_url='PubSite.views.permission_denied')
 def add_link(request):
@@ -59,8 +96,6 @@ def add_link(request):
 			link.date = datetime.now()
 			link.timesAccessed = 0
 			link.lastAccessed = datetime.now()
-			link.likeCount = 0
-			link.commentCount = 0
 			link.promoted = False
 			link.save()
 
@@ -92,7 +127,12 @@ def add_comment(request, link):
 			desired_link.commentCount = desired_link.commentCount + 1
 			desired_link.save()
 
-		return redirect('Links.views.view_all')
+		response = {}
+		response['author'] = request.user.first_name + " " + request.user.last_name
+		response['date'] = dateformat.format(comment.date, 'F j, Y, P')
+		response['comment'] = comment.comment
+		response['commentCount'] = desired_link.commentCount
+		return HttpResponse(simplejson.dumps(response), content_type="application/json")
 	else:
 		return redirect('PubSite.views.permission_denied')
 
@@ -110,10 +150,9 @@ def change_like(request, link):
 
 		# Check if user has liked on this before.
 		try:
-			priorLike = Like.objects.get(link=desired_link, liker=request.user)
-
-			desired_link.likeCount = desired_link.likeCount - 1
+			priorLike = Like.objects.get(link=link, liker=request.user)
 			priorLike.delete()
+			desired_link.likeCount = desired_link.likeCount - 1
 			desired_link.save()
 		except Exception, e:
 			# if a like doesnt exist, just create one.
@@ -123,8 +162,9 @@ def change_like(request, link):
 			like.save()
 			desired_link.likeCount = desired_link.likeCount + 1
 			desired_link.save()
+
 		response = {}
-		response['likes'] = desired_link.likeCount
+		response['likes'] = desired_link.like_set.count()
 		return HttpResponse(simplejson.dumps(response), content_type="application/json")
 
 	else:

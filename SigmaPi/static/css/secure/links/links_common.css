@@ -60,6 +60,8 @@ form {
 .comment_text {
 	margin: auto 40px;
 	padding: 5px;
+	width:400px;
+	word-wrap:break-word;
 	border-left:thin double rgba(0, 0, 0, 0.4);
 }
 
