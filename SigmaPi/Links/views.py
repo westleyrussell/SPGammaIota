@@ -1,15 +1,16 @@
-from django.contrib.auth.decorators import login_required
+from django.core import serializers
+from django.http import HttpResponse
+
 from django.template import RequestContext
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import permission_required
-from datetime import datetime
-from django.utils.html import strip_tags
-from django.views.decorators.csrf import csrf_exempt
-from django.utils import simplejson
-from django.http import HttpResponse
-from django.utils import dateformat
-from django.core import serializers
 
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import permission_required, login_required
+
+from django.utils.html import strip_tags
+from django.utils import simplejson, dateformat
+
+from datetime import datetime
 
 from Links.models import Link, Like, Comment, LinkForm, CommentForm
 
@@ -21,13 +22,15 @@ def view_all(request):
 	linkform = LinkForm()
 	commentform = CommentForm()
 
-	links = Link.objects.all().order_by('promoted', 'timesAccessed')
+	general_links = Link.objects.filter(promoted=False).order_by('-lastCommented')
+	promoted_links = Link.objects.filter(promoted=True).order_by('date')
 	liked_links = Like.objects.filter(liker=request.user).values_list('link', flat=True)
 
 	context = RequestContext(request, {
 		'linkform':linkform,
 		'commentform':commentform,
-		'links': links,
+		'general_links': general_links,
+		'promoted_links': promoted_links,
 		'links_liked': liked_links,
 		})
 
@@ -95,9 +98,14 @@ def add_link(request):
 			link.poster = request.user
 			link.date = datetime.now()
 			link.timesAccessed = 0
-			link.lastAccessed = datetime.now()
-			link.promoted = False
+			link.lastCommented = datetime.now()
+			link.lastAccessed = link.lastCommented
+
+			if not request.user.has_perm('Links.promote_link'):
+				link.promoted = False
 			link.save()
+
+		print(form.errors)
 
 		return redirect('Links.views.view_all')
 	else:
@@ -125,6 +133,7 @@ def add_comment(request, link):
 			comment.link = desired_link
 			comment.save()
 			desired_link.commentCount = desired_link.commentCount + 1
+			desired_link.lastCommented = comment.date
 			desired_link.save()
 
 		response = {}

@@ -1,0 +1,61 @@
+<!-- Single link in the system -->
+<div id="link" class="item">
+	<!-- Can access by clicking the icon or the link title. -->
+	<a href="{% url 'Links.views.visit_link' link.pk %}"><i class="square url icon"></i></a>
+
+	<div class="content">
+		<!-- Title -->
+		<a class="header" href="{% url 'Links.views.visit_link' link.pk %}">{{link.title}}</a>
+		( {{ link.url }} )
+		<!-- Details -->
+		<div id="details">
+			<!-- Metadata for link -->
+			<div id="metadata">
+				<span class="comment-counts" id="{{link.pk}}">
+				{{ link.commentCount }}
+				</span> 
+				<span class="comment-word" id="{{link.pk}}">
+				Comment{{ link.commentCount|pluralize }} 
+				</span>
+				| 
+				<!-- Put in span so it can be easily changed in javascript. -->
+				<span class="like-counts" id="{{link.pk}}">
+					{{ link.likeCount }}
+				</span> 
+				<!-- Put in span so it can be easily changed in javascript -->
+				<span class="like-word" id="{{link.pk}}">
+				Like{{ link.likeCount|pluralize }} 
+				</span>
+				| 
+				Posted {{ link.date }} by {{ link.poster.first_name }} {{ link.poster.last_name }}
+			</div>
+			<!-- Actions on a link -->
+			<div id="actions">
+				<a class="view_comments" id="{{link.pk}}">View Comments</a> |
+				<a class="like_button" id="{{link.pk}}" name="{% if link.pk in links_liked %}y{%else%}n{%endif%}">
+					{% if link.pk in links_liked %}
+					Unlike
+					{% else %}
+					Like
+					{% endif %}
+				</a>
+			</div>
+		</div>
+	</div>
+	<!-- Comments for a link.  Initially hidden -->
+	<div id="{{link.pk}}" class="ui comments hidden">
+		<div id="{{link.pk}}" class="comments-list">
+		{% for comment in link.comment_set.all %}
+		{% include 'secure/links_comment_template.html' %}
+		{% endfor %}
+		</div>
+		<div id="post-comment" class="ui form">
+			<div class="field">
+				<textarea cols="30" id="{{link.pk}}" class="comment-text" rows="10"></textarea>
+			</div>
+			<button class="ui fluid blue labeled submit icon button comment-button" id="{{link.pk}}">
+				<i class="icon edit"></i> Post Comment
+			</button>
+		</div>
+	</div>
+</div>

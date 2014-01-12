@@ -9,11 +9,12 @@ class Link(models.Model):
 	"""
 
 	poster = models.ForeignKey(User)
-	date = models.DateField()
+	date = models.DateTimeField()
 	title = models.CharField(max_length=50)
 	url = models.URLField()
 	timesAccessed = models.PositiveIntegerField(default=0)
-	lastAccessed = models.DateField()
+	lastAccessed = models.DateTimeField()
+	lastCommented = models.DateTimeField()
 	likeCount = models.IntegerField(default=0)
 	commentCount = models.PositiveIntegerField(default=0)
 	promoted = models.BooleanField(default=False)
@@ -24,6 +25,9 @@ class Link(models.Model):
 	class Meta:
 		verbose_name = "Link"
 		verbose_name_plural = "Links"
+		permissions = (
+            ("promote_link", "Can promote links."),
+        )
 
 class Like(models.Model):
 	"""
@@ -60,7 +64,12 @@ class LinkForm(ModelForm):
 
 	title = forms.CharField(max_length = 50)
 	url = forms.URLField(max_length=200)
+	promoted = forms.BooleanField(required=False)
 
 	class Meta:
 		model = Link
-		exclude = ['poster', 'date', 'timesAccessed', 'lastAccessed', 'likeCount', 'commentCount', 'promoted']
+		exclude = ['poster', 'date', 'timesAccessed', 'lastAccessed', 'likeCount', 'commentCount', 'lastCommented']
+
+
+
+

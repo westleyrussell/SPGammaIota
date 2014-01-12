@@ -32,103 +32,48 @@
 					</div>
 		  		</div>
 			</div>
+			{% if perms.Links.promote_link %}
+			<div class="field">
+				<div class="ui toggle checkbox">
+					{{linkform.promoted}}
+					<label>Important Post</label>
+				</div>
+			</div>
+			{% endif %}
 			<button type="submit" class="ui blue submit button">Post Link</button>
 			<div id="add_link_cancel" class="ui red button">Cancel</div>
 		</form>
 		</div>
 	{% endif %}
-	{% if links %}
-		<!-- Hacky comments template to auto-populate comments -->
-		<div id="comments-template" class="comment hidden">
-			<div class="content">
-				<span class="author-wrapper"><i class="large user icon"></i>
-					<span class="author">
-					</span>
+	<!-- Hacky comments template to auto-populate comments -->
+	<div id="comments-template" class="comment hidden">
+		<div class="content">
+			<span class="author-wrapper"><i class="large user icon"></i>
+				<span class="author">
 				</span>
-				<div class="metadata">
-					<div class="date"></div>
-				</div>
-				<div class="comment_text">
-				</div>
+			</span>
+			<div class="metadata">
+				<div class="date"></div>
+			</div>
+			<div class="comment_text">
 			</div>
 		</div>
-		<div class="ui list" id="links-list">
-		{% for link in links %}
-			<!-- Single link in the system -->
-			<div id="link" class="item">
-				<!-- Can access by clicking the icon or the link title. -->
-				<a href="{% url 'Links.views.visit_link' link.pk %}"><i class="square url icon"></i></a>
+	</div>
 
-				<div class="content">
-					<!-- Title -->
-					<a class="header" href="{% url 'Links.views.visit_link' link.pk %}">{{link.title}}</a>
-					( {{ link.url }} )
-					<!-- Details -->
-					<div id="details">
-						<!-- Metadata for link -->
-						<div id="metadata">
-							<span class="comment-counts" id="{{link.pk}}">
-							{{ link.commentCount }}
-							</span> 
-							<span class="comment-word" id="{{link.pk}}">
-							Comment{{ link.commentCount|pluralize }} 
-							</span>
-							| 
-							<!-- Put in span so it can be easily changed in javascript. -->
-							<span class="like-counts" id="{{link.pk}}">
-								{{ link.likeCount }}
-							</span> 
-							<!-- Put in span so it can be easily changed in javascript -->
-							<span class="like-word" id="{{link.pk}}">
-							Like{{ link.likeCount|pluralize }} 
-							</span>
-							| 
-							Posted {{ link.date }} by {{ link.poster.first_name }} {{ link.poster.last_name }}
-						</div>
-						<!-- Actions on a link -->
-						<div id="actions">
-							<a class="view_comments" id="{{link.pk}}">View Comments</a> |
-							<a class="like_button" id="{{link.pk}}" name="{% if link.pk in links_liked %}y{%else%}n{%endif%}">
-								{% if link.pk in links_liked %}
-								Unlike
-								{% else %}
-								Like
-								{% endif %}
-							</a>
-						</div>
-					</div>
-				</div>
-				<!-- Comments for a link.  Initially hidden -->
-				<div id="{{link.pk}}" class="ui comments hidden">
-					<div id="{{link.pk}}" class="comments-list">
-					{% for comment in link.comment_set.all %}
-					<div class="comment">
-						<div class="content">
-							<span class="author-wrapper"><i class="large user icon"></i>
-							<span class="author">
-							{{comment.commentor.first_name}} {{comment.commentor.last_name}}
-							</span>
-							</span>
-							<div class="metadata">
-								<div class="date">{{comment.date}}</div>
-							</div>
-							<div class="comment_text">
-								{{comment.comment}}
-							</div>
-						</div>
-					</div>
-					{% endfor %}
-					</div>
-					<div id="post-comment" class="ui form">
-						<div class="field">
-							<textarea cols="30" id="{{link.pk}}" class="comment-text" rows="10"></textarea>
-						</div>
-						<button class="ui fluid blue labeled submit icon button comment-button" id="{{link.pk}}">
-							<i class="icon edit"></i> Post Comment
-	        			</button>
-	        		</div>
-				</div>
-			</div>
+	{% if promoted_links %}
+	Important Links
+		<div class="ui list" id="links-list">
+		{% for link in promoted_links %}
+		{% include 'secure/links_link_template.html' %}
+		{% endfor %}
+		</div>
+	{% endif %}
+
+	{% if general_links %}
+	General Links
+		<div class="ui list" id="links-list">
+		{% for link in general_links %}
+		{% include 'secure/links_link_template.html' %}
 		{% endfor %}
 		</div>
 	{% endif %}
