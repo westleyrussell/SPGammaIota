@@ -21,7 +21,7 @@ def view_all(request):
 	linkform = LinkForm()
 	commentform = CommentForm()
 
-	links = Link.objects.all()
+	links = Link.objects.all().order_by('promoted', 'timesAccessed')
 	liked_links = Like.objects.filter(liker=request.user).values_list('link', flat=True)
 
 	context = RequestContext(request, {
