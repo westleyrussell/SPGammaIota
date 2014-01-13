@@ -20,6 +20,12 @@
 	<form enctype="multipart/form-data" method="post" action="{% url 'Standards.views.add_bone' %}" class="ui error form">
 		{% csrf_token %}
 		<div class="field">
+			<h3 class="header">
+			Levy Bone
+			</h3>
+		</div>
+		
+		<div class="field">
 			<label>Recipient*</label>
 			<div class="ui left labeled input">
 				{{bone_form.bonee}}
@@ -54,6 +60,11 @@
 <div class="ui segment hidden" id="levy_probation_form">
 	<form enctype="multipart/form-data" method="post" action="{% url 'Standards.views.add_probation' %}" class="ui error form">
 		{% csrf_token %}
+		<div class="field">
+			<h3 class="header">
+			Levy Probation
+			</h3>
+		</div>
 		<div class="field">
 			<label>Recipient*</label>
 			<div class="ui left labeled input">
@@ -93,20 +104,12 @@
 			</thead>
 			<tbody>
 				{% for bone in all_bones %}
-				{% if bone.expirationDate < now %}
-				<tr class="error">
-				{% else %}
 				<tr>	
-				{% endif %}
 					<td>{{ bone.bonee.first_name }} {{ bone.bonee.last_name }}</td>
 					<td>{{ bone.boner.first_name }} {{ bone.boner.last_name }}</td>
 					<td>{{ bone.dateReceived }}</td>
 					<td>
-						{% if bone.expirationDate < now %}
-						EXPIRED 
-						{% else %}
 						{{ bone.expirationDate }}
-						{% endif %}
 					</td>
 					<td>{{ bone.reason }}</td>
 					<td>Edit</td>
@@ -164,9 +167,7 @@
 				<td>{{ probation.recipient.first_name }} {{ probation.recipient.last_name }}</td>
 				<td>{{ probation.giver.first_name }} {{ probation.giver.last_name }}</td>
 				<td>{{ probation.dateReceived }}</td>
-				<td>
-					{{ probation.expirationDate }}
-				</td>
+				<td>{{ probation.expirationDate }}</td>
 				<td>End</td>
 			</tr>
 			{% endfor %}
