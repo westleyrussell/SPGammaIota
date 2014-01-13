@@ -20,3 +20,14 @@
 form {
 	margin: 0;
 }
+
+#point-standings{
+	width: 600px;
+}
+
+#wrapper {
+}
+
+#request_points_form {
+	z-index:10;
+}

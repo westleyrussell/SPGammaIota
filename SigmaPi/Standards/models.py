@@ -2,6 +2,12 @@ from django.db import models
 from django.contrib.auth.models import User
 from django import forms
 from django.forms import ModelForm
+from django.forms import ModelChoiceField
+from datetime import datetime
+
+class CustomModelChoiceField(ModelChoiceField):
+    def label_from_instance(self, obj):
+        return obj.first_name + " " + obj.last_name
 
 class Bone(models.Model):
 	"""
@@ -118,7 +124,7 @@ class BoneGivingForm(ModelForm):
 	"""
 		Form for giving Bones
 	"""
-	bonee = forms.ModelChoiceField(queryset=User.objects.all().order_by('last_name').exclude(groups__name='Alumni'))
+	bonee = CustomModelChoiceField(queryset=User.objects.all().order_by('last_name').exclude(groups__name='Alumni'))
 	reason = forms.CharField(widget=forms.Textarea)
 	expirationDate = models.DateField()
 
@@ -126,4 +132,14 @@ class BoneGivingForm(ModelForm):
 		model = Bone
 		exclude = ['boner', 'dateReceived']
 
+class ProbationGivingForm(ModelForm):
+	"""
+		Form for giving probation
+	"""
+	recipient = CustomModelChoiceField(queryset=User.objects.all().order_by('last_name').exclude(groups__name='Alumni'))
+	expirationDate = models.DateField()
+
+	class Meta:
+		model = Probation
+		exclude = ['giver', 'dateReceived']
 

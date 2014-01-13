@@ -104,9 +104,7 @@ def add_link(request):
 			if not request.user.has_perm('Links.promote_link'):
 				link.promoted = False
 			link.save()
-
-		print(form.errors)
-
+			
 		return redirect('Links.views.view_all')
 	else:
 		return redirect('PubSite.views.permission_denied')
