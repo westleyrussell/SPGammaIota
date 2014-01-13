@@ -41,6 +41,14 @@
 	</a>
 	{% endif %}
 
+	{% if '/secure/standards' in request.path %}
+	<a class="item active" id="standards" href="{{ '/secure/standards' }}">
+	{% else %}
+	<a class="item" id="standards" href="{{'/secure/standards'}}">
+	{% endif %}
+		<i class="legal icon"></i>Standards
+	</a>
+
 	{% if '/secure/library' in request.path %}
 	<a class="item active" id="library" href="{{ '/secure/library' }}">
 	{% else %}

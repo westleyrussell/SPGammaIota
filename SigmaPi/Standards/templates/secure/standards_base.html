@@ -1,0 +1,69 @@
+{% extends "secure_base.html" %}
+
+{%block  local_includes %}
+	{% load staticfiles %}
+	<link rel='stylesheet' type='text/css' href='{% static "css/secure/standards/standards_common.css" %}' />
+	{% block standards_includes %} {% endblock %}
+{% endblock %}
+
+{% block module_nav %}
+	<div id="standards-nav" class="ui inverted menu">
+		<div class="header item">
+			<i class="legal icon"></i>Standards
+		</div>
+
+		{% if '/points' in request.path %}
+		<a class="item" href="{% url 'Standards.views.index' %}">
+			Overview
+		</a>
+
+		{% if perms.Standards.add_bone %}
+		<a class="item" href="{% url 'Standards.views.edit_bones' %}">
+			Manage Bones
+		</a>
+		{% endif %}
+
+		{% if perms.Standards.add_pipointsrecord %}
+		<a class="active item" href="{% url 'Standards.views.edit_points' %}">
+			Manage PiPoints
+		</a>
+		{% endif %}
+
+		{% elif '/bones' in request.path %}
+
+		<a class="item" href="{% url 'Standards.views.index' %}">
+			Overview
+		</a>
+
+		{% if perms.Standards.add_bone %}
+		<a class="active item" href="{% url 'Standards.views.edit_bones' %}">
+			Manage Bones
+		</a>
+		{% endif %}
+
+		{% if perms.Standards.add_pipointsrecord %}
+		<a class="item" href="{% url 'Standards.views.edit_points' %}">
+			Manage PiPoints
+		</a>
+		{% endif %}
+
+		{% else %}
+
+		<a class="active item" href="{% url 'Standards.views.index' %}">
+			Overview
+		</a>
+
+		{% if perms.Standards.add_bone %}
+		<a class="item" href="{% url 'Standards.views.edit_bones' %}">
+			Manage Bones
+		</a>
+		{% endif %}
+
+		{% if perms.Standards.add_pipointsrecord %}
+		<a class="item" href="{% url 'Standards.views.edit_points' %}">
+			Manage PiPoints
+		</a>
+		{% endif %}
+		{% endif %}
+	</div>
+{% endblock %}

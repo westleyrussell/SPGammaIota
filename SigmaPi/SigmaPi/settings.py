@@ -144,6 +144,7 @@ INSTALLED_APPS = (
     'PartyList',
     'Secure',
     'Links',
+    'Standards',
     'tinymce'
 )
 
