@@ -61,11 +61,21 @@
 						</tr>
 					</thead>
 					<tbody>
-						{% for bone in bones %}
+						{% for bone in current_bones %}
 						<tr>	
 							<td>{{ bone.dateReceived }}</td>
 							<td>
 								{{ bone.expirationDate }}
+							</td>
+							<td>{{ bone.reason }}</td>
+						</tr>
+						{% endfor %}
+
+						{% for bone in expired_bones %}
+						<tr class="error">	
+							<td>{{ bone.dateReceived }}</td>
+							<td>
+								EXPIRED
 							</td>
 							<td>{{ bone.reason }}</td>
 						</tr>

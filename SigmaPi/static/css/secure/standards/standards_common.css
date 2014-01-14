@@ -21,9 +21,6 @@ form {
 	margin: 0;
 }
 
-#wrapper {
-}
-
-#request_points_form {
-	z-index:10;
+#bone_edit_form form{
+	display:inline;
 }
