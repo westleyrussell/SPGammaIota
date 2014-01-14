@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import permission_required, login_required
 from datetime import datetime
 
 
-from Standards.models import Bone, PiPointsRecord, PiPointsRequestForm, Probation, BoneChangeRecord, ProbationGivingForm, BoneGivingForm
+from Standards.models import Bone, PiPointsRecord, PiPointsRequest, PiPointsRequestForm, Probation, BoneChangeRecord, ProbationGivingForm, BoneGivingForm
 
 @login_required
 def index(request):
@@ -243,8 +243,21 @@ def end_probation(request, probation):
 
 
 @permission_required('Standards.add_pipointsrecord', login_url='PubSite.views.permission_denied')
-def edit_points(request):
-	pass
+def manage_points(request):
+	"""
+		Provides a view for managing pi points
+	"""
+	
+	point_records = PiPointsRecord.objects.all().exclude(brother__groups__name='Alumni').order_by('-points')
+	point_requests = PiPointsRequest.objects.all()
+
+
+	context = RequestContext(request, {
+	'point_records': point_records,
+	'point_requests': point_requests,
+	})
+
+	return render(request, "secure/standards_points.html", context)
 
 @permission_required('Standards.add_pipointsrecord', login_url='PubSite.views.permission_denied')
 def add_points(request, brother):

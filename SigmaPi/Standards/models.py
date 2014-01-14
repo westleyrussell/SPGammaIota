@@ -99,7 +99,7 @@ class PiPointsRequest(models.Model):
 	"""
 	requester = models.ForeignKey(User)
 	reason = models.TextField()
-	witness = models.CharField(max_length=100)
+	witness = models.CharField(max_length=100, default="None")
 	
 	def __unicode__(self):
 		return self.requester
@@ -114,7 +114,7 @@ class PiPointsRequestForm(ModelForm):
 	"""
 
 	reason = forms.CharField(widget=forms.Textarea)
-	witness = forms.CharField(max_length=100)
+	witness = forms.CharField(max_length=100, required=False)
 
 	class Meta:
 		model = PiPointsRequest
