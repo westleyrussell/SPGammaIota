@@ -18,13 +18,13 @@
 		<div class="field">
 			<label>User</label>
 			<div class="ui left labeled input">
-				<span id="modify-points-form-user"></span>
+				<span id="modify-points-form-user" name="brother"></span>
 			</div>
 		</div>
 		<div class="field">
 			<label>Pi Points*</label>
 			<div class="ui left labeled input">
-				<input type="text" id="modify-points-form-points"></input>
+				<input type="text" id="modify-points-form-points" name="piPoints"></input>
 				<div class="ui corner label">
 					<i class="asterisk icon"></i>
 				</div>
@@ -51,6 +51,30 @@
 	</div>
 </div>
 
+<div id="add-brother-form" title="Add Brother">
+	<div class="ui form">
+		<br/>
+		<div class="field">
+			<label>User*</label>
+			<div class="ui left labeled input">
+				{{ add_brother_form.brother }}
+				<div class="ui corner label">
+					<i class="asterisk icon"></i>
+				</div>
+			</div>
+		</div>
+		<div class="field">
+			<label>Initial Pi Points*</label>
+			<div class="ui left labeled input">
+				{{ add_brother_form.piPoints }}
+				<div class="ui corner label">
+					<i class="asterisk icon"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 <div id="tabs">
 	<ul>
 	    <li><a href="#point-standings">Pi Point Standings</a></li>
@@ -58,6 +82,9 @@
 	    <li><a href="#point-changes">Pi Point Change Log</a></li>
  	</ul>
 	<div id="point-standings">
+		<h4 class="ui header">
+		If you cannot find a desired brother in the table below, you can add them here. <a id="add-brother" class="ui green button add-brother-button">Add Brother</a>
+		</h4>
 		<table id="points_table" class="ui basic table segment">
 			<thead>
 				<tr>
@@ -92,7 +119,7 @@
 				{% for request in point_requests %}
 				<tr>	
 					<td>{{ request.requester.first_name }} {{ request.requester.last_name }}</td>
-					<td>{{ request.reason }}</td>
+					<td>{{ request.get_reason_display }}</td>
 					<td>{{ request.witness }}</td>
 					<td><a class="ui tiny green button approve-points-button">Approve</a></td>
 					<td><a class="ui tiny red button">Deny</a></td>

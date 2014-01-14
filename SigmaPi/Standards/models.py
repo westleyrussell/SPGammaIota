@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django import forms
-from django.forms import ModelForm
+from django.forms import ModelForm, Form
 from django.forms import ModelChoiceField
 from datetime import datetime
 
@@ -97,8 +97,16 @@ class PiPointsRequest(models.Model):
 	"""
 		Model for a request for pi points
 	"""
+	REASON_CHOICES = (
+			('P', 'Pre/Post Party Job'),
+			('F', 'First Shift Party Job'),
+			('S', 'Second Shift Party Job'),
+			('H', 'House Job'),
+			('M', 'Meal Cew')
+			)
+
 	requester = models.ForeignKey(User)
-	reason = models.TextField()
+	reason = models.TextField(max_length=1, choices=REASON_CHOICES)
 	witness = models.CharField(max_length=100, default="None")
 	
 	def __unicode__(self):
@@ -112,13 +120,26 @@ class PiPointsRequestForm(ModelForm):
 	"""
 		Form for requesting pipoints
 	"""
-
-	reason = forms.CharField(widget=forms.Textarea)
+	REASON_CHOICES = (
+			('P', 'Pre/Post Party Job'),
+			('F', 'First Shift Party Job'),
+			('S', 'Second Shift Party Job'),
+			('H', 'House Job'),
+			('M', 'Meal Cew')
+			)
+	reason = forms.ChoiceField(choices=REASON_CHOICES)
 	witness = forms.CharField(max_length=100, required=False)
 
 	class Meta:
 		model = PiPointsRequest
 		exclude = ['requester']
+
+class PiPointsAddBrotherForm(Form):
+	"""
+		Form for adding a brother to the pipoints system.
+	"""
+	brother = CustomModelChoiceField(queryset=User.objects.all().order_by('last_name').exclude(groups__name='Alumni'))
+	piPoints = forms.IntegerField(min_value=0)
 
 class BoneGivingForm(ModelForm):
 	"""
@@ -126,7 +147,7 @@ class BoneGivingForm(ModelForm):
 	"""
 	bonee = CustomModelChoiceField(queryset=User.objects.all().order_by('last_name').exclude(groups__name='Alumni'))
 	reason = forms.CharField(widget=forms.Textarea)
-	expirationDate = models.DateField()
+	expirationDate = forms.DateField()
 
 	class Meta:
 		model = Bone
@@ -137,7 +158,7 @@ class ProbationGivingForm(ModelForm):
 		Form for giving probation
 	"""
 	recipient = CustomModelChoiceField(queryset=User.objects.all().order_by('last_name').exclude(groups__name='Alumni'))
-	expirationDate = models.DateField()
+	expirationDate = forms.DateField()
 
 	class Meta:
 		model = Probation

@@ -49,6 +49,22 @@ $(document).ready(function() {
       }
     });
 
+    $( "#add-brother-form" ).dialog({
+      autoOpen: false,
+      height: 375,
+      width: 350,
+      modal: true,
+      draggable:false,
+      resizable:false,
+      buttons: {
+        "Add Brother": function() {
+        },
+        Cancel: function() {
+          $( this ).dialog( "close" );
+        }
+      }
+    });
+
     $(".modify-points-button").click(function(){
 
     	var id = $(this).attr("id");
@@ -65,9 +81,8 @@ $(document).ready(function() {
     });
 
  
-    $( "#create-user" )
-      .button()
+    $( "#add-brother" )
       .click(function() {
-        $( "#dialog-form" ).dialog( "open" );
+        $( "#add-brother-form" ).dialog( "open" );
       });
  });

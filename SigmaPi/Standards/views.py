@@ -2,14 +2,15 @@ from django.template import RequestContext
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
+from django.utils.html import strip_tags
 from django.utils import simplejson
 
 from django.contrib.auth.decorators import permission_required, login_required
+from django.contrib.auth.models import User
 
 from datetime import datetime
 
-
-from Standards.models import Bone, PiPointsRecord, PiPointsRequest, PiPointsRequestForm, Probation, BoneChangeRecord, ProbationGivingForm, BoneGivingForm
+from Standards.models import Bone, PiPointsRecord, PiPointsRequest, PiPointsRequestForm, PiPointsAddBrotherForm, Probation, BoneChangeRecord, ProbationGivingForm, BoneGivingForm
 
 @login_required
 def index(request):
@@ -237,7 +238,8 @@ def end_probation(request, probation):
 		probation.expirationDate = datetime.now()
 		probation.save()
 
-		return redirect('Standards.views.edit_bones')
+		response = {}
+		return HttpResponse(simplejson.dumps(response), content_type="application/json")
 	else:
 		return redirect('PubSite.views.permission_denied')
 
@@ -250,18 +252,58 @@ def manage_points(request):
 	
 	point_records = PiPointsRecord.objects.all().exclude(brother__groups__name='Alumni').order_by('-points')
 	point_requests = PiPointsRequest.objects.all()
-
+	add_brother_form = PiPointsAddBrotherForm()
 
 	context = RequestContext(request, {
 	'point_records': point_records,
 	'point_requests': point_requests,
+	'add_brother_form': add_brother_form
 	})
 
 	return render(request, "secure/standards_points.html", context)
 
 @permission_required('Standards.add_pipointsrecord', login_url='PubSite.views.permission_denied')
 def add_points(request, brother):
-	pass
+	"""
+		View for adding points to a given brother.
+	"""
+	if request.method == 'POST':
+		try:
+			points = int(strip_tags(request.POST['piPoints']))
+			changeRecord = PiPointsChangeRecord()
+			try:
+				targetRecord = PiPointsRecord.objects.get(pk=brother)
+				old_points = targetRecord.points
+				targetRecord.points = targetRecord.points + points
+				targetRecord.save()
+
+				changeRecord.oldValue = old_points
+			except:
+				user = User.objects.get(pk=brother)
+				targetRecord = PiPointsRecord(brother=user)
+				targetRecord.points = points
+				targetRecord.save()
+				changeRecord.oldValue = 0
+		except:
+			return redirect('PubSite.views.permission_denied')
+
+		changeRecord.brother = targetRecord.brother
+		changeRecord.modifier = request.user
+		changeRecord.dateChanged = datetime.now()
+		changeRecord.newValue = targetRecord.points
+		changeRecord.save()
+
+		response = {}
+		response['id'] = targetRecord.pk
+		response['name'] = targetRecord.brother.first_name + ' ' + targetRecord.brother.last_name
+		response['old_points'] = changeRecord.old_points
+		response['points'] = targetRecord.points
+		response['date'] = dateformat.format(changeRecord.dateChanged, 'F j, Y, P')
+		response['modifier'] = changeRecord.modifier.first_name + ' ' + changeRecord.modifier.last_name
+
+		return HttpResponse(simplejson.dumps(response), content_type="application/json")
+	else:
+		return redirect('PubSite.views.permission_denied')
 
 
 

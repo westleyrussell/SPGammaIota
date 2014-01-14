@@ -143,10 +143,8 @@
 					<td>{{ probation.dateReceived }}</td>
 					<td>{{ probation.expirationDate }}</td>
 					<td> 
-						<form style="display:inline;" enctype="multipart/form-data" method="post" action="{% url 'Standards.views.end_probation' probation.pk %}" class="ui error form">
-							{% csrf_token %}
-							<button type="submit" class="ui blue tiny submit button">End Probation</button>
-						</form></td>
+						<a id="{{probation.pk}}" class="ui blue tiny submit button end-probation">End Probation</a>
+					</td>
 				</tr>
 				{% endfor %}
 			</tbody>
