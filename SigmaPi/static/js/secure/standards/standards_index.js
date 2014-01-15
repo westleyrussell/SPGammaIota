@@ -1,41 +1,47 @@
 $(document).ready(function() {
-
-	last_checked = new Date() / 1000;
+  $( "#request_points_form" ).dialog({
+      autoOpen: false,
+      height: 375,
+      width: 350,
+      modal: true,
+      draggable:false,
+      resizable:false,
+      buttons: {
+        "Send Request": function() {
+			var witness = $("#id_witness").val();
+			var reason = $("#id_reason").val();
+			var url = "points/request/";
+			var csrftoken = $.cookie('csrftoken');
+			$.ajax({
+				type:"POST",
+				beforeSend: function(xhr, settings) {
+			        if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+			            // Send the token to same-origin, relative URLs only.
+			            // Send the token only if the method warrants CSRF protection
+			            // Using the CSRFToken value acquired earlier
+			            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+			        }				
+				},
+				url: url,
+				data: {
+					reason: reason,
+					witness: witness
+				}
+			}).done(function( data ) {
+				$('#id_witness').val("");
+				$('#id_reason').val("");
+				$('#request_points_form').dialog('close');
+				$('#request_points_button').text("Request Sent");
+			});
+		},
+        Cancel: function() {
+          $( this ).dialog( "close" );
+        }
+      }
+    });
 
 	$('#request_points_button').click(function() {
-		$('#request_points_form').slideToggle(450);
-	});
-	$('#request_points_cancel').click(function() {
-		$('#request_points_form').slideToggle(450);
-	});
-
-	// Handler for pi point request
-	$('#send_request_button').click(function() {
-		var witness = $("#id_witness").val();
-		var reason = $("#id_reason").val();
-		var url = "points/request/";
-		var csrftoken = $.cookie('csrftoken');
-		$.ajax({
-			type:"POST",
-			beforeSend: function(xhr, settings) {
-		        if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
-		            // Send the token to same-origin, relative URLs only.
-		            // Send the token only if the method warrants CSRF protection
-		            // Using the CSRFToken value acquired earlier
-		            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-		        }				
-			},
-			url: url,
-			data: {
-				reason: reason,
-				witness: witness
-			}
-		}).done(function( data ) {
-			$('#id_witness').val("");
-			$('#id_reason').val("");
-			$('#request_points_form').slideToggle(450);
-			$('#request_points_button').text("Request Sent");
-		});
+		$('#request_points_form').dialog( 'open' );
 	});
 });
 

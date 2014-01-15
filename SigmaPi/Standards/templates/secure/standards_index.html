@@ -4,6 +4,8 @@
 
 {% block standards_includes %}
 {% load static %}
+<link rel="stylesheet" type="text/css" href='{% static "css/jquery-ui/jquery-ui.min.css" %}' />
+<script type="text/javascript" src="{% static 'js/jquery-ui/jquery-ui.min.js' %}"></script>
 <script type="text/javascript" src='{% static "js/secure/standards/standards_index.js" %}'></script>
 {% endblock %}
 {% block content %}
@@ -11,7 +13,7 @@
 		The Standards Board
 		<a class="ui teal button" id="request_points_button">Request Pi Points</a>
 	</h1>
-	<div id="request_points_form" class="ui segment	hidden">
+	<div id="request_points_form" class="ui segment	hidden" title="Request Pi Points">
 		<div class="ui form">
 			<div class="field">
 				<h3 class="header">
@@ -33,8 +35,6 @@
 					{{points_form.witness}}
 				</div>
 			</div>
-			<div id="send_request_button" class="ui blue submit button">Send Request</div>
-			<div id="request_points_cancel" class="ui red button">Cancel</div>
 		</div>
 	</div>
 
