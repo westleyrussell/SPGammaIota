@@ -80,8 +80,8 @@ class PiPointsChangeRecord(models.Model):
 	"""
 		Model for a PiPoint change history record
 	"""
-	brother = models.ForeignKey(User, related_name="brother")
-	modifier = models.ForeignKey(User, related_name="modifier")
+	brother = models.ForeignKey(PiPointsRecord)
+	modifier = models.ForeignKey(User)
 	dateChanged = models.DateTimeField()
 	oldValue = models.PositiveIntegerField(default=0)
 	newValue = models.PositiveIntegerField(default=0)
@@ -138,7 +138,7 @@ class PiPointsAddBrotherForm(Form):
 	"""
 		Form for adding a brother to the pipoints system.
 	"""
-	brother = CustomModelChoiceField(queryset=User.objects.all().order_by('last_name').exclude(groups__name='Alumni'))
+	brother = CustomModelChoiceField(queryset=User.objects.all().order_by('last_name').exclude(groups__name='Alumni').exclude(pipointsrecord__isnull=False))
 	piPoints = forms.IntegerField(min_value=0)
 
 class BoneGivingForm(ModelForm):

@@ -11,4 +11,5 @@ urlpatterns = patterns('',
 	url(r'^points/$', 'Standards.views.manage_points'),
 	url(r'^points/(?P<brother>[\d]+)/$', 'Standards.views.add_points'),
 	url(r'^points/request/$', 'Standards.views.request_points'),
+	url(r'^points/request/(?P<pointreq>[\d]+)/delete/$', 'Standards.views.delete_request'),
 )

@@ -18,7 +18,8 @@
 		<div class="field">
 			<label>User</label>
 			<div class="ui left labeled input">
-				<span id="modify-points-form-user" name="brother"></span>
+				<span id="modify-points-form-user"></span>
+				<span class="modify-points-form-userid"></span>
 			</div>
 		</div>
 		<div class="field">
@@ -35,6 +36,8 @@
 
 <div id="grant-points-form" title="Approve Pi Point Request">
 	<div class="ui form">
+		<span class="grant-points-form-requestid"></span>
+		<span class="grant-points-form-userid"></span>
 		<br/>
 		<div class="field">
 			<label>Specify how many Pi Points you would like to award.</label>
@@ -42,7 +45,7 @@
 		<div class="field">
 			<label>Pi Points to Award*</label>
 			<div class="ui left labeled input">
-				<input type="text" id="modify-points-form-points"></input>
+				<input type="text" id="grant-points-form-points"></input>
 				<div class="ui corner label">
 					<i class="asterisk icon"></i>
 				</div>
@@ -93,9 +96,9 @@
 					<th class="two wide">Modify Points</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody id="points_table_content">
 				{% for record in point_records %}
-				<tr>	
+				<tr id="{{record.pk}}" class="points-row">	
 					<td id="{{record.pk}}" class="points-name-field">{{ record.brother.first_name }} {{ record.brother.last_name }}</td>
 					<td id="{{record.pk}}" class="points-points-field">{{ record.points }}</td>
 					<td><a id="{{record.pk}}" class="ui tiny blue button modify-points-button">Modify Points</a></td>
@@ -117,12 +120,14 @@
 			</thead>
 			<tbody>
 				{% for request in point_requests %}
-				<tr>	
+				<tr id="{{request.pk}}" class="requests_row">	
 					<td>{{ request.requester.first_name }} {{ request.requester.last_name }}</td>
 					<td>{{ request.get_reason_display }}</td>
 					<td>{{ request.witness }}</td>
-					<td><a class="ui tiny green button approve-points-button">Approve</a></td>
-					<td><a class="ui tiny red button">Deny</a></td>
+					<td>
+						<a id="{{request.pk}}" class="ui tiny green button approve-points-button">Approve</a>
+						<span id="{{request.requester.pk}}" class="request-ider-{{request.pk}}"></span></td>
+					<td><a id="{{request.pk}}" class="ui tiny red button deny-request-button">Deny</a></td>
 				</tr>
 				{% endfor %}
 			</tbody>
@@ -144,9 +149,9 @@
 				<tr>	
 					<td>{{ change.dateChanged }}</td>
 					<td>{{ change.modifier.first_name }} {{ change.modifier.last_name }}</td>
-					<td>{{ change.brother.first_name }} {{ change.brother.last_name }}</td>
-					<td>{{ record.oldValue }}</td>
-					<td>{{ record.newValue }}</td>
+					<td>{{ change.brother.brother.first_name }} {{ change.brother.brother.last_name }}</td>
+					<td>{{ change.oldValue }}</td>
+					<td>{{ change.newValue }}</td>
 				</tr>
 				{% endfor %}
 			</tbody>

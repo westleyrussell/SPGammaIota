@@ -3,14 +3,14 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 from django.utils.html import strip_tags
-from django.utils import simplejson
+from django.utils import simplejson, dateformat
 
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.models import User
 
 from datetime import datetime
 
-from Standards.models import Bone, PiPointsRecord, PiPointsRequest, PiPointsRequestForm, PiPointsAddBrotherForm, Probation, BoneChangeRecord, ProbationGivingForm, BoneGivingForm
+from Standards.models import Bone, PiPointsRecord, PiPointsRequest, PiPointsChangeRecord, PiPointsRequestForm, PiPointsAddBrotherForm, Probation, BoneChangeRecord, ProbationGivingForm, BoneGivingForm
 
 @login_required
 def index(request):
@@ -51,7 +51,7 @@ def index(request):
 
 	return render(request, "secure/standards_index.html", context)
 
-@login_required
+@permission_required('Standards.add_pipointsrequest', login_url='PubSite.views.permission_denied')
 def request_points(request):
 	"""
 		Registers a pi point request to be reviewed by the friendly neighborhood parliamentarian
@@ -252,12 +252,14 @@ def manage_points(request):
 	
 	point_records = PiPointsRecord.objects.all().exclude(brother__groups__name='Alumni').order_by('-points')
 	point_requests = PiPointsRequest.objects.all()
+	point_changes = PiPointsChangeRecord.objects.all().order_by('-dateChanged')
 	add_brother_form = PiPointsAddBrotherForm()
 
 	context = RequestContext(request, {
 	'point_records': point_records,
 	'point_requests': point_requests,
-	'add_brother_form': add_brother_form
+	'add_brother_form': add_brother_form,
+	'point_changes': point_changes
 	})
 
 	return render(request, "secure/standards_points.html", context)
@@ -270,15 +272,21 @@ def add_points(request, brother):
 	if request.method == 'POST':
 		try:
 			points = int(strip_tags(request.POST['piPoints']))
+			added = strip_tags(request.POST['added']) == 'true'
 			changeRecord = PiPointsChangeRecord()
-			try:
-				targetRecord = PiPointsRecord.objects.get(pk=brother)
+			record = PiPointsRecord.objects.filter(pk=brother)
+			if record.exists():
+				targetRecord = record[0]
 				old_points = targetRecord.points
-				targetRecord.points = targetRecord.points + points
+				if added:
+					targetRecord.points = targetRecord.points + points
+				else:
+					targetRecord.points = points
+
 				targetRecord.save()
 
 				changeRecord.oldValue = old_points
-			except:
+			else:
 				user = User.objects.get(pk=brother)
 				targetRecord = PiPointsRecord(brother=user)
 				targetRecord.points = points
@@ -287,7 +295,7 @@ def add_points(request, brother):
 		except:
 			return redirect('PubSite.views.permission_denied')
 
-		changeRecord.brother = targetRecord.brother
+		changeRecord.brother = targetRecord
 		changeRecord.modifier = request.user
 		changeRecord.dateChanged = datetime.now()
 		changeRecord.newValue = targetRecord.points
@@ -296,7 +304,7 @@ def add_points(request, brother):
 		response = {}
 		response['id'] = targetRecord.pk
 		response['name'] = targetRecord.brother.first_name + ' ' + targetRecord.brother.last_name
-		response['old_points'] = changeRecord.old_points
+		response['old_points'] = changeRecord.oldValue
 		response['points'] = targetRecord.points
 		response['date'] = dateformat.format(changeRecord.dateChanged, 'F j, Y, P')
 		response['modifier'] = changeRecord.modifier.first_name + ' ' + changeRecord.modifier.last_name
@@ -304,6 +312,21 @@ def add_points(request, brother):
 		return HttpResponse(simplejson.dumps(response), content_type="application/json")
 	else:
 		return redirect('PubSite.views.permission_denied')
+
+@permission_required('Standards.delete_pipointsrequest', login_url='PubSite.views.permission_denied')
+def delete_request(request, pointreq):
+	"""
+		View for denying points request
+	"""
+
+	if request.method == 'POST':
+		request = PiPointsRequest.objects.get(pk=pointreq)
+		request.delete()
+
+	response = {}
+	return HttpResponse(simplejson.dumps(response), content_type="application/json")
+
+
 
 
 
