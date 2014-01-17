@@ -7,7 +7,6 @@ from datetime import datetime
 from django.utils import simplejson
 from PartyList.widgets import GuestForm, PartyForm, EditPartyInfoForm, List
 from django.utils.html import strip_tags
-import dateutil.parser
 
 
 @login_required

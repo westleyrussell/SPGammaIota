@@ -48,7 +48,7 @@ def visit_link(request, link):
 		desired_link.timesAccessed = desired_link.timesAccessed + 1
 		desired_link.save()
 		return redirect(desired_link.url)
-	except Exception, e:
+	except:
 		return redirect('PubSite.views.permission_denied')
 
 @permission_required('Links.access_link', login_url='PubSite.views.permission_denied')
@@ -82,7 +82,7 @@ def check_for_updates(request):
 			response['links'].append(link_serial)
 
 		return HttpResponse(simplejson.dumps(response), content_type="application/json")
-	except Exception, e:
+	except:
 		raise e
 
 @permission_required('Links.add_link', login_url='PubSite.views.permission_denied')
@@ -117,7 +117,7 @@ def add_comment(request, link):
 
 	try:
 		desired_link = Link.objects.get(pk=link)
-	except Exception, e:
+	except:
 		return redirect('PubSite.views.permission_denied')
 
 
@@ -152,7 +152,7 @@ def change_like(request, link):
 
 		try:
 			desired_link = Link.objects.get(pk=link)
-		except Exception, e:
+		except:
 			return redirect('PubSite.views.permission_denied')
 
 		# Check if user has liked on this before.
@@ -161,7 +161,7 @@ def change_like(request, link):
 			priorLike.delete()
 			desired_link.likeCount = desired_link.likeCount - 1
 			desired_link.save()
-		except Exception, e:
+		except:
 			# if a like doesnt exist, just create one.
 			like = Like()
 			like.liker = request.user
