@@ -126,7 +126,6 @@ def edit_party(request, party, date):
 			return redirect("PartyList.views.manage_parties")
 
 		form = EditPartyInfoForm(request.POST, request.FILES, instance=requested_party)
-		print form.errors
 		if form.is_valid():
 			partyname = strip_tags(request.POST['name']).replace(" ","_")
 			partydate = strip_tags(request.POST['date'])
