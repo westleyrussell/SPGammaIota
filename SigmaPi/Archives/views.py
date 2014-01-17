@@ -130,7 +130,10 @@ def minutes(request):
 
 
 	# Only get the minutes since the user was initiated.
-	user_initiated = request.user.userinfo.dateInitiated
+	try:
+		user_initiated = request.user.userinfo.pledgeClass.dateInitiated
+	except:
+		user_initiated = datetime.now()
 
 	minutes = MeetingMinutes.objects.filter(date__gt=user_initiated)
 	context = RequestContext(request, {

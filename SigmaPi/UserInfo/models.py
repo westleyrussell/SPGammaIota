@@ -3,6 +3,21 @@ from django.forms import ModelForm
 from django import forms
 from django.contrib.auth.models import User
 
+class PledgeClass(models.Model):
+	"""
+		Model for user pledge class relationship.
+	"""
+
+	name = models.CharField(max_length=100, default="Lambda")
+	dateInitiated = models.DateField(blank=True)
+
+	def __unicode__(self):
+		return self.user.username
+
+	class Meta:
+		verbose_name_plural = "Pledge Classes"
+		verbose_name = "Pledge Class"
+
 class UserInfo(models.Model):
 	"""
 		Model for site-specific user info.
@@ -25,7 +40,7 @@ class UserInfo(models.Model):
 	interests = models.TextField(blank=True)
 	favoriteMemory = models.TextField(blank=True)
 	bigBrother = models.ForeignKey(User, related_name="big_brother", default=1)
-	dateInitiated = models.DateField(blank=True)
+	pledgeClass = models.ForeignKey(PledgeClass)
 
 	def __unicode__(self):
 		return self.user.username
@@ -36,6 +51,7 @@ class UserInfo(models.Model):
 		permissions = (
 			("manage_users", "Can manage users."),
 			)
+
 
 class EditUserInfoForm(ModelForm):
 	"""
