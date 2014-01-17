@@ -1,5 +1,14 @@
+body {
+	background-color: rgba(234,230,220,.8);
+}
+
 .filter {
 	display: none !important;
+}
+
+.hidden {
+	display: none;
+	visibility: hidden;
 }
 
 .guest-submit.male i {
@@ -13,16 +22,12 @@
 #partymode-nav {
 	position: fixed;
 	left: 0;
-	width: 130px;
-	background-color: rgb(137, 119, 160);
+	width: 7%;
+	background-color: rgba(201, 201, 201,.6);
 }
 
 	#partymode-nav .menu {
 		width: 140px;
-	}
-
-	#partymode-nav .header {
-		text-align: center;
 	}
 
 	#partymode-nav a.item {
@@ -31,7 +36,7 @@
 	}
 
 	#partymode-nav a.item.active {
-		background-color: rgb(141, 103, 175);
+		background-color: rgba(255, 255, 158,.8);
 	}
 
 	#partymode-nav .guest-counter {
@@ -40,20 +45,17 @@
 		text-align: center;
 	}
 	#partymode-nav #guys-count {
-		background-color: rgb(189, 80, 80);
+		background-color: rgb(53, 168, 204);
 	}
 
 	#partymode-nav #girls-count {
-		background-color: rgb(128, 202, 243);
+		background-color: rgb(215, 133, 241);
 	}
 
 	#partymode-nav .ui.menu .icon.button:last-child{
 		float: right;
 	}
 
-body {
-	background-color: rgba(234,230,220,.8);
-}
 .list {
 	width: 49%;
 }
@@ -70,29 +72,29 @@ body {
 	}
 
 	.list.guys .guest {
-		background-color: rgba(240, 155, 155, 0.9);
+		background-color: rgba(60, 180, 236, 0.6);
 		-webkit-box-shadow: 0px 5px 7px rgba(1, 1, 1, 1);
 
 	}
 
 	.list.guys .guest.signedIn {
-		background-color: rgba(233, 88, 88, 0.86)
+		background-color: rgb(53, 168, 204);
 	}
 
 	.list.girls .guest.signedIn {
-		background-color: rgba(92, 151, 214, 0.73);
+		background-color: rgb(215, 133, 241);
 	}
 
 	.list.girls .guest {
-		background-color: rgba(74, 125, 233, 0.45);
+		background-color: rgba(220, 119, 224, 0.45);
 	}
 
 	.list.guys .guest:hover{
-		background-color: rgb(197, 114, 127);
+		background-color: rgb(53, 168, 204);
 	}
 
 	.list.girls .guest:hover {
-		background-color: rgb(72, 126, 195);;
+		background-color: rgb(215, 133, 241);
 	}
 
 		.list form {
