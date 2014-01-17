@@ -1,10 +1,6 @@
 TODO List
 
-TODO:
-
-Alumni Calendar
 Party list
-Pi Points
 Rush Tracker
 Treasurer
 	-Budget breakdown
