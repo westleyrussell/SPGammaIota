@@ -44,7 +44,7 @@ class Party(models.Model):
 		verbose_name_plural = "Parties"
 		verbose_name = "Party"
 		permissions = (
-            ("manage_parties", "Can manage parties."),
+            ("manage_parties", "Can manage Parties"),
         )
 
 class Guest(models.Model):
