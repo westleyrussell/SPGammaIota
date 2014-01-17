@@ -15,6 +15,46 @@
 		<div class="header item">
 			<i class="users icon"></i>Parties
 		</div>
+		{% if '/manage' in request.path %}
+		<a class="item" href="{% url 'PartyList.views.index' %}">
+			All Parties
+		</a>
+		{% if perms.PartyList.manage_parties %}
+		<a class="active item" href="{% url 'PartyList.views.manage_parties' %}">
+			Manage Parties
+		</a>
+		<a class="item" href="{% url 'PartyList.views.add_party' %}">
+			Add Party
+		</a>
+		{% endif %}
+		{% elif '/edit' in request.path %}
+		<a class="item" href="{% url 'PartyList.views.index' %}">
+			All Parties
+		</a>
+		{% if perms.PartyList.manage_parties %}
+		<a class="active item" href="{% url 'PartyList.views.manage_parties' %}">
+			Manage Parties
+		</a>
+		<a class="item" href="{% url 'PartyList.views.add_party' %}">
+			Add Party
+		</a>
+		{% endif %}
+		{% elif '/add' in request.path %}
+		<a class="item" href="{% url 'PartyList.views.index' %}">
+			All Parties
+		</a>
+		{% if perms.PartyList.manage_parties %}
+		<a class="item" href="{% url 'PartyList.views.manage_parties' %}">
+			Manage Parties
+		</a>
+		<a class="active item" href="{% url 'PartyList.views.add_party' %}">
+			Add Party
+		</a>
+		{% endif %}
+		{% else %}
+		<a class="active item" href="{% url 'PartyList.views.index' %}">
+			All Parties
+		</a>
 		{% if perms.PartyList.manage_parties %}
 		<a class="item" href="{% url 'PartyList.views.manage_parties' %}">
 			Manage Parties
@@ -22,6 +62,7 @@
 		<a class="item" href="{% url 'PartyList.views.add_party' %}">
 			Add Party
 		</a>
+		{% endif %}
 		{% endif %}
 	</div>
 {% endblock %}

@@ -36,10 +36,11 @@ class EditPartyInfoForm(ModelForm):
 	"""
 	name = forms.CharField(max_length=100)
 	date = forms.DateField()
+	jobs = forms.FileField(required=False)
 
 	class Meta:
 		model = Party
-		fields = ['name','date']
+		fields = ['name','date','jobs']
 
 	def __init__(self,*args, **kwargs):
 		super(EditPartyInfoForm,self).__init__(*args, **kwargs)

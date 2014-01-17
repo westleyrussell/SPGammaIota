@@ -23,11 +23,11 @@ def index(request):
 	return render(request, 'parties.html', context)
 
 @login_required
-def guests(request, party):
+def guests(request, party, date):
 	"""
 		View for all guests on the list for a party
 	"""
-	requested_party = Party.objects.get(name__exact=party)
+	requested_party = Party.objects.get(name__exact=party, date__exact=date)
 	partyguests = PartyGuest.objects.filter(party=requested_party).order_by('guest__name')
 	guys = List('guys')
 	girls = List('girls')
@@ -55,12 +55,12 @@ def guests(request, party):
 	return render(request, 'partyguests.html', context)
 
 @login_required
-def jobs(request, party):
+def jobs(request, party, date):
 	"""
 		View for all jobs for a party
 	"""
 
-	requested_party = Party.objects.get(name__exact=party)
+	requested_party = Party.objects.get(name__exact=party, date__exact=date)
 	partyjobs = PartyJob.objects.filter(party=requested_party)
 	context = RequestContext(request, {
 			'partyname': requested_party.displayname,
@@ -69,7 +69,6 @@ def jobs(request, party):
 	return render(request, 'partyjobs.html', context)
 
 @permission_required('PartyList.manage_parties', login_url='Secure.views.home')
-@login_required
 def add_party(request):
 	"""
 		Provides a view to add a party.
@@ -80,7 +79,11 @@ def add_party(request):
 		})
 
 	if request.method == 'POST':
-		request.POST['date'] = request.POST['date'].split('/')[2] + '-' + request.POST['date'].split('/')[0] + '-' + request.POST['date'].split('/')[1]
+		try:
+			request.POST['date'] = request.POST['date'].split('/')[2] + '-' + request.POST['date'].split('/')[0] + '-' + request.POST['date'].split('/')[1]
+		except:
+			context['message'].append("Invalid date.")
+			return render(request, 'add_party.html', context)
 		form = PartyForm(request.POST)
 		if form.is_valid():
 			partyname = strip_tags(request.POST['name']).replace(" ","_")
@@ -96,7 +99,6 @@ def add_party(request):
 	return render(request, 'add_party.html', context)
 
 @permission_required('PartyList.manage_parties', login_url='Secure.views.home')
-@login_required
 def manage_parties(request):
 	"""
 		Provides a view to manage all of the parties in the system.
@@ -111,7 +113,6 @@ def manage_parties(request):
 	return render(request, 'manage_parties.html', context)
 
 @permission_required('PartyList.manage_parties', login_url='Secure.views.home')
-@login_required
 def edit_party(request, party, date):
 	"""
 		Provides a view to edit a single party.
@@ -120,17 +121,23 @@ def edit_party(request, party, date):
 	requested_party = Party.objects.get(name__exact=party, date__exact=date)
 
 	if request.method == 'POST':
-		request.POST['date'] = request.POST['date'].split('/')[2] + '-' + request.POST['date'].split('/')[0] + '-' + request.POST['date'].split('/')[1]
-		form = EditPartyInfoForm(request.POST, instance=requested_party)
+		try:
+			request.POST['date'] = request.POST['date'].split('/')[2] + '-' + request.POST['date'].split('/')[0] + '-' + request.POST['date'].split('/')[1]
+		except:
+			return redirect("PartyList.views.manage_parties")
+
+		form = EditPartyInfoForm(request.POST, request.FILES, instance=requested_party)
+		print form.errors
 		if form.is_valid():
 			partyname = strip_tags(request.POST['name']).replace(" ","_")
 			partydate = strip_tags(request.POST['date'])
 			exists = Party.objects.filter(name=partyname, date=partydate).count()
 			if exists:
-				return redirect("PartyList.views.manage_parties")
-			else:
-				form.save()
-				return redirect("PartyList.views.manage_parties")
+				party = Party.objects.filter(name=partyname, date=partydate)
+				if requested_party is party:
+					return redirect("PartyList.views.manage_parties")
+			form.save()
+			return redirect("PartyList.views.manage_parties")
 	else:
 		form = EditPartyInfoForm(instance=requested_party)
 	
