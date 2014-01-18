@@ -153,6 +153,16 @@ class BoneGivingForm(ModelForm):
 		model = Bone
 		exclude = ['boner', 'dateReceived']
 
+class BoneEditingForm(ModelForm):
+	"""
+		Form for editing Bones
+	"""
+	reason = forms.CharField(widget=forms.Textarea)
+	expirationDate = forms.DateField()
+
+	class Meta:
+		model = Bone
+		exclude = ['bonee', 'boner', 'dateReceived']
 class ProbationGivingForm(ModelForm):
 	"""
 		Form for giving probation

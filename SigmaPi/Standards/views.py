@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 
 from datetime import datetime
 
-from Standards.models import Bone, PiPointsRecord, PiPointsRequest, PiPointsChangeRecord, PiPointsRequestForm, PiPointsAddBrotherForm, Probation, BoneChangeRecord, ProbationGivingForm, BoneGivingForm
+from Standards.models import Bone, PiPointsRecord, PiPointsRequest, PiPointsChangeRecord, PiPointsRequestForm, PiPointsAddBrotherForm, Probation, BoneChangeRecord, ProbationGivingForm, BoneGivingForm, BoneEditingForm
 
 @login_required
 def index(request):
@@ -113,7 +113,7 @@ def edit_bone(request, bone):
 		oldReason = targetBone.reason
 		oldPerson = targetBone.bonee
 		oldExpiration = targetBone.expirationDate
-		form = BoneGivingForm(request.POST, instance=targetBone)
+		form = BoneEditingForm(request.POST, instance=targetBone)
 
 		if form.is_valid():
 			bone = form.save()
@@ -135,7 +135,7 @@ def edit_bone(request, bone):
 		bone_history = BoneChangeRecord.objects.filter(bone=targetBone).order_by('-dateChangeMade')
 
 		if not expired:
-			bone_form = BoneGivingForm(instance=targetBone)
+			bone_form = BoneEditingForm(instance=targetBone)
 		else:
 			bone_form = None
 
