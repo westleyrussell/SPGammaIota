@@ -29,5 +29,9 @@
 	width: 100%;
 }
 
+.hidden {
+	display:none;
+}
+
 /* For partyguests page */
 

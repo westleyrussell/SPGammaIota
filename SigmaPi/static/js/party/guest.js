@@ -42,6 +42,7 @@
 
 		list = guest.gender == 'M' ? $('.list.guys') : $('.list.girls');
 		template.appendTo(list);
+		template.removeClass("hidden");
 		template.show();
 		bindGuestHandlers.call(template);
 	}

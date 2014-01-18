@@ -38,7 +38,7 @@
 					<input type='text' name='name' class='name' data-gender='M' placeholder='His name'/>
 					<i class="male icon"></i>
 				</div>
-				<input hidden type="text" name="gender" value='M'/>
+				<input class="hidden" type="text" name="gender" value='M'/>
 				<input style="visibility:hidden" type="submit"/>
 			</form>
 		</div>
@@ -48,7 +48,7 @@
 					<input type='text' name='name' class='name' data-gender='F' placeholder='Her name'/>
 					<i class="female icon"></i>
 				</div>
-				<input hidden type="text" name="gender" value='F'/>
+				<input class="hidden" type="text" name="gender" value='F'/>
 				<input style="visibility:hidden" type="submit"/>
 			</form>
 		</div>
@@ -106,14 +106,14 @@
 	{% for list in lists %}
 
 	<!-- Hacky way to add guests from the client side on the fly, without hardcoding the html and css in javascript. Replace this with the use of a front end MVC library such as Ember or Backbone. -->
-		<div hidden id="guest-template" class="guest item mine">
+		<div id="guest-template" class="guest item mine hidden">
 			<div class="ui right floated delete">
 				<i class="delete icon"></i>
 			</div>
 			<div class="content">
 				<form class="entry" data-id="{{pg.guest.id}}">
 					<input disabled='true' name="name" value="" class="name editable"/>
-					<input hidden type="text" name="gender" class="gender" value=""/>
+					<input type="text" name="gender" class="gender hidden" value=""/>
 				</form>
 				<div class="right floated description addedBy">
 					<span class="user">You</span>
@@ -139,7 +139,7 @@
 					<div class="content">
 						<form class="entry" data-id="{{pg.guest.id}}">
 							<input disabled='true' name="name" value="{{ pg.guest.name }}" class="name editable"/>
-							<input hidden type="text" name="gender" value="{{pg.guest.gender}}"/>
+							<input class="hidden" type="text" name="gender" value="{{pg.guest.gender}}"/>
 						</form>
 						<div class="right floated description addedBy">
 							<span class="user">{% if pg.addedBy == user %} You {% else %} {{pg.addedBy.first_name}} {{pg.addedBy.last_name}} {% endif %}
@@ -151,7 +151,7 @@
 	{% endfor %}
 {% endif %}
 
-<div hidden id="error-template" class="ui error message">
+<div class="hidden" id="error-template" class="ui error message">
 	<i class="close icon"></i>
 	<div class="header"></div>
 </div>
