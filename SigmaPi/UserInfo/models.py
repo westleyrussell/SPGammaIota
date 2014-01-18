@@ -66,4 +66,4 @@ class EditUserInfoForm(ModelForm):
 
 	class Meta:
 		model = UserInfo
-		exclude = ['picture', 'graduationYear', 'classYear', 'user', 'bigBrother', 'dateInitiated']
+		exclude = ['picture', 'graduationYear', 'classYear', 'user', 'bigBrother', 'pledgeClass']
