@@ -12,6 +12,9 @@ from datetime import datetime
 from Blog.models import BlogPost, BlogPostForm
 
 
+def cap(s, l):
+	return s if len(s)<=l else s[0:l]
+
 def index(request):
 	"""get an ordered (by date) list of all blog posts to deliver to the client.
 	consider preforming more filtering here"""
@@ -81,7 +84,7 @@ def add_blog(request):
 			blogpost = form.save(commit=False)
 
 			blogpost.poster = request.user
-			blogpost.path = slugify(blogpost.title)
+			blogpost.path = cap(slugify(blogpost.title), 12)
 			blogpost.date = datetime.now()
 			blogpost.save()
 

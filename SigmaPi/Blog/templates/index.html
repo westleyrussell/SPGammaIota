@@ -23,8 +23,9 @@
 			<div class="slide">
 				<a href="{% url 'Blog.views.blog_post' post.path %}">
 				<img src="/content/{{ post.image }}">
-				<div>
-					<h4>{{post.title}}</h4>
+				<div class="imgover"></div>
+				<div class="title">
+					<h4 class="title-text">{{post.title}}</h4>
 				</div>
 			</a>
 			</div>
