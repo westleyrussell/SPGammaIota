@@ -1,0 +1,122 @@
+{% extends "secure_base.html" %}
+
+{%block  local_includes %}
+	{% load staticfiles %}
+	<link rel='stylesheet' type='text/css' href='{% static "css/secure/archives/archives_common.css" %}' />
+	{% block archives_includes %} {% endblock %}
+{% endblock %}
+
+{% block module_nav %}
+	<div id="archives-nav" class="ui inverted menu">
+		<div class="header item">
+			<i class="archive icon"></i>Archives
+		</div>
+
+		{% if '/guides' in request.path %}
+		{% if perms.Archives.access_guide %}
+		<a class="active item" href="{% url 'Archives.views.guides' %}">
+			Guides
+		</a>
+		{% endif %}
+		{% if perms.Archives.access_meetingminutes %}
+		<a class="item" href="{% url 'Archives.views.minutes' %}">
+			Minutes
+		</a>
+		{% endif %}
+		{% if perms.Archives.access_bylaws %}
+		<a class="item" href="{% url 'Archives.views.bylaws' %}">
+			Bylaws
+		</a>
+		{% endif %}
+		{% if perms.Archives.access_houserules %}
+		<a class="item" href="{% url 'Archives.views.rules' %}">
+			House Rules
+		</a>
+		{% endif %}
+		{% elif '/minutes' in request.path %}
+		{% if perms.Archives.access_guide %}
+		<a class="item" href="{% url 'Archives.views.guides' %}">
+			Guides
+		</a>
+		{% endif %}
+		{% if perms.Archives.access_meetingminutes %}
+		<a class="active item" href="{% url 'Archives.views.minutes' %}">
+			Minutes
+		</a>
+		{% endif %}
+		{% if perms.Archives.access_bylaws %}
+		<a class="item" href="{% url 'Archives.views.bylaws' %}">
+			Bylaws
+		</a>
+		{% endif %}
+		{% if perms.Archives.access_houserules %}
+		<a class="item" href="{% url 'Archives.views.rules' %}">
+			House Rules
+		</a>
+		{% endif %}
+		{% elif '/bylaws' in request.path %}
+		{% if perms.Archives.access_guide %}
+		<a class="item" href="{% url 'Archives.views.guides' %}">
+			Guides
+		</a>
+		{% endif %}
+		{% if perms.Archives.access_meetingminutes %}
+		<a class="item" href="{% url 'Archives.views.minutes' %}">
+			Minutes
+		</a>
+		{% endif %}
+		{% if perms.Archives.access_bylaws %}
+		<a class="active item" href="{% url 'Archives.views.bylaws' %}">
+			Bylaws
+		</a>
+		{% endif %}
+		{% if perms.Archives.access_houserules %}
+		<a class="item" href="{% url 'Archives.views.rules' %}">
+			House Rules
+		</a>
+		{% endif %}
+		{% elif '/rules' in request.path %}
+		{% if perms.Archives.access_guide %}
+		<a class="item" href="{% url 'Archives.views.guides' %}">
+			Guides
+		</a>
+		{% endif %}
+		{% if perms.Archives.access_meetingminutes %}
+		<a class="item" href="{% url 'Archives.views.minutes' %}">
+			Minutes
+		</a>
+		{% endif %}
+		{% if perms.Archives.access_bylaws %}
+		<a class="item" href="{% url 'Archives.views.bylaws' %}">
+			Bylaws
+		</a>
+		{% endif %}
+		{% if perms.Archives.access_houserules %}
+		<a class="active item" href="{% url 'Archives.views.rules' %}">
+			House Rules
+		</a>	
+		{% endif %}
+		{% else %}
+		{% if perms.Archives.access_guide %}
+		<a class="active item" href="{% url 'Archives.views.guides' %}">
+			Guides
+		</a>
+		{% endif %}
+		{% if perms.Archives.access_meetingminutes %}
+		<a class="item" href="{% url 'Archives.views.minutes' %}">
+			Minutes
+		</a>
+		{% endif %}
+		{% if perms.Archives.access_bylaws %}
+		<a class="item" href="{% url 'Archives.views.bylaws' %}">
+			Bylaws
+		</a>
+		{% endif %}
+		{% if perms.Archives.access_houserules %}
+		<a class="item" href="{% url 'Archives.views.rules' %}">
+			House Rules
+		</a>
+		{% endif %}
+		{% endif %}	
+	</div>
+{% endblock %}

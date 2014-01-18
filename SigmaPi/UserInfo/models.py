@@ -3,6 +3,21 @@ from django.forms import ModelForm
 from django import forms
 from django.contrib.auth.models import User
 
+class PledgeClass(models.Model):
+	"""
+		Model for user pledge class relationship.
+	"""
+
+	name = models.CharField(max_length=100, default="Lambda")
+	dateInitiated = models.DateField(blank=True)
+
+	def __unicode__(self):
+		return self.user.username
+
+	class Meta:
+		verbose_name_plural = "Pledge Classes"
+		verbose_name = "Pledge Class"
+
 class UserInfo(models.Model):
 	"""
 		Model for site-specific user info.
@@ -16,15 +31,16 @@ class UserInfo(models.Model):
 
 	user = models.OneToOneField(User)
 	picture = models.FileField(upload_to=filepath, null=True)
-	phoneNumber = models.CharField(default="", max_length=100)
+	phoneNumber = models.CharField(default="", max_length=100, blank=True)
 	graduationYear = models.PositiveIntegerField(default=2015)
-	classYear = models.CharField(default="Lambda", max_length=20)
+	classYear = models.CharField(default="Lambda", max_length=20, blank=True)
 	major = models.CharField(max_length=100, blank=True)
 	hometown = models.CharField(max_length=100, blank=True)
 	activities = models.TextField(blank=True)
 	interests = models.TextField(blank=True)
 	favoriteMemory = models.TextField(blank=True)
 	bigBrother = models.ForeignKey(User, related_name="big_brother", default=1)
+	pledgeClass = models.ForeignKey(PledgeClass)
 
 	def __unicode__(self):
 		return self.user.username
@@ -35,6 +51,7 @@ class UserInfo(models.Model):
 		permissions = (
 			("manage_users", "Can manage users."),
 			)
+
 
 class EditUserInfoForm(ModelForm):
 	"""
@@ -49,4 +66,4 @@ class EditUserInfoForm(ModelForm):
 
 	class Meta:
 		model = UserInfo
-		exclude = ['picture', 'graduationYear', 'classYear', 'user', 'bigBrother']
+		exclude = ['picture', 'graduationYear', 'classYear', 'user', 'bigBrother', 'dateInitiated']

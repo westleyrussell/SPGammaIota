@@ -1,0 +1,18 @@
+{% extends "secure_base.html" %}
+
+{%block  local_includes %}
+	{% load staticfiles %}
+	<script type="text/javascript" src='{% static "js/secure/links/links_common.js" %}'></script>
+	<link rel='stylesheet' type='text/css' href='{% static "css/secure/links/links_common.css" %}' />
+	{% block links_includes %} {% endblock %}
+{% endblock %}
+
+
+{% block module_nav %}
+	<div id="links-nav" class="ui inverted menu">
+		<div class="header item">
+			<i class="cloud icon"></i>Links
+		</div>
+		<a class="active item" href="{% url 'Links.views.view_all' %}">All Links</a>
+	</div>
+{% endblock %}

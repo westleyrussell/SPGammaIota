@@ -1,0 +1,145 @@
+{% extends "secure/standards_base.html" %}
+
+{% block title %}Sigma Pi Secure - Standards - Manage Bones - {% if expired %}View Bone{% else %}Edit Bone{% endif %} {% endblock %}
+
+{% block standards_includes %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href='{% static "css/jquery-ui/jquery-ui.min.css" %}' />
+<script type="text/javascript" src="{% static 'js/jquery-ui/jquery-ui.min.js' %}"></script>
+
+{% endblock %}
+
+{% block content %}
+<h1 class="ui header">
+	{% if expired %}
+	View Bone
+	{% else %}
+	Edit Bone
+	{% endif %}
+</h1>
+
+{% if expired == True %}
+<div class="ui segment">
+	<div id="bone_view_form" class="ui form">
+		<div class="field">
+			<label>Recipient</label>
+			<div class="ui left labeled input">
+				{{bone.bonee.first_name}} {{ bone.bonee.last_name }}
+			</div>
+		</div>
+		<div class="field">
+			<label>Reason</label>
+			<div class="ui left labeled input">
+				{{bone.reason}}
+			</div>
+		</div>
+		<div class="field">
+			<label>Date Receieved</label>
+			<div class="ui left labeled input">
+				{{bone.dateReceived}}
+			</div>
+		</div>
+		<div class="field">
+			<label>Expiration Date</label>
+			<div class="ui left labeled input">
+				{{bone.expirationDate}} - EXPIRED
+			</div>
+		</div>
+	</div>
+</div>
+{% else %}
+<div class="ui segment">
+	<div id="bone_edit_form">
+		<form enctype="multipart/form-data" method="post" action="{% url 'Standards.views.edit_bone' bone.pk %}" class="ui error form">
+			{% csrf_token %}
+			
+			<div class="field">
+				<label>Recipient</label>
+				<div class="ui left labeled input">
+					{{bone.bonee.first_name}} {{ bone.bonee.last_name }}
+				</div>
+			</div>
+			<div class="field">
+				<label>Reason*</label>
+				<div class="ui left labeled input">
+					{{bone_form.reason}}
+					<div class="ui corner label">
+						<i class="asterisk icon"></i>
+					</div>
+				</div>
+			</div>
+			<div class="field">
+				<label>Date Receieved</label>
+				<div class="ui left labeled input">
+					{{bone.dateReceived}}
+				</div>
+			</div>
+			<div class="field">
+				<label>Expiration Date*</label>
+				<div class="ui left labeled input">
+					{{bone_form.expirationDate}}
+					<div class="ui corner label">
+						<i class="asterisk icon"></i>
+					</div>
+				</div>
+			</div>
+			<button type="submit" class="ui blue submit button">Apply Changes</button>
+		</form>
+		<form enctype="multipart/form-data" method="post" action="{% url 'Standards.views.expire_bone' bone.pk %}" class="ui error form">
+			{% csrf_token %}
+			<button type="submit" class="ui yellow submit button">Expire Bone</button>
+		</form>
+		<a href="{% url 'Standards.views.edit_bones' %}" class="ui red button">Cancel</a>
+	</div>
+</div>
+{% endif %}
+<br/>
+<div class="ui horizontal divider"></div>
+<br/>
+<div id="bone-changes" class="ui segment">
+	<h2 class="ui header">Change History</h2>
+	<table id="bone_history_table" class="ui basic table segment">
+		<thead>
+			<tr>
+				<th class="one wide">Date</th>
+				<th class="three wide">Changer</th>
+				<th class="two wide">Old Exp.</th>
+				<th class="two wide">New Exp.</th>
+				<th class="four wide">Old Reason</th>
+				<th class="four wide">New Reason</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for change in bone_history %}
+			<tr>	
+				<td>{{ change.dateChangeMade }}</td>
+				<td>{{ change.modifier.first_name }} {{ change.modifier.last_name }}</td>
+				<td>{{ change.previousExpirationDate }}</td>
+				<td>
+					{{ change.newExpirationDate }}
+				</td>
+				<td>{{ change.previousReason }}</td>
+				<td>{{ change.newReason }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$.fn.dataTableExt.oStdClasses["sFilter"] = "ui label black"
+			$.fn.dataTableExt.oStdClasses["sLength"] = "ui label black"
+			$.fn.dataTableExt.oStdClasses["sInfo"] = "ui message"
+			$.fn.dataTableExt.oStdClasses["sPagePrevEnabled"] = "ui button active"
+			$.fn.dataTableExt.oStdClasses["sPagePrevDisabled"] = "ui button disabled"
+			$.fn.dataTableExt.oStdClasses["sPageNextEnabled"] = "ui button active"
+			$.fn.dataTableExt.oStdClasses["sPageNextDisabled"] = "ui button disabled"
+			$('#bone_history_table').dataTable({
+				"bSort": false,
+			});
+			$('#id_expirationDate').datepicker();
+		} );
+	</script>
+
+{% endblock %}

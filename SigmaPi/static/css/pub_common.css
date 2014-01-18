@@ -2,19 +2,28 @@ html, body {
   height: 100%;
 }
 
+a {
+  color: #009FDA;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #0F80F8;
+}
+
 #wrapper {
   min-height: 100%;
 }
 
 #content {
   overflow:auto;
-  padding-bottom: 150px;
+  padding-bottom: 50px;
   }  /* must be same height as the footer */
 
 #footer {
   position: relative;
-  margin-top: -150px; /* negative value of footer height */
-  height: 150px;
+  margin-top: -50px; /* negative value of footer height */
+  height: 50px;
   border-top: 1px rgba(230,230,230,.8);
   background-color: rgba(9,9,9,.3);
   clear:both;
@@ -35,7 +44,7 @@ body {
 
 .large-print {
 	font-size: larger;
-	color: #636363;
+	color: #000;
 }
 
 .center-body {
@@ -47,17 +56,11 @@ body {
 	width:600px;
 }
 
-#fb-link .message{
-  font-size: 1.5rem;
-  color: white;
-  font-family: Arial;
-}
-
 #fb-link {
-  margin-top: 25px;
+  margin-top: 10px;
   margin-left: 50px;
   position: absolute;
-  height: 100px;
+  height: 40px;
 }
 
 div.caption p {

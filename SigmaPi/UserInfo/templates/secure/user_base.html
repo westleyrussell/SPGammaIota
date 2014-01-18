@@ -6,17 +6,27 @@
 {% endblock %}
 
 {% block module_nav %}
-	<div id="blog-nav" class="ui inverted menu">
+	<div id="user-nav" class="ui inverted menu">
 		<div class="header item">
-			<i class="users icon"></i>User Management
+			<i class="users icon"></i>Users
 		</div>
 		{% if perms.UserInfo.manage_users %}
-		<a class="item" href="{% url 'UserInfo.views.manage_users' %}">
-			Manage Users
-		</a>
-		<a class="item" href="{% url 'UserInfo.views.add_users' %}">
-			Add Users
-		</a>
+
+		{% if not '/add' in request.path %}
+			<a class="active item" href="{% url 'UserInfo.views.manage_users' %}">
+				Manage Users
+			</a>
+			<a class="item" href="{% url 'UserInfo.views.add_users' %}">
+				Add Users
+			</a>
+		{% else %}
+			<a class="item" href="{% url 'UserInfo.views.manage_users' %}">
+				Manage Users
+			</a>
+			<a class="active item" href="{% url 'UserInfo.views.add_users' %}">
+				Add Users
+			</a>	
+		{% endif %}	
 		{% endif %}
 	</div>
 {% endblock %}

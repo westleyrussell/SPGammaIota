@@ -27,10 +27,10 @@ def success(message="",code=200):
 	"""return an http response that simply tells the client their action was successful"""
 	return HttpResponse(message,status=code)
 
-def getFullGuest(party,id):
+def getFullGuest(party,date,id):
 	"""get a guest and its associated partyGuest model, return as a tuple"""
 	guest = Guest.objects.get(id=id)
-	party = Party.objects.get(name__exact=party)
+	party = Party.objects.get(name__exact=party, date__exact=date)
 	pGuest = PartyGuest.objects.get(party=party,guest=guest)
 
 	return guest,pGuest
@@ -38,7 +38,7 @@ def getFullGuest(party,id):
 
 @login_required
 @csrf_exempt
-def create(request,party):
+def create(request,party,date):
 	"""create a guest object as well as a partyguest object for the given party"""
 	
 	# see if the guest already exists
@@ -49,7 +49,7 @@ def create(request,party):
 		pass
 
 	if guest:
-		partyguest = PartyGuest.objects.filter(party__exact=Party.objects.get(name__exact=party), guest__exact=guest)
+		partyguest = PartyGuest.objects.filter(party__exact=Party.objects.get(name__exact=party, date__exact=date), guest__exact=guest)
 		if partyguest: # if this guest is already on the list for this party
 			return error('guest already on list',code=501)
 	else:
@@ -59,7 +59,7 @@ def create(request,party):
 		else:
 			return error('invalid guest paramaters or format',code=502)
 
-	pGuest = PartyGuest(party=Party.objects.get(name__exact=party), guest=guest, addedBy=request.user)
+	pGuest = PartyGuest(party=Party.objects.get(name__exact=party, date__exact=date), guest=guest, addedBy=request.user)
 	pGuest.save()
 
 	
@@ -68,10 +68,10 @@ def create(request,party):
 
 @login_required
 @csrf_exempt
-def update(request,party,id):
+def update(request,party,date,id):
 	"""update a guest (keyd by the supplied id) for the value provided"""
 	try:
-		guest,pg = getFullGuest(party,int(id))
+		guest,pg = getFullGuest(party,date,int(id))
 	except:
 		return error('guest does not exist')
 
@@ -87,10 +87,10 @@ def update(request,party,id):
 
 @login_required
 @csrf_exempt
-def updateCount(request,party):
+def updateCount(request,party,date):
 	"""adjust the guest count for a given party and gender"""
 
-	party = Party.objects.get(name__exact=party)
+	party = Party.objects.get(name__exact=party, date__exact=date)
 	try:
 		gender = request.POST.get('gender')
 		delta = int(request.POST.get('delta'))
@@ -108,11 +108,11 @@ def updateCount(request,party):
 
 @login_required
 @csrf_exempt
-def signin(request,party,id):
+def signin(request,party,date,id):
 	"""signin a guest with given id"""
 	try:
-		party = Party.objects.get(name__exact=party)
-		g,pg = getFullGuest(party,id)
+		party = Party.objects.get(name__exact=party, date__exact=date)
+		g,pg = getFullGuest(party,date,id)
 		pg.signedIn = True
 		pg.save()
 	except:
@@ -122,11 +122,11 @@ def signin(request,party,id):
 
 @login_required
 @csrf_exempt
-def signout(request,party,id):
+def signout(request,party,date,id):
 	"""signin a guest with given id"""
 	try:
-		party = Party.objects.get(name__exact=party)
-		g,pg = getFullGuest(party,id)
+		party = Party.objects.get(name__exact=party, date__exact=date)
+		g,pg = getFullGuest(party,date,id)
 		pg.signedIn = False
 		pg.save()
 	except:
@@ -138,10 +138,10 @@ def signout(request,party,id):
 
 @login_required
 @csrf_exempt
-def destroy(request,party,id):
+def destroy(request,party,date,id):
 	"""delete a guest (keyd by the supplied id), so long as the current user has domain over them"""
 	try:
-		guest,pg = getFullGuest(party,int(id))
+		guest,pg = getFullGuest(party,date,int(id))
 	except:
 		return error('guest does not exist')
 
@@ -154,12 +154,12 @@ def destroy(request,party,id):
 
 @login_required
 @csrf_exempt
-def export_list(request,party):
+def export_list(request,party,date):
 	"""export the guest list as a csv file. This uses the native csv module
 	that comes bundled with python. Using excel would require a 3rd party 
 	module, and hardly provides benefits over a standard csv format"""
 
-	requested_party = Party.objects.get(name__exact=party)
+	requested_party = Party.objects.get(name__exact=party, date__exact=date)
 	partyguests = PartyGuest.objects.filter(party=requested_party).order_by('guest__name')
 
 	response = HttpResponse(content_type='text/csv')
@@ -176,7 +176,7 @@ def export_list(request,party):
 
 @login_required
 @csrf_exempt
-def poll(request,party):
+def poll(request,party,date):
 	"""
 	called by the client to check for guests added after a given time. 
 	This allows each clients guest list to be updated in partial real time

@@ -1,0 +1,119 @@
+{% extends 'secure/archives_base.html' %}
+{% block title %}Sigma Pi Secure - Archives - Guides {% endblock %}
+
+{% block content %}
+
+	<h1 class="ui header">House Guides
+		{% if perms.Archives.add_guide %}
+		<a id="add_guide_button" class="ui teal button">Add Guide</a>
+		{% endif %}
+	</h1>  
+
+	{% if perms.Archives.add_guide %}
+	{% if form.errors %}
+	<div class="ui segment" id="add_guide_form">
+	{% else %}
+	<div class="ui segment hidden" id="add_guide_form">
+	{% endif %}
+		<form enctype="multipart/form-data" method="post" action="{% url 'Archives.views.guides' %}" class="ui error form">
+			{% csrf_token %}
+			{% if form.errors %}
+			<div class="ui error message">
+				<div class="header">Errors!</div>
+				<p>{{ form.errors }}</p>
+			</div>
+			{% endif %}
+			<div class="field">
+		  		<label>Title*</label>
+		  		<div class="ui left labeled input">
+		  			{{form.name}}
+		  			<div class="ui corner label">
+		  				<i class="asterisk icon"></i>
+		  			</div>
+		  		</div>
+			</div>
+			<div class="field">
+				<label>Description*</label>
+				<div class="ui left labeled input">
+		  			{{form.description}}
+		  			<div class="ui corner label">
+						<i class="asterisk icon"></i>
+					</div>
+		  		</div>
+			</div>
+			<div class="field">
+				<label>Guide File*</label> 
+				<div class="ui left labeled input">
+					{{form.filepath}}
+					<div class="ui corner label">
+						<i class="asterisk icon"></i>
+					</div>
+				</div>
+			</div>
+			<button type="submit" class="ui blue submit button">Submit</button>
+			<div id="add_guide_cancel" class="ui red button">Cancel</div>
+		</form>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			$('#add_guide_button').click(function() {
+				$('#add_guide_form').slideToggle(450);
+			});
+			$('#add_guide_cancel').click(function() {
+				$('#add_guide_form').slideToggle(450);
+			});
+		} );
+	</script>
+	{% endif %}
+
+	{% if guides %}
+		<table id="guides_table" class="ui basic table segment">
+			<thead>
+				<tr>
+					<th class="four wide">Title</th>
+					<th class="seven wide">Description</th>
+					<th class="one wide">View</th>
+					{% if perms.Archives.delete_guide %} <th class="one wide">Delete</th> {% endif %}
+				</tr>
+			</thead>
+			<tbody>
+				{% for guide in guides %}
+				<tr>
+					<td>{{ guide.name }}</td>
+					<td>{{ guide.description }}</td>
+					<td>
+						<a href="{{ guide.filepath.url }}">View</a>
+					</td>
+					{% if perms.Archives.delete_guide %}
+					<td>
+						<form method="post" action="{% url 'Archives.views.delete_guide' %}">
+							{% csrf_token %}
+							<a href="#" onclick="$(this).closest('form').submit()">Delete</a>
+							<input type="hidden" name="post_id" value="{{ guide.pk }}"/>
+						</form>
+					</td>
+					{% endif %}
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$.fn.dataTableExt.oStdClasses["sFilter"] = "ui label black"
+				$.fn.dataTableExt.oStdClasses["sLength"] = "ui label black"
+				$.fn.dataTableExt.oStdClasses["sInfo"] = "ui message"
+				$.fn.dataTableExt.oStdClasses["sPagePrevEnabled"] = "ui button active"
+				$.fn.dataTableExt.oStdClasses["sPagePrevDisabled"] = "ui button disabled"
+				$.fn.dataTableExt.oStdClasses["sPageNextEnabled"] = "ui button active"
+				$.fn.dataTableExt.oStdClasses["sPageNextDisabled"] = "ui button disabled"
+				$('#guides_table').dataTable();
+			} );
+		</script>
+	{% else %}
+	<div class="ui vertical segment">
+		No house guides found. Check back later.
+		<br/><br/>
+	</div>
+	{% endif %}
+{% endblock %}

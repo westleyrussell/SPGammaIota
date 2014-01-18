@@ -35,7 +35,7 @@ def blog_post(request, slug):
 
 	return render(request, 'blog.html', context)
 
-@permission_required('Blog.administrate_posts', login_url='PubSite.views.permission_denied')
+@permission_required('Blog.change_blogpost', login_url='PubSite.views.permission_denied')
 def secure_index(request):
 
 	posts = BlogPost.objects.order_by("-date")
@@ -46,7 +46,7 @@ def secure_index(request):
 
 	return render(request, 'secure/blog_index.html', context);
 
-@permission_required('Blog.edit_post', login_url='PubSite.views.permission_denied')
+@permission_required('Blog.change_blogpost', login_url='PubSite.views.permission_denied')
 def edit_blog(request, slug):
 	""" View for editing a blog post """
 
@@ -67,7 +67,7 @@ def edit_blog(request, slug):
 
 	return render(request, 'secure/edit_blog.html', context)
 
-@permission_required('Blog.add_post', login_url='PubSite.views.permission_denied')
+@permission_required('Blog.add_blogpost', login_url='PubSite.views.permission_denied')
 def add_blog(request):
 	"""
 		Adds a new blog post to the server
@@ -100,7 +100,7 @@ def add_blog(request):
 		})
 	return render(request, 'secure/add_blog.html', context)
 
-@permission_required('Blog.delete_post', login_url='PubSite.views.permission_denied')
+@permission_required('Blog.delete_blogpost', login_url='PubSite.views.permission_denied')
 def delete_blog(request):
 	"""
 		Deletes the blog with the id that is sent in the post request

@@ -1,0 +1,115 @@
+{% extends 'secure/archives_base.html' %}
+{% block title %}Sigma Pi Secure - Archives - Minutes{% endblock %}
+
+{% block archives_includes %}
+	{% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href='{% static "css/jquery-ui/jquery-ui.min.css" %}' />
+	<script type="text/javascript" src="{% static 'js/jquery-ui/jquery-ui.min.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+	<h1 class="ui header">Meeting Minutes
+		{% if perms.Archives.add_meetingminutes %}
+		<a class="ui teal button" id="add_minutes_button">Add Meeting Minutes</a>
+		{% endif %}
+	</h1>  
+
+	{% if perms.Archives.add_meetingminutes %}
+	{% if form.errors %}
+	<div class="ui segment" id="add_minutes_form">
+	{% else %}
+	<div class="ui segment hidden" id="add_minutes_form">
+	{% endif %}
+		<form enctype="multipart/form-data" method="post" action="{% url 'Archives.views.minutes' %}" class="ui error form">
+			{% csrf_token %}
+			{% if form.errors %}
+			<div class="ui error message">
+				<div class="header">Errors!</div>
+				<p>{{ form.errors }}</p>
+			</div>
+			{% endif %}
+			<div class="field">
+		  		<label>Meeting Date*</label>
+		  		<div class="ui left labeled input">
+		  			<input type="text" id="datepicker" name="date" maxlength="50" />
+		  			<div class="ui corner label">
+		  				<i class="asterisk icon"></i>
+		  			</div>
+		  		</div>
+			</div>
+			<div class="field">
+				<label>Minutes File*</label>
+				<div class="ui left labeled input">
+		  			{{form.filepath}}
+		  			<div class="ui corner label">
+						<i class="asterisk icon"></i>
+					</div>
+		  		</div>
+			</div>
+			<button type="submit" class="ui blue submit button">Submit</button>
+			<div id="add_minutes_cancel" class="ui red button">Cancel</div>
+		</form>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#datepicker').datepicker();
+			$('#add_minutes_button').click(function() {
+				$('#add_minutes_form').slideToggle(450);
+			});
+			$('#add_minutes_cancel').click(function() {
+				$('#add_minutes_form').slideToggle(450);
+			});
+		} );
+	</script>
+	{% endif %}
+
+	{% if minutes %}
+
+		<table id="minutes_table" class="ui basic table segment">
+			<thead>
+				<tr>
+					<th class="four wide">Date</th>
+					<th class="one wide">View</th>
+					{% if perms.Archives.delete_meetingminutes %} <th class="one wide">Delete</th> {% endif %}
+				</tr>
+			</thead>
+			<tbody>
+				{% for minute in minutes %}
+				<tr>
+					<td>{{ minute.date }}</td>
+					<td>
+						<a href="{{ minute.filepath.url }}">View</a>
+					</td>
+					{% if perms.Archives.delete_meetingminutes %}
+					<td>
+						<form method="post" action="{% url 'Archives.views.delete_minutes' %}">
+							{% csrf_token %}
+							<a href="#" onclick="$(this).closest('form').submit()">Delete</a>
+							<input type="hidden" name="post_id" value="{{ minute.pk }}"/>
+						</form>
+					</td>
+					{% endif %}
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$.fn.dataTableExt.oStdClasses["sFilter"] = "ui label black"
+				$.fn.dataTableExt.oStdClasses["sLength"] = "ui label black"
+				$.fn.dataTableExt.oStdClasses["sInfo"] = "ui message"
+				$.fn.dataTableExt.oStdClasses["sPagePrevEnabled"] = "ui button active"
+				$.fn.dataTableExt.oStdClasses["sPagePrevDisabled"] = "ui button disabled"
+				$.fn.dataTableExt.oStdClasses["sPageNextEnabled"] = "ui button active"
+				$.fn.dataTableExt.oStdClasses["sPageNextDisabled"] = "ui button disabled"
+				$('#minutes_table').dataTable();
+			} );
+		</script>
+	{% else %}
+	<div class="ui vertical segment">
+		No meeting minutes found. Check back later.
+		<br/>
+		<br/>
+	</div>
+	{% endif %}
+{% endblock %}

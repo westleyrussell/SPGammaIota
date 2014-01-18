@@ -1,0 +1,161 @@
+{% extends "secure/standards_base.html" %}
+
+{% block title %}Sigma Pi Secure - Standards - PiPoints{% endblock %}
+{% block standards_includes %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href='{% static "css/jquery-ui/jquery-ui.min.css" %}' />
+
+<script type="text/javascript" src='{% static "js/secure/standards/standards_points.js" %}'></script>
+<script type="text/javascript" src="{% static 'js/jquery-ui/jquery-ui.min.js' %}"></script>
+{% endblock %}
+{% block content %}
+<h1 class="ui header">
+	Manage Pi Points
+</h1>
+
+<div id="modify-points-form" title="Modify Pi Points">
+	<div class="ui form">
+		<div class="field">
+			<label>User</label>
+			<div class="ui left labeled input">
+				<span id="modify-points-form-user"></span>
+				<span class="modify-points-form-userid"></span>
+			</div>
+		</div>
+		<div class="field">
+			<label>Pi Points*</label>
+			<div class="ui left labeled input">
+				<input type="text" id="modify-points-form-points" name="piPoints"></input>
+				<div class="ui corner label">
+					<i class="asterisk icon"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="grant-points-form" title="Approve Pi Point Request">
+	<div class="ui form">
+		<span class="grant-points-form-requestid"></span>
+		<span class="grant-points-form-userid"></span>
+		<br/>
+		<div class="field">
+			<label>Specify how many Pi Points you would like to award.</label>
+		</div>
+		<div class="field">
+			<label>Pi Points to Award*</label>
+			<div class="ui left labeled input">
+				<input type="text" id="grant-points-form-points"></input>
+				<div class="ui corner label">
+					<i class="asterisk icon"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="add-brother-form" title="Add Brother">
+	<div class="ui form">
+		<br/>
+		<div class="field">
+			<label>User*</label>
+			<div class="ui left labeled input">
+				{{ add_brother_form.brother }}
+				<div class="ui corner label">
+					<i class="asterisk icon"></i>
+				</div>
+			</div>
+		</div>
+		<div class="field">
+			<label>Initial Pi Points*</label>
+			<div class="ui left labeled input">
+				{{ add_brother_form.piPoints }}
+				<div class="ui corner label">
+					<i class="asterisk icon"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="tabs">
+	<ul>
+	    <li><a href="#point-standings">Pi Point Standings</a></li>
+	    <li><a href="#point-requests">Pi Point Requests</a></li>
+	    <li><a href="#point-changes">Pi Point Change Log</a></li>
+ 	</ul>
+	<div id="point-standings">
+		<h4 class="ui header">
+		If you cannot find a desired brother in the table below, you can add them here. <a id="add-brother" class="ui green button add-brother-button">Add Brother</a>
+		</h4>
+		<table id="points_table" class="ui basic table segment">
+			<thead>
+				<tr>
+					<th class="three wide">Name</th>
+					<th class="three wide">Points</th>
+					<th class="two wide">Modify Points</th>
+				</tr>
+			</thead>
+			<tbody id="points_table_content">
+				{% for record in point_records %}
+				<tr id="{{record.pk}}" class="points-row">	
+					<td id="{{record.pk}}" class="points-name-field">{{ record.brother.first_name }} {{ record.brother.last_name }}</td>
+					<td id="{{record.pk}}" class="points-points-field">{{ record.points }}</td>
+					<td><a id="{{record.pk}}" class="ui tiny blue button modify-points-button">Modify Points</a></td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<div id="point-requests">
+		<table id="requests_table" class="ui basic table segment">
+			<thead>
+				<tr>
+					<th class="three wide">Requester</th>
+					<th class="three wide">Reason</th>
+					<th class="three wide">Witness</th>
+					<th class="one wide">Approve</th>
+					<th class="one wide">Deny</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for request in point_requests %}
+				<tr id="{{request.pk}}" class="requests_row">	
+					<td>{{ request.requester.first_name }} {{ request.requester.last_name }}</td>
+					<td>{{ request.get_reason_display }}</td>
+					<td>{{ request.witness }}</td>
+					<td>
+						<a id="{{request.pk}}" class="ui tiny green button approve-points-button">Approve</a>
+						<span id="{{request.requester.pk}}" class="request-ider-{{request.pk}}"></span></td>
+					<td><a id="{{request.pk}}" class="ui tiny red button deny-request-button">Deny</a></td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<div id="point-changes">
+		<table id="changes_table" class="ui basic table segment">
+			<thead>
+				<tr>
+					<th class="one wide">Date</th>
+					<th class="two wide">Changer</th>
+					<th class="two wide">Brother</th>
+					<th class="two wide">Old Value</th>
+					<th class="two wide">New Value</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for change in point_changes %}
+				<tr>	
+					<td>{{ change.dateChanged }}</td>
+					<td>{{ change.modifier.first_name }} {{ change.modifier.last_name }}</td>
+					<td>{{ change.brother.brother.first_name }} {{ change.brother.brother.last_name }}</td>
+					<td>{{ change.oldValue }}</td>
+					<td>{{ change.newValue }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div></div>
+
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends "secure/links_base.html" %}
+
+{% block title %}Sigma Pi Secure - Links {% endblock %}
+
+{% block content %}
+	<h1 class="ui header">
+		Links
+		{% if perms.Links.add_link %}
+		<a class="ui teal button" id="add_link_button">Post Link</a>
+		{% endif %}
+	</h1>
+
+	{% if perms.Links.add_link %}
+	<div id="add_link_form" class="ui segment hidden">
+		<form enctype="multipart/form-data" method="post" action="{% url 'Links.views.add_link' %}" class="ui form">
+			{% csrf_token %}
+			<div class="field">
+				<label>Title*</label>
+				<div class="ui left labeled input">
+		  			{{linkform.title}}
+		  			<div class="ui corner label">
+						<i class="asterisk icon"></i>
+					</div>
+		  		</div>
+			</div>
+			<div class="field">
+				<label>URL*</label>
+				<div class="ui left labeled input">
+		  			{{linkform.url}}
+		  			<div class="ui corner label">
+						<i class="asterisk icon"></i>
+					</div>
+		  		</div>
+			</div>
+			{% if perms.Links.promote_link %}
+			<div class="field">
+				<div class="ui toggle checkbox">
+					{{linkform.promoted}}
+					<label>Important Post</label>
+				</div>
+			</div>
+			{% endif %}
+			<button type="submit" class="ui blue submit button">Post Link</button>
+			<div id="add_link_cancel" class="ui red button">Cancel</div>
+		</form>
+	</div>
+	{% endif %}
+	<!-- Hacky comments template to auto-populate comments -->
+	<div id="comments-template" class="comment hidden">
+		<div class="content">
+			<span class="author-wrapper"><i class="large user icon"></i>
+				<span class="author">
+				</span>
+			</span>
+			<div class="metadata">
+				<div class="date"></div>
+			</div>
+			<div class="comment_text">
+			</div>
+		</div>
+	</div>
+
+	{% if promoted_links %}
+	Important Links
+		<div class="ui list" id="links-list">
+		{% for link in promoted_links %}
+		{% include 'secure/links_link_template.html' %}
+		{% endfor %}
+		</div>
+	{% endif %}
+
+	{% if general_links %}
+	General Links
+		<div class="ui list" id="links-list">
+		{% for link in general_links %}
+		{% include 'secure/links_link_template.html' %}
+		{% endfor %}
+		</div>
+	{% endif %}
+{% endblock %}

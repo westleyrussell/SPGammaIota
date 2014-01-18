@@ -3,19 +3,30 @@
 {%block  local_includes %}
 	{% load staticfiles %}
 	<link rel='stylesheet' type='text/css' href='{% static "css/secure/blog/blog_common.css" %}' />
+	<script type='text/javascript' src='{% static "js/tinymce/tinymce.min.js" %}'></script>
 {% endblock %}
 
 {% block module_nav %}
 	<div id="blog-nav" class="ui inverted menu">
 		<div class="header item">
-			<i class="book icon"></i>Blog
+			<i class="comment icon"></i>Blog
 		</div>
-		<a class="item" href="{% url 'Blog.views.secure_index' %}">
+
+		{% if not '/add' in request.path %}
+		<a class="active item" href="{% url 'Blog.views.secure_index' %}">
 			View All
 		</a>
 		<a class="item" href="{% url 'Blog.views.add_blog' %}">
 			New Post
 		</a>
+		{% else %}
+		<a class="item" href="{% url 'Blog.views.secure_index' %}">
+			View All
+		</a>
+		<a class="active item" href="{% url 'Blog.views.add_blog' %}">
+			New Post
+		</a>
+		{% endif %}
 
 	</div>
 {% endblock %}

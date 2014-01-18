@@ -1,0 +1,41 @@
+{% extends "party_base.html" %}
+{% block title %}Sigma Pi Secure - Parties - Manage Parties {% endblock %}
+
+{% block content %}
+
+	<h1 class="ui header">Manage Parties - View All</h1>
+
+	<h4 class="ui header">Edit and delete existing parties.</h4>
+
+	{% if all_parties %}
+
+		<table class="ui basic table segment">
+			<thead>
+				<tr>
+					<th class="two wide">Party Name</th>
+					<th class="two wide">Party Date</th>
+					<th class="one wide">Edit</th>
+					<th class="one wide">Delete</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for party in all_parties %}
+				<tr>
+					<td>{{ party.displayname }}</td>
+					<td>{{ party.date }}</td>
+					<td>
+						<a href="{% with party.date|date:'Y-m-d' as date %}{% url 'PartyList.views.edit_party' party.name date %}{% endwith %}">Edit</a>
+					</td>
+					<td>
+						<a href="{% with party.date|date:'Y-m-d' as date %}{% url 'PartyList.views.delete_party' party.name date %}{% endwith %}">Delete</a>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+	{% else %}
+	No parties found.  <a href="{% url 'PartyList.views.add_party' %}">Create a new one.</a>
+	{% endif %}
+
+{% endblock %}

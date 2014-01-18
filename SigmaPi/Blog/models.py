@@ -2,7 +2,7 @@ from django.db import models
 from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.models import User
-
+from tinymce.widgets import TinyMCE
 
 class BlogPost(models.Model):
 	"""
@@ -32,12 +32,6 @@ class BlogPost(models.Model):
 	class Meta:
 		verbose_name = "Blog Post"
 		verbose_name_plural = "Blog Posts"
-		permissions = (
-			("add_post", "Can add a new post"),
-			("edit_post", "Can edit an existing post"),
-			("delete_post", "Can delete an existing post"),
-			("administrate_posts", "Can administrate posts"),
-			)
         
 
 class BlogPostForm(ModelForm):
@@ -45,7 +39,7 @@ class BlogPostForm(ModelForm):
 		Form for adding a blog post.
 	"""
 	title = forms.CharField(max_length=50)
-	content = forms.CharField(widget=forms.Textarea)
+	content = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 30}))
 	image = forms.FileField()
 
 	class Meta:

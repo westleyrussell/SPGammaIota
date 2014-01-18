@@ -18,11 +18,13 @@
 	      <td class="ten wide ui header">{{ p.displayname }}</td>
 	      <td class="two wide">{{ p.date }}</td>
 	      <td class="one wide">
-			<a class="ui active button" id="jobs" href="{% url 'PartyList.views.jobs' p.name %}">
+	      {% if p.jobs %}
+			<a class="ui active button" id="jobs" href="{{ p.jobs.url }}">
 			Jobs</a>
+		  {% endif %}
 		  </td>
 	      <td class="three wide">
-			<a class="ui active button" id="guests" href="{% url 'PartyList.views.guests' p.name %}">
+			<a class="ui active button" id="guests" href="{% with p.date|date:'Y-m-d' as date %}{% url 'PartyList.views.guests' p.name date %}{% endwith %}">
 			  <i class="user icon"></i>
 				Guest List
 			</a>

@@ -5,14 +5,29 @@ from datetime import datetime
 
 import json
 
+def timeStamped(fname, fmt='%Y-%m-%d_{fname}'):
+	"""
+		Utility function to add a timestamp to uploaded files.
+	"""
+	return datetime.now().strftime(fmt).format(fname=fname)
+
 class Party(models.Model):
 	"""
 		Model to represent a party.
 	"""
+
+	def partyjobspath(self, filename):
+		"""
+			Defines where bylaws should be stored
+		"""
+		return "protected/partyjobs/" + timeStamped(filename)
+
 	name = models.CharField(max_length=100)
 	date = models.DateField()
 	guycount = models.IntegerField(default=0)
 	girlcount = models.IntegerField(default=0)
+
+	jobs = models.FileField(upload_to=partyjobspath)
 
 	def __unicode__(self):
 		return self.name
@@ -28,6 +43,9 @@ class Party(models.Model):
 	class Meta:
 		verbose_name_plural = "Parties"
 		verbose_name = "Party"
+		permissions = (
+            ("manage_parties", "Can manage Parties"),
+        )
 
 class Guest(models.Model):
 	"""

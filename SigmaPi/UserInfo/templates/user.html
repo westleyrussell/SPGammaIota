@@ -3,19 +3,19 @@
 
 
 {% block header %}
-	<h1 class="sub-header ui inverted purple block header">{{ requested_user.first_name }} {{ requested_user.last_name }}</h1>
+	<h2 class="sub-header ui inverted purple block header">{{ requested_user.first_name }} {{ requested_user.last_name }}</h2>
 {% endblock %}
 {% block content %}
 
 <div class="ui basic segment large-print">
 	<img class="ui rounded med left floated image" src="/content/{{ requested_user.userinfo.picture }}">
-	Class: {{ requested_user.userinfo.classYear }}<br/>
-	Year: {{ requested_user.userinfo.graduationYear }}<br/>
-	Major: {{ requested_user.userinfo.major }}<br/>
-	Hometown: {{ requested_user.userinfo.hometown }}<br/>
-	Activities: {{ requested_user.userinfo.activities }}<br/>
-	Interests: {{ requested_user.userinfo.interests }}<br/>
-	Favorite Memory: {{ requested_user.userinfo.favoriteMemory }}<br/>
+	<b>Class:</b> {{ requested_user.userinfo.classYear }}<br/>
+	<b>Year:</b> {{ requested_user.userinfo.graduationYear }}<br/>
+	<b>Major:</b> {{ requested_user.userinfo.major }}<br/>
+	<b>Hometown:</b> {{ requested_user.userinfo.hometown }}<br/>
+	<b>Activities:</b> {{ requested_user.userinfo.activities }}<br/>
+	<b>Interests:</b> {{ requested_user.userinfo.interests }}<br/>
+	<b>Favorite Memory:</b> {{ requested_user.userinfo.favoriteMemory }}<br/>
 </div>
 
 {% endblock %}

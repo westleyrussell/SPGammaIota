@@ -1,0 +1,214 @@
+{% extends "secure/standards_base.html" %}
+
+{% block title %}Sigma Pi Secure - Standards - Manage Bones {% endblock %}
+
+{% block standards_includes %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href='{% static "css/jquery-ui/jquery-ui.min.css" %}' />
+
+<script type="text/javascript" src='{% static "js/secure/standards/standards_bones.js" %}'></script>
+<script type="text/javascript" src="{% static 'js/jquery-ui/jquery-ui.min.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<h1 class="ui header">
+	Manage Bones
+	<a class="ui red button" id="levy_bone_button">Levy Bone</a>
+	<a class="ui orange button" id="levy_probation_button">Levy Probation</a>
+</h1>
+
+<div class="ui segment hidden" id="levy_bone_form">
+	<form enctype="multipart/form-data" method="post" action="{% url 'Standards.views.add_bone' %}" class="ui error form">
+		{% csrf_token %}
+		<div class="field">
+			<h3 class="header">
+			Levy Bone
+			</h3>
+		</div>
+		
+		<div class="field">
+			<label>Recipient*</label>
+			<div class="ui left labeled input">
+				{{bone_form.bonee}}
+				<div class="ui corner label">
+					<i class="asterisk icon"></i>
+				</div>
+			</div>
+		</div>
+		<div class="field">
+			<label>Reason*</label>
+			<div class="ui left labeled input">
+				{{bone_form.reason}}
+				<div class="ui corner label">
+					<i class="asterisk icon"></i>
+				</div>
+			</div>
+		</div>
+		<div class="field">
+			<label>Expiration Date*</label>
+			<div class="ui left labeled input">
+				<input type="text" id="bone_datepicker" name="expirationDate" maxlength="50" />
+				<div class="ui corner label">
+					<i class="asterisk icon"></i>
+				</div>
+			</div>
+		</div>
+		<button type="submit" class="ui blue submit button">Submit</button>
+		<div id="levy_bone_cancel" class="ui red button">Cancel</div>
+	</form>
+</div>
+
+<div class="ui segment hidden" id="levy_probation_form">
+	<form enctype="multipart/form-data" method="post" action="{% url 'Standards.views.add_probation' %}" class="ui error form">
+		{% csrf_token %}
+		<div class="field">
+			<h3 class="header">
+			Levy Probation
+			</h3>
+		</div>
+		<div class="field">
+			<label>Recipient*</label>
+			<div class="ui left labeled input">
+				{{probation_form.recipient}}
+				<div class="ui corner label">
+					<i class="asterisk icon"></i>
+				</div>
+			</div>
+		</div>
+		<div class="field">
+			<label>Expiration Date*</label>
+			<div class="ui left labeled input">
+				<input type="text" id="probation_datepicker" name="expirationDate" maxlength="50" />
+				<div class="ui corner label">
+					<i class="asterisk icon"></i>
+				</div>
+			</div>
+		</div>
+		<button type="submit" class="ui blue submit button">Submit</button>
+		<div id="levy_probation_cancel" class="ui red button">Cancel</div>
+	</form>
+</div>
+
+<div id="tabs">
+	<ul>
+	    <li><a href="#active-bones">Active Bones</a></li>
+	    <li><a href="#probations">Probations</a></li>
+	    <li><a href="#expired-bones">Expired Bones</a></li>
+	   	<li><a href="#bone-changes">Bone Change Log</a></li>
+ 	</ul>
+	<div id="active-bones" class="ui basic vertical segment">
+		<table id="bones_table" class="ui basic table segment">
+			<thead>
+				<tr>
+					<th class="three wide">Recipient</th>
+					<th class="three wide">Given By</th>
+					<th class="two wide">Date</th>
+					<th class="two wide">Exp. Date</th>
+					<th class="eight wide">Reason</th>
+					<th class="one wide">Edit</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for bone in active_bones %}
+				<tr>	
+					<td>{{ bone.bonee.first_name }} {{ bone.bonee.last_name }}</td>
+					<td>{{ bone.boner.first_name }} {{ bone.boner.last_name }}</td>
+					<td>{{ bone.dateReceived }}</td>
+					<td>
+						{{ bone.expirationDate }}
+					</td>
+					<td>{{ bone.reason }}</td>
+					<td><a class="ui blue tiny button" href="{% url 'Standards.views.edit_bone' bone.pk%}">Edit Bone</a></td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<div id="probations" class="ui vertical segment">
+		<table id="probation_table" class="ui basic table segment">
+			<thead>
+				<tr>
+					<th class="four wide">Recipient</th>
+					<th class="four wide">Given By</th>
+					<th class="four wide">Date</th>
+					<th class="four wide">Exp. Date</th>
+					<th class="one wide">End</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for probation in all_probations %}
+				<tr id="{{probation.pk}}" class="probation-row">	
+					<td>{{ probation.recipient.first_name }} {{ probation.recipient.last_name }}</td>
+					<td>{{ probation.giver.first_name }} {{ probation.giver.last_name }}</td>
+					<td>{{ probation.dateReceived }}</td>
+					<td>{{ probation.expirationDate }}</td>
+					<td> 
+						<a id="{{probation.pk}}" class="ui blue tiny submit button end-probation">End Probation</a>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<div id="expired-bones" class="ui basic vertical segment">
+		<table id="expired_bones_table" class="ui basic table segment">
+			<thead>
+				<tr>
+					<th class="three wide">Recipient</th>
+					<th class="three wide">Given By</th>
+					<th class="two wide">Date</th>
+					<th class="two wide">Exp. Date</th>
+					<th class="eight wide">Reason</th>
+					<th class="one wide">View</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for bone in expired_bones %}
+				<tr>	
+					<td>{{ bone.bonee.first_name }} {{ bone.bonee.last_name }}</td>
+					<td>{{ bone.boner.first_name }} {{ bone.boner.last_name }}</td>
+					<td>{{ bone.dateReceived }}</td>
+					<td>
+						{{ bone.expirationDate }}
+					</td>
+					<td>{{ bone.reason }}</td>
+					<td><a class="ui blue tiny button" href="{% url 'Standards.views.edit_bone' bone.pk %}">View Bone</a></td>
+
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<div id="bone-changes" class="ui basic vertical segment">
+		<table id="bone_history_table" class="ui basic table segment">
+			<thead>
+				<tr>
+					<th class="one wide">Date</th>
+					<th class="two wide">Bone</th>
+					<th class="three wide">Changer</th>
+					<th class="two wide">Old Exp.</th>
+					<th class="two wide">New Exp.</th>
+					<th class="four wide">Old Reason</th>
+					<th class="four wide">New Reason</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for change in bone_edit_history %}
+				<tr>	
+					<td> {{ change.dateChangeMade }}</td>
+					<td><a class="ui blue tiny button" href="{% url 'Standards.views.edit_bone' change.bone.pk %}">View Bone</a></td>
+					<td>{{ change.modifier.first_name }} {{ change.modifier.last_name }}</td>
+					<td>{{ change.previousExpirationDate }}</td>
+					<td>
+						{{ change.newExpirationDate }}
+					</td>
+					<td>{{ change.previousReason }}</td>
+					<td>{{ change.newReason }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+{% endblock %}

@@ -1,4 +1,6 @@
 from django.db import models
+from django.forms import ModelForm
+from django import forms
 import datetime
 
 def timeStamped(fname, fmt='%Y-%m-%d_{fname}'):
@@ -28,20 +30,52 @@ class Bylaws(models.Model):
 	class Meta:
 		verbose_name_plural = "Bylaws"
 		verbose_name = "Bylaws"
+		permissions = (
+            ("access_bylaws", "Can access bylaws."),
+        )
 
-class HouseRule(models.Model):
+class BylawsForm(ModelForm):
 	"""
-		Model to represent a single house rule.
+		Form for adding a bylaws.
 	"""
+	filepath = forms.FileField()
 
-	title = models.CharField(max_length=100)
-	content = models.TextField()
-	path = models.SlugField(max_length=15)
+	class Meta:
+		model = Bylaws
+		exclude = ['date']
+
+class HouseRules(models.Model):
+	"""
+		Model to represent a house rule.
+	"""
+	def houserulespath(self, filename):
+		"""
+			Defines where house rules should be stored.
+		"""
+		return "protected/houserules/" + timeStamped(filename)
+	date = models.DateField()
+	filepath = models.FileField(upload_to=houserulespath)
+
+	def __unicode__(self):
+		return self.date.__str__()
 
 	#Setup meta info about this model
 	class Meta:
 		verbose_name_plural = "House Rules"
 		verbose_name = "House Rule"
+		permissions = (
+            ("access_houserules", "Can access house rules."),
+        )
+
+class RulesForm(ModelForm):
+	"""
+		Form for adding a house rules.
+	"""
+	filepath = forms.FileField()
+
+	class Meta:
+		model = HouseRules
+		exclude = ['date']
 
 class MeetingMinutes(models.Model):
 	"""
@@ -64,8 +98,19 @@ class MeetingMinutes(models.Model):
 	class Meta:
 		verbose_name_plural = "Meeting Minutes"
 		verbose_name = "Meeting Minutes"
+		permissions = (
+            ("access_meetingminutes", "Can access meeting minutes."),
+        )
 
+class MinutesForm(ModelForm):
+	"""
+		Form for adding a meeting minutes.
+	"""
+	date = forms.DateField()
+	filepath = forms.FileField()
 
+	class Meta:
+		model = MeetingMinutes
 
 class Guide(models.Model):
 	"""
@@ -87,3 +132,23 @@ class Guide(models.Model):
 
 	def __unicode__(self):
 		return self.name
+
+	class Meta:
+		verbose_name_plural = "Guides"
+		verbose_name = "Guide"
+		permissions = (
+            ("access_guide", "Can access guides."),
+        )
+
+class GuideForm(ModelForm):
+	"""
+		Form for adding a guide.
+	"""
+	name = forms.CharField(max_length=100)
+	description = forms.CharField(widget=forms.Textarea)
+	filepath = forms.FileField()
+
+	class Meta:
+		model = Guide
+		exclude = ['path']
+

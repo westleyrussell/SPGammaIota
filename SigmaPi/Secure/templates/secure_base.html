@@ -5,6 +5,7 @@
 	{% load staticfiles %}
 
 	<script type='text/javascript' src='{% static "js/jquery-1.8.2.min.js" %}'></script>
+	<script type='text/javascript' src='{% static "js/jquery.cookie.js" %}'></script>
 	<script type="text/javascript" src='{% static "js/semantic.min.js" %}'></script>
 	<script type="text/javascript" src='{% static "js/jquery.dataTables.min.js" %}'></script>
 	<script type="text/javascript" src='{% static "js/secure/secure_common.js" %}'></script>
@@ -30,11 +31,59 @@
 		<i class="lock icon"></i> Secure
 	</div>
 
-{# {% url 'apps.reports.views.report_list' as url %} #}
-{# <li{% ifequal url request.path %} class="active"{% endifequal %}> #}
-    {# <a href="{{ url }}">Reports</a> #}
-{# </li> #}
+	{% if perms.Archives.access_guide %}
+	{% if '/secure/archives' in request.path %}
+	<a class="item active" id="archives" href="{{ '/secure/archives' }}">
+	{% else %}
+	<a class="item" id="archives" href="{{ '/secure/archives' }}">
+	{% endif %}
+		<i class="archive icon"></i>Archives
+	</a>
+	{% endif %}
 
+	{% if '/secure/standards' in request.path %}
+	<a class="item active" id="standards" href="{{ '/secure/standards' }}">
+	{% else %}
+	<a class="item" id="standards" href="{{'/secure/standards'}}">
+	{% endif %}
+		<i class="legal icon"></i>Standards
+	</a>
+
+	{% if '/secure/library' in request.path %}
+	<a class="item active" id="library" href="{{ '/secure/library' }}">
+	{% else %}
+	<a class="item" id="library" href="{{ '/secure/library' }}">
+	{% endif %}
+		<i class="book icon"></i>Library
+	</a>
+
+	{% if perms.Links.access_link %}
+	{% if '/secure/links' in request.path %}
+	<a class="item active" id="links" href="{{ '/secure/links' }}">
+	{% else %}
+	<a class="item" id="links" href="{{ '/secure/links' }}">
+	{% endif %}
+		<i class="cloud icon"></i>Links
+	</a>
+	{% endif %}
+
+	{% if '/secure/parties' in request.path %}
+	<a class="item active" id="party_list" href="{{ '/secure/parties' }}">
+	{% else %}
+	<a class="item" id="party_list" href="{{ '/secure/parties' }}">
+	{% endif %}
+		<i class="male icon"></i>Parties
+	</a>
+
+	{% if perms.Blog.change_blogpost %}
+		{% if '/secure/blog' in request.path %}
+		<a class="item active" id="blog" href="{{ '/secure/blog' }}">
+		{% else %}
+		<a class="item" id="blog" href="{{ '/secure/blog' }}">
+		{% endif %}
+			<i class="comment icon"></i>Blog
+		</a>
+	{% endif %}
 
 	{% if perms.UserInfo.manage_users %}
 		{% if '/secure/users' in request.path %}
@@ -45,32 +94,6 @@
 			<i class="user icon"></i>Users
 		</a>
 	{% endif %}
-
-	{% if perms.Blog.administrate_posts %}
-		{% if '/secure/blog' in request.path %}
-		<a class="item active" id="blog" href="{{ '/secure/blog' }}">
-		{% else %}
-		<a class="item" id="blog" href="{{ '/secure/blog' }}">
-		{% endif %}
-			<i class="book icon"></i>Blog
-		</a>
-	{% endif %}
-
-	{% if '/secure/parties' in request.path %}
-	<a class="item active" id="party_list" href="{{ '/secure/parties' }}">
-	{% else %}
-	<a class="item" id="party_list" href="{{ '/secure/parties' }}">
-	{% endif %}
-		<i class="male icon"></i>Party List
-	</a>
-
-	{% if '/secure/library' in request.path %}
-	<a class="item active" id="library" href="{{ '/secure/library' }}">
-	{% else %}
-	<a class="item" id="library" href="{{ '/secure/library' }}">
-	{% endif %}
-		<i class="archive icon"></i>Library
-	</a>
 
 	<div class="right menu">
 		<div id="profile_dropdown" class="ui item dropdown">
