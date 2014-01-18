@@ -54,7 +54,7 @@ def edit_blog(request, slug):
 
 	# Find the existing post.
 	if request.method == 'POST':
-		form = BlogPostForm(request.POST, instance=post)
+		form = BlogPostForm(request.POST, request.FILES, instance=post)
 		if form.is_valid():
 			form.save();
 			return redirect('Blog.views.secure_index')
