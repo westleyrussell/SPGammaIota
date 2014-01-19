@@ -32,36 +32,10 @@ function initialize() {
         "Modify Points": function() {
           var userid = $(".modify-points-form-userid").attr("id");
           var points = $("#modify-points-form-points").val();
-          modifyPiPoints(userid, points, false);
+          modifyPiPoints(userid, points);
 
           $("#modify-points-form-points").val("");
           $(this).dialog("close");
-        },
-        Cancel: function() {
-          $( this ).dialog( "close" );
-        }
-      }
-    });
-
-    $( "#grant-points-form" ).dialog({
-      autoOpen: false,
-      height: 300,
-      width: 350,
-      modal: true,
-      draggable:false,
-      resizable:false,
-      buttons: {
-        "Approve Request": function() {
-          var userid = $(".grant-points-form-userid").attr("id");
-          var points = $("#grant-points-form-points").val();
-          modifyPiPoints(userid, points, true);
-
-          $("#grant-points-form-points").val("");
-          $(this).dialog("close");
-
-          var requestid = $('.grant-points-form-requestid').attr("id");
-
-          deleteRequest(requestid);
         },
         Cancel: function() {
           $( this ).dialog( "close" );
@@ -80,7 +54,7 @@ function initialize() {
         "Add Brother": function() {
           var userid = $("#id_brother").val();
           var points = $("#id_piPoints").val();
-          modifyPiPoints(userid, points, false);
+          modifyPiPoints(userid, points);
 
           $("#id_brother").val("");
           $("#id_piPoints").val("");
@@ -97,7 +71,7 @@ function setupClickListeners()
 {
     $(".modify-points-button").click(showModifyPointsForm);
 
-    $(".approve-points-button").click(showApproveRequestForm);
+    $(".approve-points-button").click(approveRequest);
  
     $( "#add-brother" ).click(function() {
         $( "#add-brother-form" ).dialog( "open" );
@@ -118,22 +92,13 @@ function showModifyPointsForm()
   $("#modify-points-form").dialog("open");
 }
 
-function showApproveRequestForm()
-{
-  var request_id = $(this).attr("id");
-  var user_id = $(".request-ider-"+request_id).attr("id");
-  $('.grant-points-form-requestid').attr("id", request_id);
-  $('.grant-points-form-userid').attr("id", user_id);
-  $('#grant-points-form').dialog('open');
-}
-
 function denyPointsRequest()
 {
   var id = $(this).attr("id");
   deleteRequest(id);
 }
 
-function modifyPiPoints(userid, newpoints, added)
+function modifyPiPoints(userid, newpoints)
 {
   var url = userid+"/";
   var csrftoken = $.cookie('csrftoken');
@@ -150,7 +115,6 @@ function modifyPiPoints(userid, newpoints, added)
     url: url,
     data: {
       "piPoints":newpoints,
-      "added": added
     },
   }).done(function( data ) {
     var id = data['id'];
@@ -177,6 +141,51 @@ function modifyPiPoints(userid, newpoints, added)
     var change_data = [date, modifier, name, oldPoints, points];
     changes_table.fnAddData(change_data);
 
+  });
+}
+
+function approveRequest()
+{
+  var request_id = $(this).attr("id");
+  var url = "request/"+request_id+"/accept/";
+  var csrftoken = $.cookie('csrftoken');
+  $.ajax({
+    type:"POST",
+    beforeSend: function(xhr, settings) {
+      if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+        // Send the token to same-origin, relative URLs only.
+        // Send the token only if the method warrants CSRF protection
+        // Using the CSRFToken value acquired earlier
+        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+      }       
+     },
+    url: url,
+  }).done(function( data ) {
+    var pos = requests_table.fnGetPosition($("#"+request_id+".requests_row").get(0));
+    requests_table.fnDeleteRow(pos);
+    var id = data['id'];
+    var name = data['name'];
+    var oldPoints = data['old_points'];
+    var points = data['points'];
+    var date = data['date'];
+    var modifier = data['modifier'];
+
+    //Update the standings if it exists.
+    //Check if exists
+    if($("#"+id+".points-row").length > 0)
+    {
+      $("#"+id+".points-points-field").first().html(points);
+    }
+    else
+    {
+      //Otherwise create it.
+      var standings_data = [name, points, '<a id='+id+' class="ui tiny red button deny-request-button">Deny</a>'];
+      points_table.fnAddData(standings_data);
+    }
+
+    //Update the change log
+    var change_data = [date, modifier, name, oldPoints, points];
+    changes_table.fnAddData(change_data);
   });
 }
 

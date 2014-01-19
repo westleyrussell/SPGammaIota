@@ -105,10 +105,15 @@ class PiPointsRequest(models.Model):
 			('M', 'Meal Cew')
 			)
 
+	REASON_POINTS = { 'P': 10, 'F': 30, 'S': 40, 'H': 20, 'M': 20,}
+
 	requester = models.ForeignKey(User)
 	reason = models.TextField(max_length=1, choices=REASON_CHOICES)
 	witness = models.CharField(max_length=100, default="None")
-	
+
+	def pointsForReason(self, reason):
+		return self.REASON_POINTS[reason]
+
 	def __unicode__(self):
 		return self.requester
 

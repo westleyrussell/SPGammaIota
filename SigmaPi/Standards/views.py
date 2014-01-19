@@ -272,17 +272,12 @@ def add_points(request, brother):
 	if request.method == 'POST':
 		try:
 			points = int(strip_tags(request.POST['piPoints']))
-			added = strip_tags(request.POST['added']) == 'true'
 			changeRecord = PiPointsChangeRecord()
 			record = PiPointsRecord.objects.filter(pk=brother)
 			if record.exists():
 				targetRecord = record[0]
 				old_points = targetRecord.points
-				if added:
-					targetRecord.points = targetRecord.points + points
-				else:
-					targetRecord.points = points
-
+				targetRecord.points = points
 				targetRecord.save()
 
 				changeRecord.oldValue = old_points
@@ -300,6 +295,43 @@ def add_points(request, brother):
 		changeRecord.dateChanged = datetime.now()
 		changeRecord.newValue = targetRecord.points
 		changeRecord.save()
+
+		response = {}
+		response['id'] = targetRecord.pk
+		response['name'] = targetRecord.brother.first_name + ' ' + targetRecord.brother.last_name
+		response['old_points'] = changeRecord.oldValue
+		response['points'] = targetRecord.points
+		response['date'] = dateformat.format(changeRecord.dateChanged, 'F j, Y, P')
+		response['modifier'] = changeRecord.modifier.first_name + ' ' + changeRecord.modifier.last_name
+
+		return HttpResponse(simplejson.dumps(response), content_type="application/json")
+	else:
+		return redirect('PubSite.views.permission_denied')
+
+@permission_required('Standards.delete_pipointsrequest', login_url='PubSite.views.permission_denied')
+def accept_request(request, pointreq):
+	"""
+		View for accepting points request
+	"""
+
+	if request.method == 'POST':
+		ppr = PiPointsRequest.objects.get(pk=pointreq)
+		pointsAwarded = ppr.pointsForReason(ppr.reason)
+		record = PiPointsRecord.objects.filter(pk=ppr.requester)
+		changeRecord = PiPointsChangeRecord()
+
+		targetRecord = record[0]
+		changeRecord.oldValue = targetRecord.points
+		targetRecord.points = targetRecord.points + pointsAwarded
+		targetRecord.save()
+
+		changeRecord.brother = targetRecord
+		changeRecord.modifier = request.user
+		changeRecord.dateChanged = datetime.now()
+		changeRecord.newValue = targetRecord.points
+		changeRecord.save()
+
+		ppr.delete()
 
 		response = {}
 		response['id'] = targetRecord.pk
