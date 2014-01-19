@@ -12,7 +12,7 @@ class PledgeClass(models.Model):
 	dateInitiated = models.DateField(blank=True)
 
 	def __unicode__(self):
-		return self.user.username
+		return self.name
 
 	class Meta:
 		verbose_name_plural = "Pledge Classes"

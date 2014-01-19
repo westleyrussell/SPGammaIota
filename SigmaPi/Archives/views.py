@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import permission_required
 from django.utils.html import strip_tags
 from django.template.defaultfilters import slugify
 from datetime import datetime
-
+from sendfile import sendfile
 from Archives.models import Guide, GuideForm, MeetingMinutes, MinutesForm, HouseRules, RulesForm, Bylaws, BylawsForm
 
 
@@ -48,6 +48,16 @@ def bylaws(request):
 		})
 
 	return render(request, "secure/archives_bylaws.html", context)
+
+@permission_required('Archives.access_bylaws', login_url='PubSite.views.permission_denied')
+def download_bylaw(request, bylaw):
+	"""
+		View for downloading bylaws
+	"""
+
+	bylawObject = Bylaws.objects.get(pk=bylaw)
+	return sendfile(request, bylawObject.filepath.path, attachment=True, attachment_filename="Bylaws " + str(bylawObject.date))
+
 
 @permission_required('Archives.delete_bylaws', login_url='PubSite.views.permission_denied')
 def delete_bylaw(request):
@@ -96,6 +106,16 @@ def rules(request):
 
 	return render(request, "secure/archives_rules.html", context)
 
+@permission_required('Archives.access_houserules', login_url='PubSite.views.permission_denied')
+def download_rules(request, rules):
+	"""
+		View for downloading rules
+	"""
+
+	houseRuleObject = HouseRules.objects.get(pk=rules)
+
+	return sendfile(request, houseRuleObject.filepath.path, attachment=True, attachment_filename="House Rules " + str(houseRuleObject.date))
+
 @permission_required('Archives.delete_houserules', login_url='PubSite.views.permission_denied')
 def delete_rules(request):
 	"""
@@ -143,6 +163,25 @@ def minutes(request):
 
 	return render(request, "secure/archives_minutes.html", context)
 
+@permission_required('Archives.access_meetingminutes', login_url='PubSite.views.permission_denied')
+def download_minutes(request, minutes):
+	"""
+		View for downloading minutes
+	"""
+
+	minutesObject = MeetingMinutes.objects.get(pk=minutes)
+
+	try:
+		user_initiated = request.user.userinfo.pledgeClass.dateInitiated
+	except:
+		return redirect('PubSite.views.permission_denied')
+
+	if user_initiated >= minutesObject.date:
+		return redirect('PubSite.views.permission_denied')
+
+	return sendfile(request, minutesObject.filepath.path, attachment=True, attachment_filename="Meeting Minutes " + str(minutesObject.date))
+
+
 @permission_required('Archives.delete_meetingminutes', login_url='PubSite.views.permission_denied')
 def delete_minutes(request):
 	"""
@@ -185,6 +224,16 @@ def guides(request):
 		})
 
 	return render(request, "secure/archives_guides.html", context)
+
+@permission_required('Archives.access_meetingminutes', login_url='PubSite.views.permission_denied')
+def download_guides(request, guides):
+	"""
+		View for downloading guides
+	"""
+
+	guideObject = Guide.objects.get(pk=guides)
+
+	return sendfile(request, guideObject.filepath.path, attachment=True, attachment_filename=guideObject.name)
 
 @permission_required('Archives.delete_guide', login_url='PubSite.views.permission_denied')
 def delete_guide(request):

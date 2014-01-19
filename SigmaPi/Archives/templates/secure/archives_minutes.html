@@ -78,7 +78,7 @@
 				<tr>
 					<td>{{ minute.date }}</td>
 					<td>
-						<a href="{{ minute.filepath.url }}">View</a>
+						<a href="{% url 'Archives.views.download_minutes' minute.pk %}">View</a>
 					</td>
 					{% if perms.Archives.delete_meetingminutes %}
 					<td>

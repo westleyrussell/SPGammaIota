@@ -83,7 +83,7 @@
 					<td>{{ guide.name }}</td>
 					<td>{{ guide.description }}</td>
 					<td>
-						<a href="{{ guide.filepath.url }}">View</a>
+						<a href="{% url 'Archives.views.download_guides' guide.pk %}">View</a>
 					</td>
 					{% if perms.Archives.delete_guide %}
 					<td>

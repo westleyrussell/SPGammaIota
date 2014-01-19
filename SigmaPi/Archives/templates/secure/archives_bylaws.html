@@ -48,7 +48,7 @@
 
 	{% if latest %}
 	<div class="ui vertical segment">
-		The most recent version of the bylaws may be viewed <a href="{{ latest.filepath.url }}">here.</a>
+		The most recent version of the bylaws may be viewed <a href="{% url 'Archives.views.download_bylaw' latest.pk %}">here.</a>
 		<br/>
 		<br/>
 	</div>
@@ -69,7 +69,7 @@
 				<tr>
 					<td>{{ bylaw.date }}</td>
 					<td>
-						<a href="{{ bylaw.filepath.url }}">View</a>
+						<a href="{% url 'Archives.views.download_bylaw' bylaw.pk %}">View</a>
 					</td>
 					{% if perms.Archives.delete_bylaws %}
 					<td>

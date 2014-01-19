@@ -50,7 +50,7 @@
 
 	{% if latest %}
 	<div class="ui vertical segment">
-		The most recent version of the house rules may be viewed <a href="{{ latest.filepath.url }}">here.</a>
+		The most recent version of the house rules may be viewed <a href="{% url 'Archives.views.download_rules' latest.pk %}">here.</a>
 		<br/>
 		<br/>
 	</div>
@@ -71,7 +71,7 @@
 				<tr>
 					<td>{{ rule.date }}</td>
 					<td>
-						<a href="{{ rule.filepath.url }}">View</a>
+						<a href="{% url 'Archives.views.download_rules' rule.pk %}">View</a>
 					</td>
 					{% if perms.Archives.delete_houserules %}
 					<td>
