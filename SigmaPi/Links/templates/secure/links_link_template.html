@@ -6,7 +6,7 @@
 	<div class="content">
 		<!-- Title -->
 		<a class="header" href="{% url 'Links.views.visit_link' link.pk %}">{{link.title}}</a>
-		( {{ link.url }} )
+		( {{ link.url|truncatechars:14 }} )
 		<!-- Details -->
 		<div id="details">
 			<!-- Metadata for link -->
