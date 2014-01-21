@@ -9,31 +9,32 @@
 
 {% block content %}
 	<h1 class="ui header">Add Party</h1>
-		{% if message %}
-		<div class="ui info message">
-			<div class="header">Message</div>
-			{% for msg in message %}
-			<p>{{ msg }}</p>
-			{% endfor %}
+	{% if message %}
+	<div class="ui info message">
+		<div class="header">Message</div>
+		{% for msg in message %}
+		<p>{{ msg }}</p>
+		{% endfor %}
+	</div>
+	{% endif %}
+	<h4 class="ui header">Add Single Party</h4>
+	<form enctype="multipart/form-data" method="post" action="{% url 'PartyList.views.add_party' %}" class="ui error horizontal segment form">
+		{% csrf_token %}
+		<div class="field">
+	  		<label>Party Name</label>
+	  		<div class="ui left labeled input">
+	  			<input type="text" id="id_name" name="name" maxlength="50" />
+	  		</div>
 		</div>
-		{% endif %}
-		<h4 class="ui header">Add Single Party</h4>
-		<form enctype="multipart/form-data" method="post" action="{% url 'PartyList.views.add_party' %}" class="ui error horizontal segment form">
-			{% csrf_token %}
-			<div class="field">
-		  		<label>Party Name</label>
-		  		<div class="ui left labeled input">
-		  			<input type="text" id="id_name" name="name" maxlength="50" />
-		  		</div>
-			</div>
-			<div class="field">
-		  		<label>Party Date</label>
-		  		<div class="ui left labeled input">
-		  			<input type="text" id="datepicker" name="date" maxlength="50" />
-		  		</div>
-			</div>
-			<button type="submit" class="ui blue submit button">Add Party</button>
-		</form>
+		<div class="field">
+	  		<label>Party Date</label>
+	  		<div class="ui left labeled input">
+	  			<input type="text" id="datepicker" name="date" maxlength="50" />
+	  		</div>
+		</div>
+		<button type="submit" class="ui blue submit button">Add Party</button>
+	</form>
+	
 	<script>
 	$(function() {
 		$("#datepicker").datepicker();

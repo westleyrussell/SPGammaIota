@@ -20,14 +20,14 @@ class Party(models.Model):
 		"""
 			Defines where bylaws should be stored
 		"""
-		return "protected/partyjobs/" + timeStamped(filename)
+		return "parties/partyjobs/" + timeStamped(filename)
 
 	name = models.CharField(max_length=100)
 	date = models.DateField()
 	guycount = models.IntegerField(default=0)
 	girlcount = models.IntegerField(default=0)
 
-	jobs = models.FileField(upload_to=partyjobspath)
+	jobs = models.FileField(upload_to=partyjobspath, blank=True, null=True)
 
 	def __unicode__(self):
 		return self.name
