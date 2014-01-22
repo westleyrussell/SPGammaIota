@@ -10,8 +10,10 @@
 {% endblock %}
 {% block content %}
 	<h1 class="ui header">
-		The Standards Board
+		The Standards Board<br/>
 		<a class="ui teal button" id="request_points_button">Request Pi Points</a>
+		<a class="ui teal button" id="request_job_button">Cover a Job</a>
+		<a class="ui teal button" id="request_job_take_button">Request Cover for a Job</a>
 	</h1>
 	<div id="request_points_form" class="ui segment	hidden" title="Request Pi Points">
 		<div class="ui form">
@@ -53,7 +55,7 @@
 			<ul>
 			    <li><a href="#bone-history">My Bone History</a></li>
 			    <li><a href="#point-standings">Pi Point Standings</a></li>
-			    <li><a href="#job-requests">Pi Point Job Requests</a></li>
+			    <li><a href="#job-requests">Job Cover Requests</a></li>
 		 	</ul>
 			<div id="bone-history" class="column">
 				<table id="bones_table" class="ui basic table segment">
@@ -77,8 +79,11 @@
 							<td>
 								{{ bone.value }}
 							</td>
-							<td><a class="ui blue tiny button" href="">Reduce Bone</a></td>
-
+							<td>
+								<form enctype="multipart/form-data" method="post" action="{% url 'Standards.views.reduce_bone' bone.pk %}" class="ui error form">
+									{% csrf_token %}
+									<button type="submit" class="ui blue tiny submit button">Reduce Bone</button>
+								</form>
 						</tr>
 						{% endfor %}
 
@@ -102,7 +107,6 @@
 			</div>
 
 			<div id="point-standings" class="column">
-				<h3 class="ui header">Pi Point Standings</h3>
 				<table id="points_table" class="ui basic table segment">
 					<thead>
 						<tr>
@@ -122,19 +126,46 @@
 			</div>
 
 			<div id="job-requests" class="column">
-				<h3 class="ui header">Pi Point Standings</h3>
-				<table id="jobs_table" class="ui basic table segment">
+				<div class="ui vertical segment">
+					<h3 class="ui header">People looking for others to cover their job:</h3>
+					<table id="givers_table" class="ui basic table segment">
+						<thead>
+							<tr>
+								<th class="three wide">Requester</th>
+								<th class="three wide">Job</th>
+								<th class="eight wide">Details</th>
+								<th class="two wide">Cover Job</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for job in job_givers %}
+							<tr>	
+								<td>{{ job.requester.first_name }} {{ job.requester.last_name }}</td>
+								<td>{{ job.job }}</td>
+								<td>{{ job.details }}</td>
+								<td><a class="ui blue tiny button" href="">Cover Job</a></td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+				<h3 class="ui header">People looking to cover others' jobs:</h3>
+				<table id="doers_table" class="ui basic table segment">
 					<thead>
 						<tr>
-							<th class="three wide">Name</th>
-							<th class="three wide">Points</th>
+							<th class="three wide">Requester</th>
+							<th class="three wide">Job</th>
+							<th class="eight wide">Details</th>
+							<th class="two wide">Give Job</th>
 						</tr>
 					</thead>
 					<tbody>
-						{% for record in point_records %}
+						{% for job in job_doers %}
 						<tr>	
-							<td>{{ record.brother.first_name }} {{ record.brother.last_name }}</td>
-							<td>{{ record.points }}</td>
+							<td>{{ job.requester.first_name }} {{ job.requester.last_name }}</td>
+							<td>{{ job.job }}</td>
+							<td>{{ job.details }}</td>
+							<td><a class="ui blue tiny button" href="">Give Job</a></td>
 						</tr>
 						{% endfor %}
 					</tbody>

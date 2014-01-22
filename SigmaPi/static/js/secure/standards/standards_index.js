@@ -50,7 +50,7 @@ $(document).ready(function() {
 	$.fn.dataTableExt.oStdClasses["sPagePrevDisabled"] = "ui button disabled"
 	$.fn.dataTableExt.oStdClasses["sPageNextEnabled"] = "ui button active"
 	$.fn.dataTableExt.oStdClasses["sPageNextDisabled"] = "ui button disabled"
-	$('#jobs_table').dataTable({
+	$('#doers_table').dataTable({
 		"bFilter":false,
 		"bSort": false,
 	});
@@ -59,6 +59,10 @@ $(document).ready(function() {
 							"bSort": false,
 						});
 	$('#bones_table').dataTable({
+							"bFilter":false,
+							"bSort": false,
+						});
+	$('#givers_table').dataTable({
 							"bFilter":false,
 							"bSort": false,
 						});

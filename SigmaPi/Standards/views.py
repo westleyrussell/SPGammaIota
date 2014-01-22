@@ -210,6 +210,36 @@ def add_bone(request):
 	else:
 		return redirect('PubSite.views.permission_denied')
 
+@login_required
+def reduce_bone(request, bone):
+	"""
+		View for reducing a bone.
+	"""
+	if request.method == 'POST':
+		targetBone = Bone.objects.get(pk=bone)
+
+		if not targetBone.bonee == request.user:
+			return redirect('PubSite.views.permission_denied')
+		else:
+			pointsRecord = PiPointsRecord.objects.get(brother=request.user)
+
+			if pointsRecord.points <= 0:
+				return redirect('Standards.views.index')
+			elif pointsRecord.points < targetBone.value:
+				targetBone.value = targetBone.value - pointsRecord.points
+				targetBone.save()
+				pointsRecord.points = 0
+				pointsRecord.save()
+			else:
+				pointsRecord.points = pointsRecord.points - targetBone.value
+				pointsRecord.save()
+				targetBone.expirationDate = datetime.now()
+				targetBone.save()
+
+			return redirect('Standards.views.index')
+	else:
+		return redirect('PubSite.views.permission_denied')
+
 @permission_required('Standards.add_probation', login_url='PubSite.views.permission_denied')
 def add_probation(request):
 	"""
@@ -358,7 +388,14 @@ def delete_request(request, pointreq):
 	response = {}
 	return HttpResponse(simplejson.dumps(response), content_type="application/json")
 
+@login_required
+def add_job_request(request):
+	pass
 
+@login_required
+def delete_job_request(request, jobrequest):
+	pass
 
-
-
+@login_required
+def accept_job_request(request, jobrequest):
+	pass

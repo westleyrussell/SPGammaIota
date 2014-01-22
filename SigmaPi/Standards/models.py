@@ -124,11 +124,11 @@ class PiPointsRequest(models.Model):
 
 class JobRequest(models.Model):
 	REASON_CHOICES = (
-				('P', 'Pre/Post Party Job'),
-				('F', 'First Shift Party Job'),
-				('S', 'Second Shift Party Job'),
-				('H', 'House Job'),
-				('M', 'Meal Crew')
+				('P', 'Pre/Post Party Job (10)'),
+				('F', 'First Shift Party Job (30)'),
+				('S', 'Second Shift Party Job (40)'),
+				('H', 'House Job (20)'),
+				('M', 'Meal Crew (20)')
 				)
 
 	REASON_POINTS = { 'P': 10, 'F': 30, 'S': 40, 'H': 20, 'M': 20,}
