@@ -44,6 +44,9 @@ $(document).ready(function() {
 		$('#request_points_form').dialog( 'open' );
 	});
 
+	setupRequestCoverForm();
+	setupOfferCoverForm();
+
 	$.fn.dataTableExt.oStdClasses["sLength"] = "ui label black"
 	$.fn.dataTableExt.oStdClasses["sInfo"] = "ui message"
 	$.fn.dataTableExt.oStdClasses["sPagePrevEnabled"] = "ui button active"
@@ -68,6 +71,54 @@ $(document).ready(function() {
 						});
 	$('#tabs').tabs();
 });
+
+function setupRequestCoverForm()
+{
+	$( "#request_cover_form" ).dialog({
+	autoOpen: false,
+	height: 600,
+	width: 400,
+	modal: true,
+	draggable:false,
+	resizable:false,
+	buttons: {
+	"Send Request": function() {
+		$('#request_cover_form_form').first().submit()
+	},
+	Cancel: function() {
+	  $( this ).dialog( "close" );
+	}
+	}
+	});
+
+	$('#request_job_take_button').click(function() {
+		$('#request_cover_form').dialog( 'open' );
+	});
+}
+
+function setupOfferCoverForm()
+{
+	$( "#offer_cover_form" ).dialog({
+	autoOpen: false,
+	height: 525,
+	width: 400,
+	modal: true,
+	draggable:false,
+	resizable:false,
+	buttons: {
+	"Send Request": function() {
+		$('#offer_cover_form_form').first().submit()
+	},
+	Cancel: function() {
+	  $( this ).dialog( "close" );
+	}
+	}
+	});
+
+	$('#request_job_button').click(function() {
+		$('#offer_cover_form').dialog( 'open' );
+	});
+}
 
 
 function csrfSafeMethod(method) {

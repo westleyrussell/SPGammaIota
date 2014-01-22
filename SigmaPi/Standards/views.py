@@ -10,10 +10,10 @@ from django.contrib.auth.models import User
 
 from datetime import datetime
 
-from Standards.models import Bone, PiPointsRecord, PiPointsRequest, PiPointsChangeRecord, PiPointsRequestForm, PiPointsAddBrotherForm, Probation, BoneChangeRecord, ProbationGivingForm, BoneGivingForm, BoneEditingForm
+from Standards.models import JobRequest, JobRequestForm, Bone, PiPointsRecord, PiPointsRequest, PiPointsChangeRecord, PiPointsRequestForm, PiPointsAddBrotherForm, Probation, BoneChangeRecord, ProbationGivingForm, BoneGivingForm, BoneEditingForm
 
 @login_required
-def index(request):
+def index(request, error=None):
 	"""
 		Displays the homepage of the standards module.
 	"""
@@ -38,6 +38,13 @@ def index(request):
 
 	probation = Probation.objects.filter(recipient=request.user, expirationDate__gt=datetime.now()).exists()
 	points_form = PiPointsRequestForm()
+	job_givers = JobRequest.objects.filter(takingJob=False).exclude(requester=request.user)
+	job_doers = JobRequest.objects.filter(takingJob=True).exclude(requester=request.user)
+	own_givers = JobRequest.objects.filter(takingJob=False, requester=request.user)
+	own_doers = JobRequest.objects.filter(takingJob=True, requester=request.user)
+	jobs_form = JobRequestForm()
+
+	positive_points = own_points.points > 0
 
 	context = RequestContext(request, {
 	'current_bone_count': current_bone_count,
@@ -47,6 +54,13 @@ def index(request):
 	'point_records': point_records,
 	'probation': probation,
 	'points_form': points_form,
+	'job_givers':job_givers,
+	'job_doers':job_doers,
+	'own_doers': own_doers,
+	'own_givers': own_givers,
+	'jobs_form': jobs_form,
+	'positive_points': positive_points,
+	'error': error
 	})
 
 	return render(request, "secure/standards_index.html", context)
@@ -389,13 +403,96 @@ def delete_request(request, pointreq):
 	return HttpResponse(simplejson.dumps(response), content_type="application/json")
 
 @login_required
-def add_job_request(request):
-	pass
+def add_job_request(request, jobtype):
+
+	if request.method == 'POST':
+		form = JobRequestForm(request.POST)
+		takingJob = jobtype == '2'
+
+		pipoints = PiPointsRecord.objects.get(brother=request.user)
+
+
+		if form.is_valid():
+			jobreq = form.save(commit=False)
+
+			# If looking for cover, make sure we have enough pi points
+			if not takingJob:
+				cost = jobreq.REASON_POINTS[jobreq.job]
+				if cost > pipoints.points:
+					return index(request, 'Could not submit job request, you do not have enough Pi Points!')				
+				else:
+					# Check all outstanding requests
+					all_req = JobRequest.objects.filter(requester=request.user, takingJob=False)
+					runningTally = cost
+					for req in all_req:
+						runningTally = runningTally + req.REASON_POINTS[req.job]
+						if runningTally > pipoints.points:
+							return index(request, 'Could not submit job request.  You do not have enough Pi Points to satisfy all your outstanding requests.')
+
+			jobreq.requester = request.user
+			jobreq.takingJob = takingJob
+			jobreq.save()
+
+		return redirect('Standards.views.index')
+	else:
+		return redirect('PubSite.views.permission_denied')
 
 @login_required
 def delete_job_request(request, jobrequest):
-	pass
+	if request.method == 'POST':
+		jobreq = JobRequest.objects.get(pk=jobrequest)
+		if jobreq.requester == request.user:
+			jobreq.delete()
+			return redirect('Standards.views.index') 
+		else:
+			return redirect('PubSite.views.permission_denied')
+	else:
+		return redirect('PubSite.views.permission_denied')
 
 @login_required
 def accept_job_request(request, jobrequest):
+	"""
+		When a job request is accepted:
+			A Pi Point request is sent for the user who is covering the job.
+			The user whose job is being covered is docked pi points
+			the request is deleted
+	"""
+
+	if request.method == 'POST':
+
+		jobreq = JobRequest.objects.get(pk=jobrequest)
+
+		# If its a job request where the requester is taking the job, they'll get the pi points
+		if jobreq.takingJob:
+
+			# Check that the giver has enough points
+			takingBrother = jobreq.requester
+			giverRecord = PiPointsRecord.objects.get(brother=request.user)
+
+			if giverRecord.points < jobreq.REASON_POINTS[jobreq.job]:
+				return index(request, error="Sorry, you do not have enough pi points to have someone cover that job for you.")
+
+		else:
+			takingBrother = request.user
+			giverRecord = PiPointsRecord.objects.get(brother=jobreq.requester)
+
+		# Send a request for the taker
+		ppr = PiPointsRequest()
+		ppr.requester = takingBrother
+		ppr.reason = jobreq.job
+		ppr.witness = "Took a job through Pi Point Web System."
+		ppr.save()
+
+		# Subtract pi points from giver
+		giverRecord.points = giverRecord.points - jobreq.REASON_POINTS[jobreq.job]
+		giverRecord.save()
+
+		alertAboutJob(giverRecord, takingBrother, jobreq.get_job_display(), jobreq.details)
+
+		jobreq.delete()
+		return redirect('Standards.views.index')
+	else:
+		return redirect('PubSite.views.permission_denied')
+
+def alertAboutJob(giverRecord, takerUser, jobTitle, jobDetails):
 	pass

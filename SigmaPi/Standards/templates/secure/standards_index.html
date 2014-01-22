@@ -13,15 +13,16 @@
 		The Standards Board<br/>
 		<a class="ui teal button" id="request_points_button">Request Pi Points</a>
 		<a class="ui teal button" id="request_job_button">Cover a Job</a>
+		
+		{% if positive_points %}
 		<a class="ui teal button" id="request_job_take_button">Request Cover for a Job</a>
+		{% endif %}
 	</h1>
+	{% if error %}
+	<div class="ui error message">{{error}}</div>
+	{% endif %}
 	<div id="request_points_form" class="ui segment	hidden" title="Request Pi Points">
 		<div class="ui form">
-			<div class="field">
-				<h3 class="header">
-				Request Pi Points
-				</h3>
-			</div>	
 			<div class="field">
 				<label>Reason*</label>
 				<div class="ui left labeled input">
@@ -38,6 +39,57 @@
 				</div>
 			</div>
 		</div>
+	</div>
+
+	{% if positive_points %}
+	<div id="request_cover_form" class="ui segment	hidden" title="Request Cover for a Job">
+		<form id="request_cover_form_form" enctype="multipart/form-data" method="post" action="{% url 'Standards.views.add_job_request' 1 %}" class="ui form">
+			{% csrf_token %}
+			<div class="field">
+				Spend your Pi Points requesting coverage for a job you cannot perform.  
+				<br/><br/>You must have the necessary number of Pi Points to request coverage.
+			</div>	
+			<div class="field">
+				<label>Job*</label>
+				<div class="ui left labeled input">
+					{{jobs_form.job}}
+					<div class="ui corner label">
+						<i class="asterisk icon"></i>
+					</div>
+				</div>
+			</div>
+			<div class="field">
+				<label>Details*</label>
+				<div class="ui input">
+					{{jobs_form.details}}
+				</div>
+			</div>
+		</form>
+	</div>
+	{% endif %}
+
+	<div id="offer_cover_form" class="ui segment	hidden" title="Offer to Cover a Job">
+		<form enctype="multipart/form-data" method="post" action="{% url 'Standards.views.add_job_request' 2 %}" class="ui form" id="offer_cover_form_form">
+			{% csrf_token %}
+			<div class="field">
+				You will receive the corresponding number of Pi Points once you have covered the job.
+			</div>	
+			<div class="field">
+				<label>Job*</label>
+				<div class="ui left labeled input">
+					{{jobs_form.job}}
+					<div class="ui corner label">
+						<i class="asterisk icon"></i>
+					</div>
+				</div>
+			</div>
+			<div class="field">
+				<label>Details*</label>
+				<div class="ui input">
+					{{jobs_form.details}}
+				</div>
+			</div>
+		</form>
 	</div>
 
 	<div id="wrapper">
@@ -141,9 +193,23 @@
 							{% for job in job_givers %}
 							<tr>	
 								<td>{{ job.requester.first_name }} {{ job.requester.last_name }}</td>
-								<td>{{ job.job }}</td>
+								<td>{{ job.get_job_display }}</td>
 								<td>{{ job.details }}</td>
-								<td><a class="ui blue tiny button" href="">Cover Job</a></td>
+								<td><form enctype="multipart/form-data" method="post" action="{% url 'Standards.views.accept_job_request' job.pk %}" class="ui error form">
+									{% csrf_token %}
+									<button type="submit" class="ui blue tiny submit button">Cover Job</button>
+								</form></td>
+							</tr>
+							{% endfor %}
+							{% for job in own_givers %}
+							<tr>	
+								<td>{{ job.requester.first_name }} {{ job.requester.last_name }}</td>
+								<td>{{ job.get_job_display }}</td>
+								<td>{{ job.details }}</td>
+								<td><form enctype="multipart/form-data" method="post" action="{% url 'Standards.views.delete_job_request' job.pk %}" class="ui error form">
+									{% csrf_token %}
+									<button type="submit" class="ui red tiny submit button">Delete</button>
+								</form></td>
 							</tr>
 							{% endfor %}
 						</tbody>
@@ -163,9 +229,25 @@
 						{% for job in job_doers %}
 						<tr>	
 							<td>{{ job.requester.first_name }} {{ job.requester.last_name }}</td>
-							<td>{{ job.job }}</td>
+							<td>{{ job.get_job_display }}</td>
 							<td>{{ job.details }}</td>
-							<td><a class="ui blue tiny button" href="">Give Job</a></td>
+							<td>
+								<form enctype="multipart/form-data" method="post" action="{% url 'Standards.views.accept_job_request' job.pk %}" class="ui error form">
+									{% csrf_token %}
+									<button type="submit" class="ui blue tiny submit button">Give Job</button>
+								</form>
+						</tr>
+						{% endfor %}
+						{% for job in own_doers %}
+						<tr>	
+							<td>{{ job.requester.first_name }} {{ job.requester.last_name }}</td>
+							<td>{{ job.get_job_display }}</td>
+							<td>{{ job.details }}</td>
+							<td>
+								<form enctype="multipart/form-data" method="post" action="{% url 'Standards.views.delete_job_request' job.pk %}" class="ui error form">
+									{% csrf_token %}
+									<button type="submit" class="ui red tiny submit button">Delete</button>
+								</form>
 						</tr>
 						{% endfor %}
 					</tbody>
