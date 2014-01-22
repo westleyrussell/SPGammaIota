@@ -549,7 +549,7 @@ def alertAboutJob(giverRecord, takerUser, jobTitle, jobDetails):
 	message_to_giver = message_to_giver + " Please coordinate with him so that you may ensure the job is"
 	message_to_giver = message_to_giver + " completed correctly and on time.  Thank you from the Standards Board."
 
-	subject_to_taker = "You have been assigned to take " + giverName +"'s job: " jobTitle + "!"
+	subject_to_taker = "You have been assigned to take " + giverName +"'s job: " + jobTitle + "!"
 	message_to_taker = "Please ensure that you complete the job correctly and on time.  Failure to do so"
 	message_to_taker = message_to_taker + " may result in a loss of Pi Points and/or a summons.  Please "
 	message_to_taker = message_to_taker + "coordinate with " + giverName + " concerning the details of the job."
