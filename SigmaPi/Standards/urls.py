@@ -16,6 +16,6 @@ urlpatterns = patterns('',
 	url(r'^points/request/(?P<pointreq>[\d]+)/accept/$', 'Standards.views.accept_request'),
 	url(r'^jobs/request/add/(?P<jobtype>[\d]+)/$', 'Standards.views.add_job_request'),
 	url(r'^jobs/request/delete/(?P<jobrequest>[\d]+)/$', 'Standards.views.delete_job_request'),
-	url(r'^jobs/requests/take/(?P<jobrequest>[\d]+)/$', 'Standards.views.accept_job_request'),
+	url(r'^jobs/request/take/(?P<jobrequest>[\d]+)/$', 'Standards.views.accept_job_request'),
 
 )

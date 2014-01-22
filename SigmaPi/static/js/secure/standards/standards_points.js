@@ -133,7 +133,7 @@ function modifyPiPoints(userid, newpoints)
     else
     {
       //Otherwise create it.
-      var standings_data = [name, points, '<a id='+id+' class="ui tiny red button deny-request-button">Deny</a>'];
+      var standings_data = [name, points, '<a id='+id+' class="ui tiny red button modify-points-button">Modify Points</a>'];
       points_table.fnAddData(standings_data);
     }
 
@@ -179,7 +179,7 @@ function approveRequest()
     else
     {
       //Otherwise create it.
-      var standings_data = [name, points, '<a id='+id+' class="ui tiny red button deny-request-button">Deny</a>'];
+      var standings_data = [name, points, '<a id='+id+' class="ui tiny red button modify-points-button">Modify Points</a>'];
       points_table.fnAddData(standings_data);
     }
 
