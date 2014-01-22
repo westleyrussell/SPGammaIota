@@ -45,7 +45,7 @@ def index(request, error=None):
 	jobs_form = JobRequestForm()
 
 	requests_count = JobRequest.objects.all().count()
-
+	pprCount = PiPointsRequest.objects.all().count()
 	positive_points = own_points.points > 0
 
 	context = RequestContext(request, {
@@ -63,7 +63,8 @@ def index(request, error=None):
 	'jobs_form': jobs_form,
 	'positive_points': positive_points,
 	'error': error,
-	'requests_count': requests_count
+	'requests_count': requests_count,
+	'pprCount': pprCount
 	})
 
 	return render(request, "secure/standards_index.html", context)
@@ -99,14 +100,16 @@ def edit_bones(request):
 	bone_edit_history = BoneChangeRecord.objects.all().order_by('-dateChangeMade')
 	probation_form = ProbationGivingForm()
 	bone_form = BoneGivingForm()
-
+	pprCount = PiPointsRequest.objects.all().count()
+	
 	context = RequestContext(request, {
 	'active_bones': all_bones,
 	'expired_bones': expired_bones,
 	'all_probations': all_probations,
 	'probation_form': probation_form,
 	'bone_form': bone_form,
-	'bone_edit_history': bone_edit_history
+	'bone_edit_history': bone_edit_history,
+	'pprCount': pprCount
 	})
 
 	return render(request, "secure/standards_bones.html", context)
@@ -155,12 +158,13 @@ def edit_bone(request, bone):
 			bone_form = BoneEditingForm(instance=targetBone)
 		else:
 			bone_form = None
-
+		pprCount = PiPointsRequest.objects.all().count()
 		context = RequestContext(request, {
 			'bone': targetBone,
 			'expired': expired,
 			'bone_form': bone_form,
-			'bone_history': bone_history
+			'bone_history': bone_history,
+			'pprCount': pprCount
 			})
 
 		return render(request, "secure/standards_edit_bone.html", context)
@@ -301,12 +305,14 @@ def manage_points(request):
 	point_requests = PiPointsRequest.objects.all()
 	point_changes = PiPointsChangeRecord.objects.all().order_by('-dateChanged')
 	add_brother_form = PiPointsAddBrotherForm()
-
+	pprCount = PiPointsRequest.objects.all().count()
+	
 	context = RequestContext(request, {
 	'point_records': point_records,
 	'point_requests': point_requests,
 	'add_brother_form': add_brother_form,
-	'point_changes': point_changes
+	'point_changes': point_changes,
+	'pprCount': pprCount,
 	})
 
 	return render(request, "secure/standards_points.html", context)
@@ -387,7 +393,7 @@ def accept_request(request, pointreq):
 		response['points'] = targetRecord.points
 		response['date'] = dateformat.format(changeRecord.dateChanged, 'F j, Y, P')
 		response['modifier'] = changeRecord.modifier.first_name + ' ' + changeRecord.modifier.last_name
-
+		response['pprCount'] = PiPointsRequest.objects.all().count()
 		return HttpResponse(simplejson.dumps(response), content_type="application/json")
 	else:
 		return redirect('PubSite.views.permission_denied')
@@ -403,6 +409,7 @@ def delete_request(request, pointreq):
 		request.delete()
 
 	response = {}
+	response['pprCount'] = PiPointsRequest.objects.all().count()
 	return HttpResponse(simplejson.dumps(response), content_type="application/json")
 
 @login_required
@@ -454,7 +461,16 @@ def add_job_request(request, jobtype):
 @login_required
 def delete_job_request(request, jobrequest):
 	if request.method == 'POST':
-		jobreq = JobRequest.objects.get(pk=jobrequest)
+		try:
+			jobreq = JobRequest.objects.get(pk=jobrequest)
+		except:
+			response = {}
+			ppr = PiPointsRecord.objects.get(brother=request.user)
+			response['error'] = "Sorry, that request cannot be deleted.  Somebody has already accepted the request."
+			response['points'] = ppr.points
+			response['requestCount'] = JobRequest.objects.all().count()
+			return HttpResponse(simplejson.dumps(response), content_type="application/json") 
+
 		if jobreq.requester == request.user:
 			jobreq.delete()
 
@@ -478,8 +494,14 @@ def accept_job_request(request, jobrequest):
 	"""
 
 	if request.method == 'POST':
-
-		jobreq = JobRequest.objects.get(pk=jobrequest)
+		try:
+			jobreq = JobRequest.objects.get(pk=jobrequest)
+		except:
+			response = {}
+			response['error'] = "Sorry, that request no longer exists.  Either the person who put it up deleted it or somebody else already accepted it."
+			response['delete'] = True
+			response['requestCount'] = JobRequest.objects.all().count()
+			return HttpResponse(simplejson.dumps(response), content_type="application/json") 
 
 		# If its a job request where the requester is taking the job, they'll get the pi points
 		if jobreq.takingJob:

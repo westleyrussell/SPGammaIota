@@ -194,6 +194,11 @@ function deleteCoverRequest(requestid, taker)
 
   	updatePoints(data.points);
   	updateRequestCount(data.requestCount);
+
+  	if(data.error)
+  	{
+  		reportError(data.error);
+  	}
   });
 }
 
@@ -215,6 +220,22 @@ function acceptCoverRequest(requestid, taker)
   }).done(function( data ) {
   	if(data.error)
   	{
+
+  		if(data.delete)
+  		{
+  			if(taker)
+	  		{
+				var pos = doers_table.fnGetPosition($("#"+requestid+".jobs-row").get(0));
+				doers_table.fnDeleteRow(pos);
+	  		}
+	  		else
+	  		{
+				var pos = givers_table.fnGetPosition($("#"+requestid+".jobs-row").get(0));
+				givers_table.fnDeleteRow(pos);
+	  		}
+
+	  		updateRequestCount(data.requestCount)
+  		}
   		reportError(data.error);
   	}
   	else
