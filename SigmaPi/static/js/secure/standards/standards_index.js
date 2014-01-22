@@ -43,6 +43,26 @@ $(document).ready(function() {
 	$('#request_points_button').click(function() {
 		$('#request_points_form').dialog( 'open' );
 	});
+
+	$.fn.dataTableExt.oStdClasses["sLength"] = "ui label black"
+	$.fn.dataTableExt.oStdClasses["sInfo"] = "ui message"
+	$.fn.dataTableExt.oStdClasses["sPagePrevEnabled"] = "ui button active"
+	$.fn.dataTableExt.oStdClasses["sPagePrevDisabled"] = "ui button disabled"
+	$.fn.dataTableExt.oStdClasses["sPageNextEnabled"] = "ui button active"
+	$.fn.dataTableExt.oStdClasses["sPageNextDisabled"] = "ui button disabled"
+	$('#jobs_table').dataTable({
+		"bFilter":false,
+		"bSort": false,
+	});
+	$('#points_table').dataTable({
+							"bFilter":false,
+							"bSort": false,
+						});
+	$('#bones_table').dataTable({
+							"bFilter":false,
+							"bSort": false,
+						});
+	$('#tabs').tabs();
 });
 
 

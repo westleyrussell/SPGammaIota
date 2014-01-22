@@ -18,6 +18,7 @@ class Bone(models.Model):
 	reason = models.TextField()
 	dateReceived = models.DateField()
 	expirationDate = models.DateField()
+	value = models.PositiveIntegerField(default=0)
 
 	def __unicode__(self):
 		return self.reason
@@ -102,7 +103,7 @@ class PiPointsRequest(models.Model):
 			('F', 'First Shift Party Job'),
 			('S', 'Second Shift Party Job'),
 			('H', 'House Job'),
-			('M', 'Meal Cew')
+			('M', 'Meal Crew')
 			)
 
 	REASON_POINTS = { 'P': 10, 'F': 30, 'S': 40, 'H': 20, 'M': 20,}
@@ -121,6 +122,51 @@ class PiPointsRequest(models.Model):
 		verbose_name = "Pi Points Request"
 		verbose_name_plural = "Pi Points Request"
 
+class JobRequest(models.Model):
+	REASON_CHOICES = (
+				('P', 'Pre/Post Party Job'),
+				('F', 'First Shift Party Job'),
+				('S', 'Second Shift Party Job'),
+				('H', 'House Job'),
+				('M', 'Meal Crew')
+				)
+
+	REASON_POINTS = { 'P': 10, 'F': 30, 'S': 40, 'H': 20, 'M': 20,}
+
+	requester = models.ForeignKey(User)
+	job = models.TextField(max_length=1, choices=REASON_CHOICES)
+	details = models.TextField()
+	takingJob = models.BooleanField()
+
+	def pointsForReason(self, reason):
+		return self.REASON_POINTS[job]
+
+	def __unicode__(self):
+		return self.requester
+
+	class Meta:
+		verbose_name = "Job Request"
+		verbose_name_plural = "Job Requests"
+
+class JobRequestForm(ModelForm):
+	"""
+		Form for requesting someone take/to take a job
+	"""
+	REASON_CHOICES = (
+				('P', 'Pre/Post Party Job'),
+				('F', 'First Shift Party Job'),
+				('S', 'Second Shift Party Job'),
+				('H', 'House Job'),
+				('M', 'Meal Crew')
+				)
+
+	job = forms.ChoiceField(choices=REASON_CHOICES)
+	details = models.TextField()
+
+	class Meta:
+		model = JobRequest
+		exclude = ['requester', 'takingJob']
+
 class PiPointsRequestForm(ModelForm):
 	"""
 		Form for requesting pipoints
@@ -130,7 +176,7 @@ class PiPointsRequestForm(ModelForm):
 			('F', 'First Shift Party Job'),
 			('S', 'Second Shift Party Job'),
 			('H', 'House Job'),
-			('M', 'Meal Cew')
+			('M', 'Meal Crew')
 			)
 	reason = forms.ChoiceField(choices=REASON_CHOICES)
 	witness = forms.CharField(max_length=100, required=False)
@@ -144,15 +190,30 @@ class PiPointsAddBrotherForm(Form):
 		Form for adding a brother to the pipoints system.
 	"""
 	brother = CustomModelChoiceField(queryset=User.objects.all().order_by('last_name').exclude(groups__name='Alumni').exclude(pipointsrecord__isnull=False))
-	piPoints = forms.IntegerField(min_value=0)
+	piPoints = forms.IntegerField()
 
 class BoneGivingForm(ModelForm):
 	"""
 		Form for giving Bones
 	"""
+
+	REASON_CHOICES = (
+				(10, 'Pre/Post Party Job (10)'),
+				(20, 'House Job/Meal Crew (20)'),
+				(30, 'First Shift Party Job (30)'),
+				(40, 'Second Shift Party Job (40)'),
+				(50, 'Other (50)'),
+				(60, 'Other (60)'),
+				(70, 'Other (70)'),
+				(80, 'Other (80)'),
+				(90, 'Other (90)'),
+				(100, 'Other (100)')
+				)
+
 	bonee = CustomModelChoiceField(queryset=User.objects.all().order_by('last_name').exclude(groups__name='Alumni'))
 	reason = forms.CharField(widget=forms.Textarea)
 	expirationDate = forms.DateField()
+	value = forms.ChoiceField(choices=REASON_CHOICES)
 
 	class Meta:
 		model = Bone
@@ -164,6 +225,7 @@ class BoneEditingForm(ModelForm):
 	"""
 	reason = forms.CharField(widget=forms.Textarea)
 	expirationDate = forms.DateField()
+	value = forms.IntegerField(min_value=0)
 
 	class Meta:
 		model = Bone

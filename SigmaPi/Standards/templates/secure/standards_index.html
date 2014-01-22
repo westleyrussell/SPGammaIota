@@ -49,15 +49,21 @@
 		{% endif %}
 		</div>
 		<br/>
-		<div id="details" class="ui two column relaxed grid basic segment">
+		<div id="tabs">
+			<ul>
+			    <li><a href="#bone-history">My Bone History</a></li>
+			    <li><a href="#point-standings">Pi Point Standings</a></li>
+			    <li><a href="#job-requests">Pi Point Job Requests</a></li>
+		 	</ul>
 			<div id="bone-history" class="column">
-				<h3 class="ui header">Bone History</h3>
 				<table id="bones_table" class="ui basic table segment">
 					<thead>
 						<tr>
 							<th class="three wide">Date Received</th>
 							<th class="three wide">Expiration Date</th>
 							<th class="twelve wide">Reason</th>
+							<th class="three wide">Value</th>
+							<th class="one wide">Reduce</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -68,6 +74,11 @@
 								{{ bone.expirationDate }}
 							</td>
 							<td>{{ bone.reason }}</td>
+							<td>
+								{{ bone.value }}
+							</td>
+							<td><a class="ui blue tiny button" href="">Reduce Bone</a></td>
+
 						</tr>
 						{% endfor %}
 
@@ -78,24 +89,16 @@
 								EXPIRED
 							</td>
 							<td>{{ bone.reason }}</td>
+							<td>
+								EXPIRED
+							</td>
+							<td>
+								EXPIRED
+							</td>
 						</tr>
 						{% endfor %}
 					</tbody>
 				</table>
-				<script type="text/javascript">
-					$(document).ready(function() {	
-						$.fn.dataTableExt.oStdClasses["sLength"] = "ui label black"
-						$.fn.dataTableExt.oStdClasses["sInfo"] = "ui message"
-						$.fn.dataTableExt.oStdClasses["sPagePrevEnabled"] = "ui button active"
-						$.fn.dataTableExt.oStdClasses["sPagePrevDisabled"] = "ui button disabled"
-						$.fn.dataTableExt.oStdClasses["sPageNextEnabled"] = "ui button active"
-						$.fn.dataTableExt.oStdClasses["sPageNextDisabled"] = "ui button disabled"
-						$('#bones_table').dataTable({
-							"bFilter":false,
-							"bSort": false,
-						});
-					} );
-				</script>
 			</div>
 
 			<div id="point-standings" class="column">
@@ -116,21 +119,28 @@
 						{% endfor %}
 					</tbody>
 				</table>
-				<script type="text/javascript">
-					$(document).ready(function() {	
-						$.fn.dataTableExt.oStdClasses["sLength"] = "ui label black"
-						$.fn.dataTableExt.oStdClasses["sInfo"] = "ui message"
-						$.fn.dataTableExt.oStdClasses["sPagePrevEnabled"] = "ui button active"
-						$.fn.dataTableExt.oStdClasses["sPagePrevDisabled"] = "ui button disabled"
-						$.fn.dataTableExt.oStdClasses["sPageNextEnabled"] = "ui button active"
-						$.fn.dataTableExt.oStdClasses["sPageNextDisabled"] = "ui button disabled"
-						$('#points_table').dataTable({
-							"bFilter":false,
-							"bSort": false,
-						});
-					} );
-				</script>
+			</div>
+
+			<div id="job-requests" class="column">
+				<h3 class="ui header">Pi Point Standings</h3>
+				<table id="jobs_table" class="ui basic table segment">
+					<thead>
+						<tr>
+							<th class="three wide">Name</th>
+							<th class="three wide">Points</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for record in point_records %}
+						<tr>	
+							<td>{{ record.brother.first_name }} {{ record.brother.last_name }}</td>
+							<td>{{ record.points }}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
 			</div>
 		</div>
+
 	</div>
 {% endblock %}
