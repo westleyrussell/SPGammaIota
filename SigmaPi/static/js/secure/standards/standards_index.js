@@ -1,5 +1,29 @@
+var doers_table;
+var givers_table;
+
 $(document).ready(function() {
-  $( "#request_points_form" ).dialog({
+	setupRequestPointsForm();
+
+	setupRequestCoverForm();
+	setupOfferCoverForm();
+
+	setupDataTables();
+	$('#tabs').tabs();
+
+	$('.delete-giver-job').click(function() {
+		var id = $(this).attr("id");
+		deleteCoverRequest(id, false)
+	});
+
+	$('.delete-taker-job').click(function() {
+		var id = $(this).attr("id");
+		deleteCoverRequest(id, true)
+	});
+});
+
+function setupRequestPointsForm()
+{
+	$( "#request_points_form" ).dialog({
       autoOpen: false,
       height: 375,
       width: 350,
@@ -43,34 +67,7 @@ $(document).ready(function() {
 	$('#request_points_button').click(function() {
 		$('#request_points_form').dialog( 'open' );
 	});
-
-	setupRequestCoverForm();
-	setupOfferCoverForm();
-
-	$.fn.dataTableExt.oStdClasses["sLength"] = "ui label black"
-	$.fn.dataTableExt.oStdClasses["sInfo"] = "ui message"
-	$.fn.dataTableExt.oStdClasses["sPagePrevEnabled"] = "ui button active"
-	$.fn.dataTableExt.oStdClasses["sPagePrevDisabled"] = "ui button disabled"
-	$.fn.dataTableExt.oStdClasses["sPageNextEnabled"] = "ui button active"
-	$.fn.dataTableExt.oStdClasses["sPageNextDisabled"] = "ui button disabled"
-	$('#doers_table').dataTable({
-		"bFilter":false,
-		"bSort": false,
-	});
-	$('#points_table').dataTable({
-							"bFilter":false,
-							"bSort": false,
-						});
-	$('#bones_table').dataTable({
-							"bFilter":false,
-							"bSort": false,
-						});
-	$('#givers_table').dataTable({
-							"bFilter":false,
-							"bSort": false,
-						});
-	$('#tabs').tabs();
-});
+}
 
 function setupRequestCoverForm()
 {
@@ -120,6 +117,60 @@ function setupOfferCoverForm()
 	});
 }
 
+function setupDataTables()
+{
+	$.fn.dataTableExt.oStdClasses["sLength"] = "ui label black"
+	$.fn.dataTableExt.oStdClasses["sInfo"] = "ui message"
+	$.fn.dataTableExt.oStdClasses["sPagePrevEnabled"] = "ui button active"
+	$.fn.dataTableExt.oStdClasses["sPagePrevDisabled"] = "ui button disabled"
+	$.fn.dataTableExt.oStdClasses["sPageNextEnabled"] = "ui button active"
+	$.fn.dataTableExt.oStdClasses["sPageNextDisabled"] = "ui button disabled"
+	doers_table = $('#doers_table').dataTable({
+		"bFilter":false,
+		"bSort": false,
+	});
+	$('#points_table').dataTable({
+							"bFilter":false,
+							"bSort": false,
+						});
+	$('#bones_table').dataTable({
+							"bFilter":false,
+							"bSort": false,
+						});
+	givers_table = $('#givers_table').dataTable({
+							"bFilter":false,
+							"bSort": false,
+						});
+}
+
+function deleteCoverRequest(requestid, taker)
+{
+  var url = "jobs/request/delete/"+requestid+"/";
+  var csrftoken = $.cookie('csrftoken');
+  $.ajax({
+    type:"POST",
+    beforeSend: function(xhr, settings) {
+      if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+        // Send the token to same-origin, relative URLs only.
+        // Send the token only if the method warrants CSRF protection
+        // Using the CSRFToken value acquired earlier
+        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+      }       
+     },
+    url: url,
+  }).done(function( data ) {
+  	if(taker)
+  	{
+		var pos = doers_table.fnGetPosition($("#"+requestid+".jobs-row").get(0));
+		doers_table.fnDeleteRow(pos);
+  	}
+  	else
+  	{
+		var pos = givers_table.fnGetPosition($("#"+requestid+".jobs-row").get(0));
+		givers_table.fnDeleteRow(pos);
+  	}
+  });
+}
 
 function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection

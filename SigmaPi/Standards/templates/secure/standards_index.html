@@ -184,14 +184,14 @@
 						<thead>
 							<tr>
 								<th class="three wide">Requester</th>
-								<th class="three wide">Job</th>
+								<th class="five wide">Job (Pi Points Reward)</th>
 								<th class="eight wide">Details</th>
 								<th class="two wide">Cover Job</th>
 							</tr>
 						</thead>
 						<tbody>
 							{% for job in job_givers %}
-							<tr>	
+							<tr id="{{job.pk}}" class="jobs-row">	
 								<td>{{ job.requester.first_name }} {{ job.requester.last_name }}</td>
 								<td>{{ job.get_job_display }}</td>
 								<td>{{ job.details }}</td>
@@ -202,14 +202,13 @@
 							</tr>
 							{% endfor %}
 							{% for job in own_givers %}
-							<tr>	
+							<tr id="{{job.pk}}" class="jobs-row">	
 								<td>{{ job.requester.first_name }} {{ job.requester.last_name }}</td>
 								<td>{{ job.get_job_display }}</td>
 								<td>{{ job.details }}</td>
-								<td><form enctype="multipart/form-data" method="post" action="{% url 'Standards.views.delete_job_request' job.pk %}" class="ui error form">
-									{% csrf_token %}
-									<button type="submit" class="ui red tiny submit button">Delete</button>
-								</form></td>
+								<td>
+									<button id="{{job.pk}}" class="ui red tiny button delete-giver-job">Delete</button>
+								</td>
 							</tr>
 							{% endfor %}
 						</tbody>
@@ -220,14 +219,14 @@
 					<thead>
 						<tr>
 							<th class="three wide">Requester</th>
-							<th class="three wide">Job</th>
+							<th class="four wide">Job (Pi Points Cost)</th>
 							<th class="eight wide">Details</th>
 							<th class="two wide">Give Job</th>
 						</tr>
 					</thead>
 					<tbody>
 						{% for job in job_doers %}
-						<tr>	
+						<tr id="{{job.pk}}" class="jobs-row">	
 							<td>{{ job.requester.first_name }} {{ job.requester.last_name }}</td>
 							<td>{{ job.get_job_display }}</td>
 							<td>{{ job.details }}</td>
@@ -239,15 +238,13 @@
 						</tr>
 						{% endfor %}
 						{% for job in own_doers %}
-						<tr>	
+						<tr id="{{job.pk}}" class="jobs-row">	
 							<td>{{ job.requester.first_name }} {{ job.requester.last_name }}</td>
 							<td>{{ job.get_job_display }}</td>
 							<td>{{ job.details }}</td>
 							<td>
-								<form enctype="multipart/form-data" method="post" action="{% url 'Standards.views.delete_job_request' job.pk %}" class="ui error form">
-									{% csrf_token %}
-									<button type="submit" class="ui red tiny submit button">Delete</button>
-								</form>
+								<button id="{{job.pk}}" class="ui red tiny button delete-taker-job">Delete</button>
+							</td>
 						</tr>
 						{% endfor %}
 					</tbody>
