@@ -218,16 +218,6 @@
 		});
 	}
 
-	function isGuy(element){
-		console.log(element);
-		return element.data('.gender') == 'guys';
-	}
-
-	function isGirl(element){
-		console.log(element);
-		return element.data('.gender') == 'girls';
-	}
-
 	$(document).ready(function(){
 
 		//URL of the party page, this will be different for each party,
