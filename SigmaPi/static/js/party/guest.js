@@ -218,6 +218,16 @@
 		});
 	}
 
+	function isGuy(element){
+		console.log(element);
+		return element.data('.gender') == 'guys';
+	}
+
+	function isGirl(element){
+		console.log(element);
+		return element.data('.gender') == 'girls';
+	}
+
 	$(document).ready(function(){
 
 		//URL of the party page, this will be different for each party,
@@ -253,6 +263,21 @@
 
 				hidden = $('.guest:not(.mine)');
 				hidden.hide();
+
+				// Temporary added code to make counters update with respect to "My List"
+				var hiddenGuys = 0;
+				var hiddenGirls = 0;
+				hidden.each(function(){
+					var form = $(this).find('.entry');
+					if (form[0].gender.value == 'M')
+						hiddenGuys++;
+					else
+						hiddenGirls++;
+				});
+				document.COUNTER['guys'] = document.COUNTER['guys'] - hiddenGuys;
+				$('#'+'guys'+'-count').text(document.COUNTER['guys']);
+				document.COUNTER['girls'] = document.COUNTER['girls'] - hiddenGirls;
+				$('#'+'girls'+'-count').text(document.COUNTER['girls']);
 			});
 
 			$('.full_list').click(function(){
@@ -265,6 +290,21 @@
 				if (hidden) {
 					hidden.show();
 				}
+
+				// Temporary added code to make counters update with respect to "My List"
+				var hiddenGuys = 0;
+				var hiddenGirls = 0;
+				hidden.each(function(){
+					var form = $(this).find('.entry');
+					if (form[0].gender.value == 'M')
+						hiddenGuys++;
+					else
+						hiddenGirls++;
+				});
+				document.COUNTER['guys'] = document.COUNTER['guys'] + hiddenGuys;
+				$('#'+'guys'+'-count').text(document.COUNTER['guys']);
+				document.COUNTER['girls'] = document.COUNTER['girls'] + hiddenGirls;
+				$('#'+'girls'+'-count').text(document.COUNTER['girls']);
 			})
 		}
 
