@@ -49,6 +49,14 @@
 		<i class="legal icon"></i>Standards
 	</a>
 
+	{% if '/secure/philanthropy' in request.path %}
+	<a class="item active" id="philanthropy" href="{{ '/secure/philanthropy' }}">
+	{% else %}
+	<a class="item" id="philanthropy" href="{{'/secure/philanthropy'}}">
+	{% endif %}
+		<i class="globe icon"></i>Philanthropy
+	</a>
+
 	{% if '/secure/library' in request.path %}
 	<a class="item active" id="library" href="{{ '/secure/library' }}">
 	{% else %}

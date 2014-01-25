@@ -1,0 +1,150 @@
+{% extends "secure/philanthropy_base.html" %}
+
+{% block title %}Sigma Pi Secure - Philanthropy - Hours{% endblock %}
+{% block philanthropy_includes %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href='{% static "css/jquery-ui/jquery-ui.min.css" %}' />
+
+<script type="text/javascript" src='{% static "js/secure/philanthropy/philanthropy_hours.js" %}'></script>
+<script type="text/javascript" src="{% static 'js/jquery-ui/jquery-ui.min.js' %}"></script>
+{% endblock %}
+{% block content %}
+<h1 class="ui header">
+	Manage Hours
+	<a class="ui red button" id="reset-hours-button">Reset Hours</a>
+</h1>
+<div id="reset-hours-form" class="ui segment hidden" title="Reset Hours">
+	<div class="ui form">
+		Are you sure you want to reset all hours to 0?
+	</div>
+</div>
+
+
+<div id="modify-hours-form" title="Modify Hours">
+	<div class="ui form">
+		<div class="field">
+			<label>User</label>
+			<div class="ui left labeled input">
+				<span id="modify-hours-form-user"></span>
+				<span class="modify-hours-form-userid"></span>
+			</div>
+		</div>
+		<div class="field">
+			<label>Hours*</label>
+			<div class="ui left labeled input">
+				<input type="text" id="modify-hours-form-hours" name="hours"></input>
+				<div class="ui corner label">
+					<i class="asterisk icon"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="add-brother-form" title="Add Brother">
+	<div class="ui form">
+		<br/>
+		<div class="field">
+			<label>User*</label>
+			<div class="ui left labeled input">
+				{{ add_brother_form.brother }}
+				<div class="ui corner label">
+					<i class="asterisk icon"></i>
+				</div>
+			</div>
+		</div>
+		<div class="field">
+			<label>Initial Hours*</label>
+			<div class="ui left labeled input">
+				{{ add_brother_form.hours }}
+				<div class="ui corner label">
+					<i class="asterisk icon"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="tabs">
+	<ul>
+	    <li><a href="#hours-standings">Hours Standings</a></li>
+	    <li><a href="#hours-requests">Hours Requests</a></li>
+	    <li><a href="#hours-changes">Hours Change Log</a></li>
+ 	</ul>
+	<div id="hours-standings">
+		<h4 class="ui header">
+		If you cannot find a desired brother in the table below, you can add them here. <a id="add-brother" class="ui green button add-brother-button">Add Brother</a>
+		</h4>
+		<table id="hours_table" class="ui basic table segment">
+			<thead>
+				<tr>
+					<th class="three wide">Name</th>
+					<th class="three wide">Hours</th>
+					<th class="two wide">Modify Hours</th>
+				</tr>
+			</thead>
+			<tbody id="hours_table_content">
+				{% for record in hours_records %}
+				<tr id="{{record.pk}}" class="hours-row">	
+					<td id="{{record.pk}}" class="hours-name-field">{{ record.brother.first_name }} {{ record.brother.last_name }}</td>
+					<td id="{{record.pk}}" class="hours-hours-field">{{ record.hours }}</td>
+					<td><a id="{{record.pk}}" class="ui tiny blue button modify-hours-button">Modify Hours</a></td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<div id="hours-requests">
+		<table id="requests_table" class="ui basic table segment">
+			<thead>
+				<tr>
+					<th class="three wide">Requester</th>
+					<th class="one wide">Hours</th>
+					<th class="three wide">Activity</th>
+					<th class="four wide">Description</th>
+					<th class="one wide">Approve</th>
+					<th class="one wide">Deny</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for request in hours_requests %}
+				<tr id="{{request.pk}}" class="requests_row">	
+					<td>{{ request.requester.first_name }} {{ request.requester.last_name }}</td>
+					<td>{{ request.hours }}</td>
+					<td>{{ request.activity }}</td>
+					<td>{{ request.description }}</td>
+					<td>
+						<a id="{{request.pk}}" class="ui tiny green button approve-hours-button">Approve</a>
+						<span id="{{request.requester.pk}}" class="request-ider-{{request.pk}}"></span></td>
+					<td><a id="{{request.pk}}" class="ui tiny red button deny-request-button">Deny</a></td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<div id="hours-changes">
+		<table id="changes_table" class="ui basic table segment">
+			<thead>
+				<tr>
+					<th class="one wide">Date</th>
+					<th class="two wide">Changer</th>
+					<th class="two wide">Brother</th>
+					<th class="two wide">Old Value</th>
+					<th class="two wide">New Value</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for change in hours_changes %}
+				<tr>	
+					<td>{{ change.dateChanged }}</td>
+					<td>{{ change.modifier.first_name }} {{ change.modifier.last_name }}</td>
+					<td>{{ change.brother.brother.first_name }} {{ change.brother.brother.last_name }}</td>
+					<td>{{ change.oldValue }}</td>
+					<td>{{ change.newValue }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div></div>
+
+{% endblock %}

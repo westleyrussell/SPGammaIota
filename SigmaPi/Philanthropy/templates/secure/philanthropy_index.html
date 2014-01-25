@@ -1,0 +1,51 @@
+{% extends "secure/philanthropy_base.html" %}
+
+{% block title %}Sigma Pi Secure - Philanthropy {% endblock %}
+
+{% block philanthropy_includes %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href='{% static "css/jquery-ui/jquery-ui.min.css" %}' />
+<script type="text/javascript" src="{% static 'js/jquery-ui/jquery-ui.min.js' %}"></script>
+<script type="text/javascript" src='{% static "js/secure/philanthropy/philanthropy_index.js" %}'></script>
+{% endblock %}
+{% block content %}
+	<h1 class="ui header">
+		Philanthropy
+		<a class="ui teal button" id="request_hours_button">Request Hours</a>
+	</h1>
+	<div id="request_hours_form" class="ui segment	hidden" title="Request Hours">
+		<div class="ui form">
+			<div class="field">
+				<label>Hours*</label>
+				<div class="ui left labeled input">
+					{{hours_form.hours}}
+					<div class="ui corner label">
+						<i class="asterisk icon"></i>
+					</div>
+				</div>
+			</div>
+			<div class="field">
+				<label>Activity*</label>
+				<div class="ui left labeled input">
+					{{hours_form.activity}}
+					<div class="ui corner label">
+						<i class="asterisk icon"></i>
+					</div>
+				</div>
+			</div>
+			<div class="field">
+				<label>Description</label>
+				<div class="ui input">
+					{{hours_form.description}}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="wrapper">
+		<div id="overall-info" class="ui vertical segment">
+		You have {{ own_hours.hours }} hour{{own_hours.hours|pluralize}} this semester.
+		<br/>
+		</div>
+	</div>
+{% endblock %}
