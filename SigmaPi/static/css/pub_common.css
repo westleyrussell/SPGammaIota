@@ -2,6 +2,30 @@ html, body {
   height: 100%;
 }
 
+/* blogify the text */
+p {
+  line-height: 1.635em;
+  margin: .7em 0 1em 0;
+  font-family: ff-meta-serif-web-pro, Georgia, Cambria, 'Times New Roman', Times, serif;
+  font-size: 1.3em;
+  color: #333;
+  -webkit-font-smoothing: antialiased;
+}
+
+h2.ui.blog.header {
+  /*font-family: acta-display, Georgia, Times, serif;*/
+  font-family:"freight-sans-pro", Helvetica, Arial, Sans-Serif;
+  font-size: 2em;
+  color: #333;
+  font-weight: normal;
+  margin-top: 1em;
+  text-align: center;
+}
+
+h2.ui.blog.header {
+  color: rgb(82, 77, 77) !important;
+}
+
 a {
   color: #009FDA;
   text-decoration: none;

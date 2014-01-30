@@ -47,6 +47,22 @@
 		bindGuestHandlers.call(template);
 	}
 
+	/* fuzzy match a string against a pattern. The optional tolerance argument will dictate how 
+	 * many characters inbetween each character in the pattern that the regex will accept.
+	 * EX: tolerance = 2. pattern = "dog"
+	 * 		This will build a regex that will accept:
+	 *			'dazozag', but not 'daaaoaaag'.
+	 */
+	fuzzy_tolerance = 2; 
+	function fuzzy_search(str,pattern) {
+		if (!fuzzy_tolerance) {
+			pattern = pattern.split("").join(".*");
+		} else {
+			pattern = pattern.split("").join(".{0,"+fuzzy_tolerance+"}");
+		}
+
+		return (new RegExp(pattern)).test(str);
+	}
 
 	function filterGuests(stub) {
 		stub = stub.toLowerCase();
@@ -56,7 +72,7 @@
 		}
 		$('.guest').each(function(){
 			text = $(this).find('.name').val().toLowerCase();
-			if(text.indexOf(stub) != -1) {
+			if(fuzzy_search(text,stub)) {
 				$(this).removeClass('filter');
 				return true;
 			} else {
