@@ -12,8 +12,7 @@ a:hover {
 }
 
 .top-header.adjusted {
-  margin-top: 20px !important;
-  padding-top: 30px !important;
+  margin-top: 1.4em !important;
 }
 #wrapper {
   min-height: 100%;

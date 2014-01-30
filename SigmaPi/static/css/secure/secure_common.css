@@ -9,9 +9,14 @@
   font-family: 'Open Sans';
 }
 
+html {
+	background: url("/static/img/squairy_light.png");
+}
+
 body {
 	margin: 0;
-	background-color: #DEDEDE;
+	background-color: rgba(255,255,255,.6);
+	height: 100%;
 }
 
 a {
@@ -49,8 +54,9 @@ a:hover {
 }
 
 
-#secure_nav {
-	background-color: #F37575;
+#secure_nav { 
+	background-color: #AD89DB;
+	/*#F37575*/
 	height:43px;
 }
 
@@ -60,6 +66,10 @@ a:hover {
 
 #home_button {
 	margin-top:-5px;
+}
+
+#secure_nav .right.menu {
+	display: inline;
 }
 
 .large-print {

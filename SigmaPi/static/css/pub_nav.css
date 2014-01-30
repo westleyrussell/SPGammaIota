@@ -72,3 +72,7 @@
 #service-header {
   background-color: #ABCDEF;
 }
+
+#pub_nav .right.menu {
+  display: inline !important;
+}
