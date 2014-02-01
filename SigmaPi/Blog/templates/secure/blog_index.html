@@ -8,7 +8,7 @@
 	<h4 class="ui header">View and edit existing blogs.</h4>
 
 	{% if posts %}
-
+	<div class="ui segment">
 		<table id="blog_table" class="ui basic table segment">
 			<thead>
 				<tr>
@@ -43,6 +43,7 @@
 				{% endfor %}
 			</tbody>
 		</table>
+	</div>
 		<script type="text/javascript">
 			$(document).ready(function() {
 				$.fn.dataTableExt.oStdClasses["sFilter"] = "ui label black"

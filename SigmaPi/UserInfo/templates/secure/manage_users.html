@@ -9,7 +9,7 @@
 	<h4 class="ui header">View and edit existing users.</h4>
 
 	{% if all_users %}
-
+	<div class="ui segment">
 		<table id="users_table" class="ui basic table segment">
 			<thead>
 				<tr>
@@ -32,7 +32,7 @@
 				{% endfor %}
 			</tbody>
 		</table>
-
+	</div>
 		<script type="text/javascript">
 			$(document).ready(function() {
 				$.fn.dataTableExt.oStdClasses["sFilter"] = "ui label black"

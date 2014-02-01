@@ -60,7 +60,7 @@ class HoursRequestForm(ModelForm):
 	"""
 		Form for requesting hours
 	"""
-	hours = forms.CharField(widget=forms.NumberInput)
+	hours = forms.CharField()
 	activity = forms.CharField(max_length=100)
 	description = forms.CharField(widget=forms.Textarea, required=False)
 
