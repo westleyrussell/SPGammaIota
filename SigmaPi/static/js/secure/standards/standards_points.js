@@ -133,7 +133,7 @@ function modifyPiPoints(userid, newpoints)
     else
     {
       //Otherwise create it.
-      var standings_data = [name, points, '<a id='+id+' class="ui tiny red button deny-request-button">Deny</a>'];
+      var standings_data = [name, points, '<a id='+id+' class="ui tiny red button modify-points-button">Modify Points</a>'];
       points_table.fnAddData(standings_data);
     }
 
@@ -179,13 +179,17 @@ function approveRequest()
     else
     {
       //Otherwise create it.
-      var standings_data = [name, points, '<a id='+id+' class="ui tiny red button deny-request-button">Deny</a>'];
+      var standings_data = [name, points, '<a id='+id+' class="ui tiny red button modify-points-button">Modify Points</a>'];
       points_table.fnAddData(standings_data);
     }
 
     //Update the change log
     var change_data = [date, modifier, name, oldPoints, points];
     changes_table.fnAddData(change_data);
+
+    //Update the count
+    $("#pprCount").first().html(data.pprCount);
+    $("#pprCount2").first().html(data.pprCount);
   });
 }
 
@@ -207,6 +211,8 @@ function deleteRequest(requestid)
   }).done(function( data ) {
     var pos = requests_table.fnGetPosition($("#"+requestid+".requests_row").get(0));
     requests_table.fnDeleteRow(pos);
+    $("#pprCount").first().html(data.pprCount);
+    $("#pprCount2").first().html(data.pprCount);
   });
 }
 

@@ -28,6 +28,12 @@
 			</div>
 		</div>
 		<div class="field">
+				<label>Given By</label>
+				<div class="ui left labeled input">
+					{{bone.boner.first_name}} {{ bone.boner.last_name }}
+				</div>
+		</div>
+		<div class="field">
 			<label>Reason</label>
 			<div class="ui left labeled input">
 				{{bone.reason}}
@@ -59,10 +65,27 @@
 					{{bone.bonee.first_name}} {{ bone.bonee.last_name }}
 				</div>
 			</div>
+
+			<div class="field">
+				<label>Given By</label>
+				<div class="ui left labeled input">
+					{{bone.boner.first_name}} {{ bone.boner.last_name }}
+				</div>
+			</div>
+
 			<div class="field">
 				<label>Reason*</label>
 				<div class="ui left labeled input">
 					{{bone_form.reason}}
+					<div class="ui corner label">
+						<i class="asterisk icon"></i>
+					</div>
+				</div>
+			</div>
+			<div class="field">
+				<label>Value*</label>
+				<div class="ui left labeled input">
+					{{bone_form.value}}
 					<div class="ui corner label">
 						<i class="asterisk icon"></i>
 					</div>

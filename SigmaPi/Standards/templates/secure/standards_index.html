@@ -10,16 +10,23 @@
 {% endblock %}
 {% block content %}
 	<h1 class="ui header">
-		The Standards Board
+		The Standards Board<br/>
+		<a class="ui green button" href="{% static 'media/standards/pipointsfaq.pdf' %}">View Pi Points FAQ</a>
 		<a class="ui teal button" id="request_points_button">Request Pi Points</a>
+		<a class="ui blue button" id="request_job_button">Cover a Job</a>
+		
+		{% if positive_points %}
+		<a class="ui blue button" id="request_job_take_button">Request Cover for a Job</a>
+		{% endif %}
 	</h1>
+	{% if error %}
+	<div class="ui error message">
+		<div class="header">Error!</div>
+		{{ error }}
+	</div>
+	{% endif %}
 	<div id="request_points_form" class="ui segment	hidden" title="Request Pi Points">
 		<div class="ui form">
-			<div class="field">
-				<h3 class="header">
-				Request Pi Points
-				</h3>
-			</div>	
 			<div class="field">
 				<label>Reason*</label>
 				<div class="ui left labeled input">
@@ -37,27 +44,85 @@
 			</div>
 		</div>
 	</div>
+	{% if positive_points %}
+	<div id="request_cover_form" class="ui segment	hidden" title="Request Cover for a Job">
+		<form id="request-cover-form" enctype="multipart/form-data" method="post" action="{% url 'Standards.views.add_job_request' 1 %}" class="ui form">
+			{% csrf_token %}
+			<div class="field">
+				Spend your Pi Points requesting coverage for a job you cannot perform.  
+				<br/><br/>You must have the necessary number of Pi Points to request coverage.
+			</div>	
+			<div class="field request">
+				<label>Job*</label>
+				<div class="ui left labeled input">
+					{{jobs_form.job}}
+					<div class="ui corner label">
+						<i class="asterisk icon"></i>
+					</div>
+				</div>
+			</div>
+			<div class="field request">
+				<label>Details*</label>
+				<div class="ui input">
+					{{jobs_form.details}}
+				</div>
+			</div>
+		</form>
+	</div>
+	{% endif %}
+
+	<div id="offer_cover_form" class="ui segment	hidden" title="Offer to Cover a Job">
+		<form id="offer-cover-form" enctype="multipart/form-data" method="post" action="{% url 'Standards.views.add_job_request' 2 %}" class="ui form">
+			{% csrf_token %}
+			<div class="field">
+				You will receive the corresponding number of Pi Points once you have covered the job.
+			</div>	
+			<div class="field offer">
+				<label>Job*</label>
+				<div class="ui left labeled input">
+					{{jobs_form.job}}
+					<div class="ui corner label">
+						<i class="asterisk icon"></i>
+					</div>
+				</div>
+			</div>
+			<div class="field offer">
+				<label>Details*</label>
+				<div class="ui input">
+					{{jobs_form.details}}
+				</div>
+			</div>
+		</form>
+	</div>
 
 	<div id="wrapper">
 		<div id="overall-info" class="ui vertical segment">
 		You have {{current_bone_count}} current bone{{current_bone_count|pluralize}}.
 		<br/>
-		You have {{ own_points.points }} Pi Point{{own_points.points|pluralize}}.
+		You may reduce {{ own_points.jobsTaken }} bone{{own_points.jobsTaken|pluralize}}.
+		<br/>
+		You have <span id="pi-points-ticker">{{ own_points.points }} Pi Point{{own_points.points|pluralize}}</span>.
 		<br/>
 		{% if probation %}
 		You are on social probation.
 		{% endif %}
 		</div>
 		<br/>
-		<div id="details" class="ui two column relaxed grid basic segment">
+		<div id="tabs">
+			<ul>
+			    <li><a href="#bone-history">My Bone History</a></li>
+			    <li><a href="#point-standings">Pi Point Standings</a></li>
+			    <li><a href="#job-requests">Job Cover Requests (<span id="request-count">{{requests_count}}</span>)</a></li>
+		 	</ul>
 			<div id="bone-history" class="column">
-				<h3 class="ui header">Bone History</h3>
 				<table id="bones_table" class="ui basic table segment">
 					<thead>
 						<tr>
 							<th class="three wide">Date Received</th>
 							<th class="three wide">Expiration Date</th>
 							<th class="twelve wide">Reason</th>
+							<th class="three wide">Value</th>
+							<th class="one wide">Reduce</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -68,6 +133,14 @@
 								{{ bone.expirationDate }}
 							</td>
 							<td>{{ bone.reason }}</td>
+							<td>
+								{{ bone.value }}
+							</td>
+							<td>
+								<form enctype="multipart/form-data" method="post" action="{% url 'Standards.views.reduce_bone' bone.pk %}" class="ui error form">
+									{% csrf_token %}
+									<button type="submit" class="ui blue tiny submit button">Reduce Bone</button>
+								</form>
 						</tr>
 						{% endfor %}
 
@@ -78,28 +151,19 @@
 								EXPIRED
 							</td>
 							<td>{{ bone.reason }}</td>
+							<td>
+								EXPIRED
+							</td>
+							<td>
+								EXPIRED
+							</td>
 						</tr>
 						{% endfor %}
 					</tbody>
 				</table>
-				<script type="text/javascript">
-					$(document).ready(function() {	
-						$.fn.dataTableExt.oStdClasses["sLength"] = "ui label black"
-						$.fn.dataTableExt.oStdClasses["sInfo"] = "ui message"
-						$.fn.dataTableExt.oStdClasses["sPagePrevEnabled"] = "ui button active"
-						$.fn.dataTableExt.oStdClasses["sPagePrevDisabled"] = "ui button disabled"
-						$.fn.dataTableExt.oStdClasses["sPageNextEnabled"] = "ui button active"
-						$.fn.dataTableExt.oStdClasses["sPageNextDisabled"] = "ui button disabled"
-						$('#bones_table').dataTable({
-							"bFilter":false,
-							"bSort": false,
-						});
-					} );
-				</script>
 			</div>
 
 			<div id="point-standings" class="column">
-				<h3 class="ui header">Pi Point Standings</h3>
 				<table id="points_table" class="ui basic table segment">
 					<thead>
 						<tr>
@@ -116,21 +180,91 @@
 						{% endfor %}
 					</tbody>
 				</table>
-				<script type="text/javascript">
-					$(document).ready(function() {	
-						$.fn.dataTableExt.oStdClasses["sLength"] = "ui label black"
-						$.fn.dataTableExt.oStdClasses["sInfo"] = "ui message"
-						$.fn.dataTableExt.oStdClasses["sPagePrevEnabled"] = "ui button active"
-						$.fn.dataTableExt.oStdClasses["sPagePrevDisabled"] = "ui button disabled"
-						$.fn.dataTableExt.oStdClasses["sPageNextEnabled"] = "ui button active"
-						$.fn.dataTableExt.oStdClasses["sPageNextDisabled"] = "ui button disabled"
-						$('#points_table').dataTable({
-							"bFilter":false,
-							"bSort": false,
-						});
-					} );
-				</script>
+			</div>
+
+			<div id="job-requests" class="column">
+				<div class="ui vertical segment">
+					<h3 class="ui header">People looking for others to cover their job:</h3>
+					<table id="givers_table" class="ui basic table segment">
+						<thead>
+							<tr>
+								<th class="three wide">Requester</th>
+								<th class="five wide">Job (Pi Points Reward)</th>
+								<th class="eight wide">Details</th>
+								<th class="two wide">Cover Job</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for job in job_givers %}
+							<tr id="{{job.pk}}" class="jobs-row">	
+								<td>{{ job.requester.first_name }} {{ job.requester.last_name }}</td>
+								<td>{{ job.get_job_display }}</td>
+								<td>{{ job.details }}</td>
+								<td>
+									<form enctype="multipart/form-data" method="post" action="{% url 'Standards.views.accept_job_request' job.pk %}">
+										{% csrf_token %}
+										<button id="{{job.pk}}" type="submit" class="ui blue tiny button take-job">Cover Job</button>
+									</form>
+								</td>
+							</tr>
+							{% endfor %}
+							{% for job in own_givers %}
+							<tr id="{{job.pk}}" class="jobs-row">	
+								<td>{{ job.requester.first_name }} {{ job.requester.last_name }}</td>
+								<td>{{ job.get_job_display }}</td>
+								<td>{{ job.details }}</td>
+								<td>
+									<form enctype="multipart/form-data" method="post" action="{% url 'Standards.views.delete_job_request' job.pk %}">
+										{% csrf_token %}
+										<button id="{{job.pk}}" class="ui red tiny button delete-giver-job">Delete</button>
+									</form>
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+				<h3 class="ui header">People looking to cover others' jobs:</h3>
+				<table id="doers_table" class="ui basic table segment">
+					<thead>
+						<tr>
+							<th class="three wide">Requester</th>
+							<th class="four wide">Job (Pi Points Cost)</th>
+							<th class="eight wide">Details</th>
+							<th class="two wide">Give Job</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for job in job_doers %}
+						<tr id="{{job.pk}}" class="jobs-row">	
+							<td>{{ job.requester.first_name }} {{ job.requester.last_name }}</td>
+							<td>{{ job.get_job_display }}</td>
+							<td>{{ job.details }}</td>
+							<td>
+								<form enctype="multipart/form-data" method="post" action="{% url 'Standards.views.accept_job_request' job.pk %}">
+									{% csrf_token %}
+									<button id="{{job.pk}}" type="submit" class="ui blue tiny button give-job">Give Job</button>
+								</form>
+							</td>
+						</tr>
+						{% endfor %}
+						{% for job in own_doers %}
+						<tr id="{{job.pk}}" class="jobs-row">	
+							<td>{{ job.requester.first_name }} {{ job.requester.last_name }}</td>
+							<td>{{ job.get_job_display }}</td>
+							<td>{{ job.details }}</td>
+							<td>
+								<form enctype="multipart/form-data" method="post" action="{% url 'Standards.views.delete_job_request' job.pk %}">
+									{% csrf_token %}
+									<button id="{{job.pk}}" class="ui red tiny button delete-taker-job">Delete</button>
+								</form>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
 			</div>
 		</div>
+
 	</div>
 {% endblock %}

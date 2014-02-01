@@ -45,6 +45,15 @@
 			</div>
 		</div>
 		<div class="field">
+			<label>Value*</label>
+			<div class="ui left labeled input">
+				{{bone_form.value}}
+				<div class="ui corner label">
+					<i class="asterisk icon"></i>
+				</div>
+			</div>
+		</div>
+		<div class="field">
 			<label>Expiration Date*</label>
 			<div class="ui left labeled input">
 				<input type="text" id="bone_datepicker" name="expirationDate" maxlength="50" />
@@ -101,10 +110,9 @@
 			<thead>
 				<tr>
 					<th class="three wide">Recipient</th>
-					<th class="three wide">Given By</th>
-					<th class="two wide">Date</th>
-					<th class="two wide">Exp. Date</th>
-					<th class="eight wide">Reason</th>
+					<th class="three wide">Exp. Date</th>
+					<th class="two wide">Value</th>
+					<th class="ten wide">Reason</th>
 					<th class="one wide">Edit</th>
 				</tr>
 			</thead>
@@ -112,11 +120,10 @@
 				{% for bone in active_bones %}
 				<tr>	
 					<td>{{ bone.bonee.first_name }} {{ bone.bonee.last_name }}</td>
-					<td>{{ bone.boner.first_name }} {{ bone.boner.last_name }}</td>
-					<td>{{ bone.dateReceived }}</td>
 					<td>
 						{{ bone.expirationDate }}
 					</td>
+					<td>{{bone.value }}</td>
 					<td>{{ bone.reason }}</td>
 					<td><a class="ui blue tiny button" href="{% url 'Standards.views.edit_bone' bone.pk%}">Edit Bone</a></td>
 				</tr>
@@ -155,21 +162,21 @@
 			<thead>
 				<tr>
 					<th class="three wide">Recipient</th>
-					<th class="three wide">Given By</th>
-					<th class="two wide">Date</th>
-					<th class="two wide">Exp. Date</th>
-					<th class="eight wide">Reason</th>
-					<th class="one wide">View</th>
+					<th class="three wide">Exp. Date</th>
+					<th class="two wide">Value</th>
+					<th class="ten wide">Reason</th>
+					<th class="one wide">Edit</th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for bone in expired_bones %}
 				<tr>	
 					<td>{{ bone.bonee.first_name }} {{ bone.bonee.last_name }}</td>
-					<td>{{ bone.boner.first_name }} {{ bone.boner.last_name }}</td>
-					<td>{{ bone.dateReceived }}</td>
 					<td>
 						{{ bone.expirationDate }}
+					</td>
+					<td>
+						{{ bone.value }}
 					</td>
 					<td>{{ bone.reason }}</td>
 					<td><a class="ui blue tiny button" href="{% url 'Standards.views.edit_bone' bone.pk %}">View Bone</a></td>

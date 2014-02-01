@@ -1,5 +1,19 @@
+var doers_table;
+var givers_table;
+
 $(document).ready(function() {
-  $( "#request_points_form" ).dialog({
+	setupRequestPointsForm();
+
+	setupRequestCoverForm();
+	setupOfferCoverForm();
+
+	setupDataTables();
+	$('#tabs').tabs();
+});
+
+function setupRequestPointsForm()
+{
+	$( "#request_points_form" ).dialog({
       autoOpen: false,
       height: 375,
       width: 350,
@@ -43,8 +57,86 @@ $(document).ready(function() {
 	$('#request_points_button').click(function() {
 		$('#request_points_form').dialog( 'open' );
 	});
-});
+}
 
+function setupRequestCoverForm()
+{
+	$( "#request_cover_form" ).dialog({
+	autoOpen: false,
+	height: 600,
+	width: 400,
+	modal: true,
+	draggable:false,
+	resizable:false,
+	buttons: {
+	"Send Request": function() {
+		$("#request-cover-form").first().submit();
+	},
+	Cancel: function() {
+	  $( this ).dialog( "close" );
+	}
+	}
+	});
+
+	$('#request_job_take_button').click(function() {
+		$('#request_cover_form').dialog( 'open' );
+	});
+}
+
+function setupOfferCoverForm()
+{
+	$( "#offer_cover_form" ).dialog({
+	autoOpen: false,
+	height: 525,
+	width: 400,
+	modal: true,
+	draggable:false,
+	resizable:false,
+	buttons: {
+	"Send Request": function() {
+		$("#offer-cover-form").first().submit();
+	},
+	Cancel: function() {
+	  $( this ).dialog( "close" );
+	}
+	}
+	});
+
+	$('#request_job_button').click(function() {
+		$('#offer_cover_form').dialog( 'open' );
+	});
+}
+
+function setupDataTables()
+{
+	$.fn.dataTableExt.oStdClasses["sLength"] = "ui label black"
+	$.fn.dataTableExt.oStdClasses["sInfo"] = "ui message"
+	$.fn.dataTableExt.oStdClasses["sPagePrevEnabled"] = "ui button active"
+	$.fn.dataTableExt.oStdClasses["sPagePrevDisabled"] = "ui button disabled"
+	$.fn.dataTableExt.oStdClasses["sPageNextEnabled"] = "ui button active"
+	$.fn.dataTableExt.oStdClasses["sPageNextDisabled"] = "ui button disabled"
+	doers_table = $('#doers_table').dataTable({
+		"bFilter":false,
+		"bSort": false,
+	});
+	$('#points_table').dataTable({
+							"bFilter":false,
+							"bSort": false,
+						});
+	$('#bones_table').dataTable({
+							"bFilter":false,
+							"bSort": false,
+						});
+	givers_table = $('#givers_table').dataTable({
+							"bFilter":false,
+							"bSort": false,
+						});
+}
+
+function reportError(error)
+{
+	alert(error);
+}
 
 function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection

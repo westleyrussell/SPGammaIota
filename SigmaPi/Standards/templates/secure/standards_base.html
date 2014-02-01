@@ -25,7 +25,7 @@
 
 		{% if perms.Standards.add_pipointsrecord %}
 		<a class="active item" href="{% url 'Standards.views.manage_points' %}">
-			Manage PiPoints
+			Manage PiPoints (<span id="pprCount">{{pprCount}}</span>)
 		</a>
 		{% endif %}
 
@@ -43,7 +43,7 @@
 
 		{% if perms.Standards.add_pipointsrecord %}
 		<a class="item" href="{% url 'Standards.views.manage_points' %}">
-			Manage PiPoints
+			Manage PiPoints ({{pprCount}})
 		</a>
 		{% endif %}
 
@@ -61,7 +61,7 @@
 
 		{% if perms.Standards.add_pipointsrecord %}
 		<a class="item" href="{% url 'Standards.views.manage_points' %}">
-			Manage PiPoints
+			Manage PiPoints ({{pprCount}})
 		</a>
 		{% endif %}
 		{% endif %}

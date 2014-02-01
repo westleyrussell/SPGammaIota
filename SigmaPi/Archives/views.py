@@ -211,7 +211,7 @@ def guides(request):
 
 			if form.is_valid():
 				guide = form.save(commit=False)
-				guide.path = slugify(guide.name)
+				guide.path = slugify(guide.name)[:14]
 				guide.save()
 				form = GuideForm()
 		else:
