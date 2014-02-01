@@ -22,6 +22,20 @@ $(document).ready(function(){
 		}
 	}, { offset: '25%' });
 
+	$('#present').waypoint(function(direction) {
+		if(direction === 'down')
+		{
+			$('#history-nav .active').removeClass('active');
+			$('#present-nav').addClass('active');
+		}
+
+		if(direction == 'up')
+		{
+			$('#history-nav .active').removeClass('active');
+			$('#rebuilding-nav').addClass('active');	
+		}
+	}, { offset: '25%' });
+
 	$("#present-nav").click(function() {
 
 		$('html, body').stop(true, true);

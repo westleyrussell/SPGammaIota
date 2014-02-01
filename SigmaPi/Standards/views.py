@@ -524,7 +524,7 @@ def accept_job_request(request, jobrequest):
 		return redirect('PubSite.views.permission_denied')
 
 def alertAboutJob(giverRecord, takerUser, jobTitle, jobDetails):
-	'''takerName = takerUser.first_name + " " + takerUser.last_name
+	takerName = takerUser.first_name + " " + takerUser.last_name
 	giverName = giverRecord.brother.first_name + " " + giverRecord.brother.last_name
 	subject_to_giver = takerName + " has taken your job: " + jobTitle + "!"
 	message_to_giver = takerName + " has volunteered to perform your job: " + jobTitle + "."
@@ -538,7 +538,7 @@ def alertAboutJob(giverRecord, takerUser, jobTitle, jobDetails):
 	message_to_taker = message_to_taker + " Thank you from the Standards Board."
 
 	send_mail(subject_to_giver, message_to_giver, settings.DEFAULT_FROM_EMAIL, [giverRecord.brother.email])
-	send_mail(subject_to_taker, message_to_taker, settings.DEFAULT_FROM_EMAIL, [takerUser.email])'''
+	send_mail(subject_to_taker, message_to_taker, settings.DEFAULT_FROM_EMAIL, [takerUser.email])
 	pass
 
 
