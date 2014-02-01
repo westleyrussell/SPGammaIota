@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.models import User
 
 from datetime import datetime
+from django.core.mail import send_mail
 
 from Standards.models import JobRequest, JobRequestForm, Bone, PiPointsRecord, PiPointsRequest, PiPointsChangeRecord, PiPointsRequestForm, PiPointsAddBrotherForm, Probation, BoneChangeRecord, ProbationGivingForm, BoneGivingForm, BoneEditingForm
 
@@ -30,6 +31,7 @@ def index(request, error=None):
 		# If we don't have a record, create one.
 		record = PiPointsRecord()
 		record.points = 0
+		record.jobsTaken = 0
 		record.brother = request.user
 		record.save()
 		own_points = record
@@ -244,15 +246,17 @@ def reduce_bone(request, bone):
 		else:
 			pointsRecord = PiPointsRecord.objects.get(brother=request.user)
 
-			if pointsRecord.points <= 0:
+			if pointsRecord.points <= 0 or pointsRecord.jobsTaken <= 0:
 				return redirect('Standards.views.index')
 			elif pointsRecord.points < targetBone.value:
 				targetBone.value = targetBone.value - pointsRecord.points
 				targetBone.save()
 				pointsRecord.points = 0
+				pointsRecord.jobsTaken = pointsRecord.jobsTaken - 1
 				pointsRecord.save()
 			else:
 				pointsRecord.points = pointsRecord.points - targetBone.value
+				pointsRecord.jobsTaken = pointsRecord.jobsTaken - 1
 				pointsRecord.save()
 				targetBone.expirationDate = datetime.now()
 				targetBone.save()
@@ -420,8 +424,7 @@ def add_job_request(request, jobtype):
 		takingJob = jobtype == '2'
 
 		pipoints = PiPointsRecord.objects.get(brother=request.user)
-		response = {}
-
+		
 		if form.is_valid():
 			jobreq = form.save(commit=False)
 
@@ -429,8 +432,7 @@ def add_job_request(request, jobtype):
 			if not takingJob:
 				cost = jobreq.REASON_POINTS[jobreq.job]
 				if cost > pipoints.points:
-					response['error'] = 'Could not submit job request, you do not have enough Pi Points!'
-					return HttpResponse(simplejson.dumps(response), content_type="application/json") 
+					return index(request, 'Could not submit job request, you do not have enough Pi Points!')
 				else:
 					# Check all outstanding requests
 					all_req = JobRequest.objects.filter(requester=request.user, takingJob=False)
@@ -438,23 +440,15 @@ def add_job_request(request, jobtype):
 					for req in all_req:
 						runningTally = runningTally + req.REASON_POINTS[req.job]
 						if runningTally > pipoints.points:
-							response['error'] = 'Could not submit job request.  You do not have enough Pi Points to satisfy all your outstanding requests.'
-							return HttpResponse(simplejson.dumps(response), content_type="application/json") 
+							return index(request, 'Could not submit job request.  You do not have enough Pi Points to satisfy all your outstanding requests.')
 
 			jobreq.requester = request.user
 			jobreq.takingJob = takingJob
 			jobreq.save()
 
-			response['requestCount'] = JobRequest.objects.all().count()
-			response['takingJob'] = jobreq.takingJob
-			response['requester'] = jobreq.requester.first_name + " " + jobreq.requester.last_name
-			response['job'] = jobreq.get_job_display()
-			response['details'] = jobreq.details
-			response['id'] = jobreq.pk
+			return redirect(index)
 		else:
-			response['error'] = form.errors
-
-		return HttpResponse(simplejson.dumps(response), content_type="application/json") 
+			return index(request, form.errors)
 	else:
 		return redirect('PubSite.views.permission_denied')
 
@@ -464,21 +458,14 @@ def delete_job_request(request, jobrequest):
 		try:
 			jobreq = JobRequest.objects.get(pk=jobrequest)
 		except:
-			response = {}
 			ppr = PiPointsRecord.objects.get(brother=request.user)
-			response['error'] = "Sorry, that request cannot be deleted.  Somebody has already accepted the request."
-			response['points'] = ppr.points
-			response['requestCount'] = JobRequest.objects.all().count()
-			return HttpResponse(simplejson.dumps(response), content_type="application/json") 
+			return index(request, "Sorry, that request cannot be deleted.  Somebody has already accepted the request.")
 
 		if jobreq.requester == request.user:
 			jobreq.delete()
 
 			ppr = PiPointsRecord.objects.get(brother=request.user)
-			response = {}
-			response['points'] = ppr.points
-			response['requestCount'] = JobRequest.objects.all().count()
-			return HttpResponse(simplejson.dumps(response), content_type="application/json") 
+			return redirect(index)
 		else:
 			return redirect('PubSite.views.permission_denied')
 	else:
@@ -497,11 +484,7 @@ def accept_job_request(request, jobrequest):
 		try:
 			jobreq = JobRequest.objects.get(pk=jobrequest)
 		except:
-			response = {}
-			response['error'] = "Sorry, that request no longer exists.  Either the person who put it up deleted it or somebody else already accepted it."
-			response['delete'] = True
-			response['requestCount'] = JobRequest.objects.all().count()
-			return HttpResponse(simplejson.dumps(response), content_type="application/json") 
+			return index(request, "Sorry, that request no longer exists.  Either the person who put it up deleted it or somebody else already accepted it.")
 
 		# If its a job request where the requester is taking the job, they'll get the pi points
 		if jobreq.takingJob:
@@ -511,9 +494,7 @@ def accept_job_request(request, jobrequest):
 			giverRecord = PiPointsRecord.objects.get(brother=request.user)
 			currentRecord = giverRecord
 			if giverRecord.points < jobreq.REASON_POINTS[jobreq.job]:
-				response = {}
-				response['error'] = "You do not have enough Pi Points to have someone cover this job."
-				return HttpResponse(simplejson.dumps(response), content_type="application/json") 
+				return index(request, "You do not have enough Pi Points to have someone cover this job.")
 
 		else:
 			takingBrother = request.user
@@ -531,18 +512,19 @@ def accept_job_request(request, jobrequest):
 		giverRecord.points = giverRecord.points - jobreq.REASON_POINTS[jobreq.job]
 		giverRecord.save()
 
+		takerRecord = PiPointsRecord.objects.get(brother=takingBrother)
+		takerRecord.jobsTaken = takerRecord.jobsTaken + 1
+		takerRecord.save()
+
 		alertAboutJob(giverRecord, takingBrother, jobreq.get_job_display(), jobreq.details)
 
 		jobreq.delete()
-		response = {}
-		response['points'] = currentRecord.points
-		response['requestCount'] = JobRequest.objects.all().count()
-		return HttpResponse(simplejson.dumps(response), content_type="application/json") 
+		return redirect(index)
 	else:
 		return redirect('PubSite.views.permission_denied')
 
 def alertAboutJob(giverRecord, takerUser, jobTitle, jobDetails):
-	takerName = takerUser.first_name + " " + takerUser.last_name
+	'''takerName = takerUser.first_name + " " + takerUser.last_name
 	giverName = giverRecord.brother.first_name + " " + giverRecord.brother.last_name
 	subject_to_giver = takerName + " has taken your job: " + jobTitle + "!"
 	message_to_giver = takerName + " has volunteered to perform your job: " + jobTitle + "."
@@ -556,7 +538,8 @@ def alertAboutJob(giverRecord, takerUser, jobTitle, jobDetails):
 	message_to_taker = message_to_taker + " Thank you from the Standards Board."
 
 	send_mail(subject_to_giver, message_to_giver, settings.DEFAULT_FROM_EMAIL, [giverRecord.brother.email])
-	send_mail(subject_to_taker, message_to_taker, settings.DEFAULT_FROM_EMAIL, [takerUser.email])
+	send_mail(subject_to_taker, message_to_taker, settings.DEFAULT_FROM_EMAIL, [takerUser.email])'''
+	pass
 
 
 

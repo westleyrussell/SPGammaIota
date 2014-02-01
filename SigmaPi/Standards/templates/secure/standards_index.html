@@ -11,13 +11,20 @@
 {% block content %}
 	<h1 class="ui header">
 		The Standards Board<br/>
+		<a class="ui green button" href="{% static 'media/standards/pipointsfaq.pdf' %}">View Pi Points FAQ</a>
 		<a class="ui teal button" id="request_points_button">Request Pi Points</a>
-		<a class="ui teal button" id="request_job_button">Cover a Job</a>
+		<a class="ui blue button" id="request_job_button">Cover a Job</a>
 		
 		{% if positive_points %}
-		<a class="ui teal button" id="request_job_take_button">Request Cover for a Job</a>
+		<a class="ui blue button" id="request_job_take_button">Request Cover for a Job</a>
 		{% endif %}
 	</h1>
+	{% if error %}
+	<div class="ui error message">
+		<div class="header">Error!</div>
+		{{ error }}
+	</div>
+	{% endif %}
 	<div id="request_points_form" class="ui segment	hidden" title="Request Pi Points">
 		<div class="ui form">
 			<div class="field">
@@ -37,10 +44,10 @@
 			</div>
 		</div>
 	</div>
-
 	{% if positive_points %}
 	<div id="request_cover_form" class="ui segment	hidden" title="Request Cover for a Job">
-		<div id="request_cover_form_form" class="ui form">
+		<form id="request-cover-form" enctype="multipart/form-data" method="post" action="{% url 'Standards.views.add_job_request' 1 %}" class="ui form">
+			{% csrf_token %}
 			<div class="field">
 				Spend your Pi Points requesting coverage for a job you cannot perform.  
 				<br/><br/>You must have the necessary number of Pi Points to request coverage.
@@ -60,12 +67,13 @@
 					{{jobs_form.details}}
 				</div>
 			</div>
-		</div>
+		</form>
 	</div>
 	{% endif %}
 
 	<div id="offer_cover_form" class="ui segment	hidden" title="Offer to Cover a Job">
-		<div class="ui form" id="offer_cover_form_form">
+		<form id="offer-cover-form" enctype="multipart/form-data" method="post" action="{% url 'Standards.views.add_job_request' 2 %}" class="ui form">
+			{% csrf_token %}
 			<div class="field">
 				You will receive the corresponding number of Pi Points once you have covered the job.
 			</div>	
@@ -84,12 +92,14 @@
 					{{jobs_form.details}}
 				</div>
 			</div>
-		</div>
+		</form>
 	</div>
 
 	<div id="wrapper">
 		<div id="overall-info" class="ui vertical segment">
 		You have {{current_bone_count}} current bone{{current_bone_count|pluralize}}.
+		<br/>
+		You may reduce {{ own_points.jobsTaken }} bone{{own_points.jobsTaken|pluralize}}.
 		<br/>
 		You have <span id="pi-points-ticker">{{ own_points.points }} Pi Point{{own_points.points|pluralize}}</span>.
 		<br/>
@@ -191,7 +201,10 @@
 								<td>{{ job.get_job_display }}</td>
 								<td>{{ job.details }}</td>
 								<td>
-									<button id="{{job.pk}}" type="submit" class="ui blue tiny button take-job">Cover Job</button>
+									<form enctype="multipart/form-data" method="post" action="{% url 'Standards.views.accept_job_request' job.pk %}">
+										{% csrf_token %}
+										<button id="{{job.pk}}" type="submit" class="ui blue tiny button take-job">Cover Job</button>
+									</form>
 								</td>
 							</tr>
 							{% endfor %}
@@ -201,7 +214,10 @@
 								<td>{{ job.get_job_display }}</td>
 								<td>{{ job.details }}</td>
 								<td>
-									<button id="{{job.pk}}" class="ui red tiny button delete-giver-job">Delete</button>
+									<form enctype="multipart/form-data" method="post" action="{% url 'Standards.views.delete_job_request' job.pk %}">
+										{% csrf_token %}
+										<button id="{{job.pk}}" class="ui red tiny button delete-giver-job">Delete</button>
+									</form>
 								</td>
 							</tr>
 							{% endfor %}
@@ -225,7 +241,10 @@
 							<td>{{ job.get_job_display }}</td>
 							<td>{{ job.details }}</td>
 							<td>
-								<button id="{{job.pk}}" type="submit" class="ui blue tiny button give-job">Give Job</button>
+								<form enctype="multipart/form-data" method="post" action="{% url 'Standards.views.accept_job_request' job.pk %}">
+									{% csrf_token %}
+									<button id="{{job.pk}}" type="submit" class="ui blue tiny button give-job">Give Job</button>
+								</form>
 							</td>
 						</tr>
 						{% endfor %}
@@ -235,7 +254,10 @@
 							<td>{{ job.get_job_display }}</td>
 							<td>{{ job.details }}</td>
 							<td>
-								<button id="{{job.pk}}" class="ui red tiny button delete-taker-job">Delete</button>
+								<form enctype="multipart/form-data" method="post" action="{% url 'Standards.views.delete_job_request' job.pk %}">
+									{% csrf_token %}
+									<button id="{{job.pk}}" class="ui red tiny button delete-taker-job">Delete</button>
+								</form>
 							</td>
 						</tr>
 						{% endfor %}

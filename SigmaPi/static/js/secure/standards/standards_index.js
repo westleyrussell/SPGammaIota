@@ -9,26 +9,6 @@ $(document).ready(function() {
 
 	setupDataTables();
 	$('#tabs').tabs();
-
-	$('.delete-giver-job').click(function() {
-		var id = $(this).attr("id");
-		deleteCoverRequest(id, false)
-	});
-
-	$('.delete-taker-job').click(function() {
-		var id = $(this).attr("id");
-		deleteCoverRequest(id, true)
-	});
-
-	$('.take-job').click(function() {
-		var id = $(this).attr("id");
-		acceptCoverRequest(id, false)
-	});
-	
-	$('.give-job').click(function() {
-		var id = $(this).attr("id");
-		acceptCoverRequest(id, true)
-	});
 });
 
 function setupRequestPointsForm()
@@ -90,13 +70,7 @@ function setupRequestCoverForm()
 	resizable:false,
 	buttons: {
 	"Send Request": function() {
-		var job = $(".request #id_job").first().val();
-		var details = $(".request #id_details").first().val();
-		sendCoverRequest(job, details, 1);
-		
-		$(".request #id_job").val("");
-		$(".request #id_details").val("");
-		$(this).dialog("close");
+		$("#request-cover-form").first().submit();
 	},
 	Cancel: function() {
 	  $( this ).dialog( "close" );
@@ -120,13 +94,7 @@ function setupOfferCoverForm()
 	resizable:false,
 	buttons: {
 	"Send Request": function() {
-		var job = $(".offer #id_job").first().val();
-		var details = $(".offer #id_details").first().val();
-		sendCoverRequest(job, details, 2);
-		
-		$(".offer #id_job").val("");
-		$(".offer #id_details").val("");
-		$(this).dialog("close");
+		$("#offer-cover-form").first().submit();
 	},
 	Cancel: function() {
 	  $( this ).dialog( "close" );
@@ -163,156 +131,6 @@ function setupDataTables()
 							"bFilter":false,
 							"bSort": false,
 						});
-}
-
-function deleteCoverRequest(requestid, taker)
-{
-  var url = "jobs/request/delete/"+requestid+"/";
-  var csrftoken = $.cookie('csrftoken');
-  $.ajax({
-    type:"POST",
-    beforeSend: function(xhr, settings) {
-      if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
-        // Send the token to same-origin, relative URLs only.
-        // Send the token only if the method warrants CSRF protection
-        // Using the CSRFToken value acquired earlier
-        xhr.setRequestHeader("X-CSRFToken", csrftoken);
-      }       
-     },
-    url: url,
-  }).done(function( data ) {
-  	if(taker)
-  	{
-		var pos = doers_table.fnGetPosition($("#"+requestid+".jobs-row").get(0));
-		doers_table.fnDeleteRow(pos);
-  	}
-  	else
-  	{
-		var pos = givers_table.fnGetPosition($("#"+requestid+".jobs-row").get(0));
-		givers_table.fnDeleteRow(pos);
-  	}
-
-  	updatePoints(data.points);
-  	updateRequestCount(data.requestCount);
-
-  	if(data.error)
-  	{
-  		reportError(data.error);
-  	}
-  });
-}
-
-function acceptCoverRequest(requestid, taker)
-{	  
-  var url = "jobs/request/take/"+requestid+"/";
-  var csrftoken = $.cookie('csrftoken');
-  $.ajax({
-    type:"POST",
-    beforeSend: function(xhr, settings) {
-      if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
-        // Send the token to same-origin, relative URLs only.
-        // Send the token only if the method warrants CSRF protection
-        // Using the CSRFToken value acquired earlier
-        xhr.setRequestHeader("X-CSRFToken", csrftoken);
-      }       
-     },
-    url: url,
-  }).done(function( data ) {
-  	if(data.error)
-  	{
-
-  		if(data.delete)
-  		{
-  			if(taker)
-	  		{
-				var pos = doers_table.fnGetPosition($("#"+requestid+".jobs-row").get(0));
-				doers_table.fnDeleteRow(pos);
-	  		}
-	  		else
-	  		{
-				var pos = givers_table.fnGetPosition($("#"+requestid+".jobs-row").get(0));
-				givers_table.fnDeleteRow(pos);
-	  		}
-
-	  		updateRequestCount(data.requestCount)
-  		}
-  		reportError(data.error);
-  	}
-  	else
-  	{
-	  	if(taker)
-	  	{
-			var pos = doers_table.fnGetPosition($("#"+requestid+".jobs-row").get(0));
-			doers_table.fnDeleteRow(pos);
-	  	}
-	  	else
-	  	{
-			var pos = givers_table.fnGetPosition($("#"+requestid+".jobs-row").get(0));
-			givers_table.fnDeleteRow(pos);
-	  	}
-	  	updatePoints(data.points);
-	  	updateRequestCount(data.requestCount);
-  	}
-	
-  });	
-}
-
-function sendCoverRequest(job, details, type)
-{
-	var takingJob = type == 2;
-	var url = "jobs/request/add/"+type+"/";
-	var csrftoken = $.cookie('csrftoken');
-	$.ajax({
-		type:"POST",
-		beforeSend: function(xhr, settings) {
-	        if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
-	            // Send the token to same-origin, relative URLs only.
-	            // Send the token only if the method warrants CSRF protection
-	            // Using the CSRFToken value acquired earlier
-	            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-	        }				
-		},
-		url: url,
-		data: {
-			job: job,
-			details: details
-		}
-	}).done(function( data ) {
-		if(data.error)
-		{
-			reportError(data.error);
-		}
-		else
-		{
-			var requester = data.requester;
-			var job = data.job;
-			var details = data.details;
-			var requestCount = data.requestCount;
-			var id = data.id;
-
-			if(takingJob)
-			{
-				var table_data = [requester, job, details, '<button id='+id+' class="ui red tiny button delete-taker-job">Delete</button>']
-				doers_table.fnAddData(table_data);
-			}
-			else
-			{
-				var table_data = [requester, job, details, '<button id='+id+' class="ui red tiny button delete-giver-job">Delete</button>']
-				givers_table.fnAddData(table_data);
-			}
-      		updateRequestCount(requestCount);
-		}
-	});
-}
-
-function updatePoints(points)
-{
-	$("#pi-points-ticker").first().text(points + " Pi Points");
-}
-
-function updateRequestCount(requestCount)
-{
-	$("#request-count").first().text(requestCount);
 }
 
 function reportError(error)

@@ -68,6 +68,7 @@ class PiPointsRecord(models.Model):
 		Model for a pipoint record for a user
 	"""
 	brother = models.OneToOneField(User, primary_key=True)
+	jobsTaken = models.PositiveIntegerField(default=0)
 	points = models.PositiveIntegerField(default=0)
 
 	def __unicode__(self):
