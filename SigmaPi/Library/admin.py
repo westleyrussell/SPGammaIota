@@ -1,5 +1,6 @@
 from django.contrib import admin
-from Library.models import Test
+from Library.models import Test, Textbook
 
-# Register your models here.
+# Register models
 admin.site.register(Test)
+admin.site.register(Textbook)

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from models import Test
+from models import Test, Textbook
 
 class DocumentForm(forms.ModelForm):
 
@@ -15,4 +15,15 @@ class DocumentForm(forms.ModelForm):
 			'year': forms.TextInput(attrs={'placeholder': 'Four digit year...'}),
 			'term': forms.Select(),
 			'docfile': forms.FileInput(attrs={'class': 'ui input fluid active button'}),
+		}
+
+class AddTextbookForm(forms.ModelForm):
+
+	class Meta:
+		model = Textbook
+		fields = ['title', 'isbn', 'edition']
+		widgets = {
+			'title': forms.TextInput(),
+			'isbn': forms.TextInput(),
+			'edition': forms.TextInput(),
 		}

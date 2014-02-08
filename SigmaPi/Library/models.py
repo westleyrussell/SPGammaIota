@@ -1,7 +1,14 @@
 from django.db import models
 from datetime import date
 from django.core.exceptions import ValidationError
+import datetime
 import re
+
+def timeStamped(fname, fmt='%Y-%m-%d_{fname}'):
+	"""
+		Utility function to add a timestamp to uploaded files.
+	"""
+	return datetime.datetime.now().strftime(fmt).format(fname=fname)
 
 class Test(models.Model):
 	"""
@@ -11,9 +18,10 @@ class Test(models.Model):
 	def __unicode__(self):
 		return str(self.course) + ": " + str(self.name)
 
-	#TODO clean any other inputs for convenience
-	#TODO validate all inputs
-		# Check that course has valid subject, and then 4 numbers?
+
+	def tests_path(self, filename):
+		return
+
 
 	def clean(self):
 		# Strip all non alpha-numeric characters from the class name
@@ -26,9 +34,6 @@ class Test(models.Model):
 		if len(str(year)) != 4:
 			raise ValidationError(u'Year must be four characters long.')
 
-	# def validate_term(term):
-		# if not term in ["A", "B", "C", "D", "E"]:
-			# raise ValidationError(u'You must select a term.')
 
 	professor = models.CharField(max_length=100)
 	name = models.CharField(max_length=200)
@@ -41,5 +46,17 @@ class Test(models.Model):
 																					('C','C Term'), \
 																					('D','D Term'), \
 																					('E','E Term')))
-	docfile = models.FileField(upload_to='library')
+	docfile = models.FileField(upload_to="protected/library/tests/" + timeStamped(name))
 
+
+class Textbook(models.Model):
+	"""
+		Model for a textbook cataloged in the Library.
+	"""
+
+	def __unicode__(self):
+		return str(self.isbn) + ": " + str(self.title)
+
+	title = models.CharField(max_length=500)
+	isbn = models.CharField(max_length=100)
+	edition = models.CharField(max_length=100)

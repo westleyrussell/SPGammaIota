@@ -6,29 +6,55 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
-from models import Test
-from forms import DocumentForm
+from sendfile import sendfile
 
+from models import Test, Textbook
+from forms import DocumentForm, AddTextbookForm
+
+def download_testscan(request, scan_index):
+	scan = Test.objects.get(pk=scan_index)
+	return sendfile(request, scan.docfile.path, attachment=True)
+
+
+# Is "@login_required" sufficient for authentication?
+# In the Archives module, something different is done and I'm not certain how
+# to replicate it: "@permission_required('Archives.access_guide', login_url='PubSite.views.permission_denied')""
 @login_required
 def main(request):
+
 	# Handle file upload
 	if request.method == 'POST':
-		form = DocumentForm(request.POST, request.FILES)
-		if form.is_valid():
-			form.save()
+
+		test_form = DocumentForm(request.POST, request.FILES)
+		if test_form.is_valid():
+			test_form.save()
 			messages.success(request, 'The test was uploaded. Thank you!')
 
-			# Redirect to the document list after POST
 			return HttpResponseRedirect(reverse('Library.views.main'))
-	else:
-		form = DocumentForm() # A empty, unbound form
 
-	# Load documents for the list page
+		textbook_form = AddTextbookForm(request.POST)
+		if textbook_form.is_valid():
+			textbook_form.save()
+			messages.success(request, 'The record was uploaded. Thank you!')
+
+			return HttpResponseRedirect(reverse('Library.views.main'))
+
+
+	else:
+		test_form = DocumentForm() # A empty, unbound form
+		textbook_form = AddTextbookForm() # A empty, unbound form
+
 	tests = Test.objects.all()
+	textbooks = Textbook.objects.all()
 
 	# Render list page with the documents and the form
 	return render_to_response(
 		'library.html',
-		{'tests': tests, 'form': form},
+		{
+			'tests': tests,
+			'test_form': test_form,
+		    'textbooks': textbooks,
+		    'textbook_form': textbook_form
+		},
 		context_instance=RequestContext(request)
 	)
