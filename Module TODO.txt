@@ -5,6 +5,7 @@ Rush Tracker
 Treasurer
 	-Budget breakdown
 	-Savings breakdown
+	-Request Reimbursement
 Scholarship Archives
 	-Test Bank Archive
 	-Textbook List
