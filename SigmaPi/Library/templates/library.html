@@ -7,38 +7,45 @@
 	<div class="row">
 		<div class="sixteen wide column">
 			<p></p>
-		{% if messages %}
-		<div id="test_messages" class="ui success message">
-			{% for message in messages %}
+
+			{% if messages %}
+
+			{# Display any messages logged with django.contrib.messages #}
+			<div id="messages" class="ui success message">
+				{% for message in messages %}
 				{{ message }}
-			{% endfor %}
-		</div>
-		<script type="text/javascript">
-		setTimeout(function() {
-			$('#test_messages').transition({
-				animation : 'fade',
-				duration  : '2s', });
-		}, 4000);
-		</script>
-		{% endif %}
+				{% endfor %}
+			</div>
+
+			{# Fade messages eventually #}
+			<script type="text/javascript">
+			setTimeout(function() {
+				$('#messages').transition({
+					animation : 'fade',
+					duration  : '2s', });
+			}, 4000);
+			</script>
+
+			{% endif %}
+
 		</div>
 	</div>
 
 	<div class="row">
-
-
 		<div class="eight wide column">
 			<div class="ui form">
 				<div class="two fields">
+
 					<div class="field right-aligned">
 						<div id="show_tests_button" class="ui fluid button huge black">
 							View Tests
 							<i class="edit icon"></i>
 						</div>
 					</div>
+
 					<div class="field left-aligned">
 						<a id="add_test_button" class="ui green fluid button">
-							<i class="plus icon"></i>Add Test
+							<i class="plus icon"></i>Upload Test
 						</a>
 					</div>
 				</div>
@@ -49,330 +56,330 @@
 			{# Hidden Add-Test Form #}
 			{% if test_form.errors %}
 			<div id="add_test_form">
-			{% else %}
-			<div id="add_test_form" hidden>
-			{% endif %}
-
-				<form action="./" method="post" enctype="multipart/form-data">
-					{% csrf_token %}
-
-					{% if test_form.errors %}
-					<div class="ui form error">
-					{% else %}
-					<div class="ui form">
+				{% else %}
+				<div id="add_test_form" hidden>
 					{% endif %}
 
-						<div class="two fields">
-							<div class="field">
-								<label>What is this test called?</label>
-								<div class="ui left input focus small">
-									{{ test_form.name }}
-									{% for error in test_form.name.errors %}
-										{% if forloop.first %}
-										<div class="ui pointing label red lowercase">
-										{{error}}
-										</div>
-										{% endif %}
-									{% endfor %}
-								</div>
-							</div>
+					<form action="./" method="post" enctype="multipart/form-data">
+						{% csrf_token %}
 
-							<div class="field">
-								<label>What class was this test for?</label>
-								<div class="ui left input focus small">
-									{{ test_form.course }}
-									{% for error in test_form.course.errors %}
-										{% if forloop.first %}
-										<div class="ui pointing label red lowercase">
-										{{error}}
-										</div>
-										{% endif %}
-									{% endfor %}
-								</div>
-							</div>
-						</div>
+						{% if test_form.errors %}
+						<div class="ui form error">
+							{% else %}
+							<div class="ui form">
+								{% endif %}
 
-						<div class="two fields">
-							<div class="field">
-								<label>What professor taught this class?</label>
-								<div class="ui left input focus small">
-									{{ test_form.professor }}
-									{% for error in test_form.professor.errors %}
-										{% if forloop.first %}
-										<div class="ui pointing label red lowercase">
-										{{error}}
+								<div class="two fields">
+									<div class="field">
+										<label>What is this test called?</label>
+										<div class="ui left input focus small">
+											{{ test_form.name }}
+											{% for error in test_form.name.errors %}
+											{% if forloop.first %}
+											<div class="ui pointing label red lowercase">
+												{{error}}
+											</div>
+											{% endif %}
+											{% endfor %}
 										</div>
-										{% endif %}
-									{% endfor %}
-								</div>
-							</div>
+									</div>
 
-							<div class="field">
-								<label>Who took this test?</label>
-								<div class="ui left input focus small">
-									{{ test_form.owner }}
-									{% for error in test_form.owner.errors %}
-										{% if forloop.first %}
-										<div class="ui pointing label red lowercase">
-										{{error}}
+									<div class="field">
+										<label>What class was this test for?</label>
+										<div class="ui left input focus small">
+											{{ test_form.course }}
+											{% for error in test_form.course.errors %}
+											{% if forloop.first %}
+											<div class="ui pointing label red lowercase">
+												{{error}}
+											</div>
+											{% endif %}
+											{% endfor %}
 										</div>
-										{% endif %}
-									{% endfor %}
+									</div>
 								</div>
-							</div>
-						</div>
 
-						<div class="two fields">
-							<div class="field">
-								<label>What term was the class held in?</label>
-								<div class="ui left input focus small dropdown">
-									{{test_form.term}}
-									{% for error in test_form.term.errors %}
+								<div class="two fields">
+									<div class="field">
+										<label>What professor taught this class?</label>
+										<div class="ui left input focus small">
+											{{ test_form.professor }}
+											{% for error in test_form.professor.errors %}
+											{% if forloop.first %}
+											<div class="ui pointing label red lowercase">
+												{{error}}
+											</div>
+											{% endif %}
+											{% endfor %}
+										</div>
+									</div>
+
+									<div class="field">
+										<label>Who took this test?</label>
+										<div class="ui left input focus small">
+											{{ test_form.owner }}
+											{% for error in test_form.owner.errors %}
+											{% if forloop.first %}
+											<div class="ui pointing label red lowercase">
+												{{error}}
+											</div>
+											{% endif %}
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+
+								<div class="two fields">
+									<div class="field">
+										<label>What term was the class held in?</label>
+										<div class="ui left input focus small dropdown">
+											{{test_form.term}}
+											{% for error in test_form.term.errors %}
+											{% if forloop.first %}
+											<div class="ui pointing label red lowercase">
+												{{error}}
+											</div>
+											{% endif %}
+											{% endfor %}
+										</div>
+									</div>
+									<div class="field">
+										<label>What year was the class held in?</label>
+										<div class="ui left input focus small">
+											{{ test_form.year }}
+											{% for error in test_form.year.errors %}
+											{% if forloop.first %}
+											<div class="ui pointing label red lowercase">
+												{{error}}
+											</div>
+											{% endif %}
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+
+								<div class="field">
+									<div class="ui align center">
+										{{ test_form.docfile }}
+										{% for error in test_form.docfile.errors %}
 										{% if forloop.first %}
 										<div class="ui pointing label red lowercase">
 											{{error}}
 										</div>
 										{% endif %}
-									{% endfor %}
-								</div>
-							</div>
-							<div class="field">
-								<label>What year was the class held in?</label>
-								<div class="ui left input focus small">
-									{{ test_form.year }}
-									{% for error in test_form.year.errors %}
-										{% if forloop.first %}
-										<div class="ui pointing label red lowercase">
-										{{error}}
-										</div>
-										{% endif %}
-									{% endfor %}
-								</div>
-							</div>
-						</div>
-
-						<div class="field">
-							<div class="ui align center">
-								{{ test_form.docfile }}
-								{% for error in test_form.docfile.errors %}
-									{% if forloop.first %}
-									<div class="ui pointing label red lowercase">
-										{{error}}
+										{% endfor %}
 									</div>
-									{% endif %}
-								{% endfor %}
+								</div>
+
+								<div class="field">
+									<input class="ui button blue submit fluid" type="submit" value="Upload" />
+								</div>
 							</div>
-						</div>
+						</form>
 
-						<div class="field">
-							<input class="ui button blue submit fluid" type="submit" value="Upload" />
-						</div>
 					</div>
-				</form>
 
-				<div class="ui divider"></div>
-			</div>
-
-		</div>
-
-
-		<div class="eight wide column">
-
-			<div class="ui form">
-				<div class="two fields">
-					<div class="field right-aligned">
-						<div id="show_textbooks_button" class="ui fluid button huge black">
-							View Books
-							<i class="book icon"></i>
-						</div>
-					</div>
-					<div class="field left-aligned">
-						<a id="add_textbook_button" class="ui green fluid button">
-							<i class="plus icon"></i>Add Book
-						</a>
-					</div>
 				</div>
-			</div>
 
-			<div class="ui divider"></div>
 
-			{# Hidden Add-Textbook Form #}
-			{% if textbook_form.errors %}
-			<div id="add_textbook_form">
-			{% else %}
-			<div id="add_textbook_form" hidden>
-			{% endif %}
+				<div class="eight wide column">
 
-				<form action="./" method="post" enctype="multipart/form-data">
-					{% csrf_token %}
-
-					{% if textbook_form.errors %}
-					<div class="ui form error">
-					{% else %}
 					<div class="ui form">
-					{% endif %}
-
-						<div class="field">
-							<label>What is the title of this textbook?</label>
-							<div class="ui left input focus small">
-								{{ textbook_form.title }}
-								{% for error in textbook_form.title.errors %}
-									{% if forloop.first %}
-									<div class="ui pointing label red lowercase">
-									{{error}}
-									</div>
-									{% endif %}
-								{% endfor %}
-							</div>
-						</div>
-
 						<div class="two fields">
-							<div class="field">
-								<label>What is the ISBN of this textbook?</label>
-								<div class="ui left input focus small">
-									{{ textbook_form.isbn }}
-									{% for error in textbook_form.isbn.errors %}
-										{% if forloop.first %}
-										<div class="ui pointing label red lowercase">
-										{{error}}
-										</div>
-										{% endif %}
-									{% endfor %}
+							<div class="field right-aligned">
+								<div id="show_textbooks_button" class="ui fluid button huge black">
+									View Books
+									<i class="book icon"></i>
 								</div>
 							</div>
-
-							<div class="field">
-								<label>What edition is this textbook?</label>
-								<div class="ui left input focus small">
-									{{ textbook_form.edition }}
-									{% for error in textbook_form.edition.errors %}
-										{% if forloop.first %}
-										<div class="ui pointing label red lowercase">
-										{{error}}
-										</div>
-										{% endif %}
-									{% endfor %}
-								</div>
+							<div class="field left-aligned">
+								<a id="add_textbook_button" class="ui green fluid button">
+									<i class="plus icon"></i>Add Book
+								</a>
 							</div>
-						</div>
-
-						<div class="field">
-							<input class="ui button blue submit fluid" type="submit" value="Add Textbook" />
 						</div>
 					</div>
-				</form>
 
-				<div class="ui divider"></div>
-			</div>
+					<div class="ui divider"></div>
 
+					{# Hidden Add-Textbook Form #}
+					{% if textbook_form.errors %}
+					<div id="add_textbook_form">
+						{% else %}
+						<div id="add_textbook_form" hidden>
+							{% endif %}
 
-		</div>
+							<form action="./" method="post" enctype="multipart/form-data">
+								{% csrf_token %}
 
-	</div>
+								{% if textbook_form.errors %}
+								<div class="ui form error">
+									{% else %}
+									<div class="ui form">
+										{% endif %}
 
-	<div id="test_display_area" class="row" hidden>
-		<div class="sixteen wide column">
-			{% if tests %}
-			<table id="test_table" class="ui table segment">
-				<thead>
-					<tr>
-						<th>Test Name</th>
-						<th>Class</th>
-						<th>Professor</th>
-						<th>Term</th>
-						<th>Year</th>
-						<th>Test-Taker</th>
-						<th>Link</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for test in tests %}
-					<tr>
-						<td>{{ test.name }}</td>
-						<td>{{ test.course }}</td>
-						<td>{{ test.professor }}</td>
-						<td>{{ test.term }}</td>
-						<td>{{ test.year }}</td>
-						<td>{{ test.owner }}</td>
-						<td>
-							<a href="{% url 'Library.views.download_testscan' test.pk %}">
-								View this test
-							</a>
-						</td>
-					</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-			{% else %}
-				<div class="ui header">There are no tests to display.</div>
-			{% endif %}
-		</div>
-	</div>
+										<div class="field">
+											<label>What is the title of this textbook?</label>
+											<div class="ui left input focus small">
+												{{ textbook_form.title }}
+												{% for error in textbook_form.title.errors %}
+												{% if forloop.first %}
+												<div class="ui pointing label red lowercase">
+													{{error}}
+												</div>
+												{% endif %}
+												{% endfor %}
+											</div>
+										</div>
 
-	<div id="textbook_display_area" class="row" hidden>
-		<div class="sixteen wide column">
-			{% if textbooks %}
-			<table id="test_table" class="ui table segment">
-				<thead>
-					<tr>
-						<th>Textbook Name</th>
-						<th>ISBN</th>
-						<th>Edition</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for textbook in textbooks %}
-					<tr>
-						<td>{{ textbook.title }}</td>
-						<td>{{ textbook.isbn }}</td>
-						<td>{{ textbook.edition }}</td>
-					</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-			{% else %}
-				<div class="ui header">There are no textbooks to display.</div>
-			{% endif %}
-		</div>
-	</div>
+										<div class="two fields">
+											<div class="field">
+												<label>What is the ISBN of this textbook?</label>
+												<div class="ui left input focus small">
+													{{ textbook_form.isbn }}
+													{% for error in textbook_form.isbn.errors %}
+													{% if forloop.first %}
+													<div class="ui pointing label red lowercase">
+														{{error}}
+													</div>
+													{% endif %}
+													{% endfor %}
+												</div>
+											</div>
+
+											<div class="field">
+												<label>What edition is this textbook?</label>
+												<div class="ui left input focus small">
+													{{ textbook_form.edition }}
+													{% for error in textbook_form.edition.errors %}
+													{% if forloop.first %}
+													<div class="ui pointing label red lowercase">
+														{{error}}
+													</div>
+													{% endif %}
+													{% endfor %}
+												</div>
+											</div>
+										</div>
+
+										<div class="field">
+											<input class="ui button blue submit fluid" type="submit" value="Add Textbook" />
+										</div>
+									</div>
+								</form>
+
+							</div>
 
 
-	<script type="text/javascript">
-		$(document).ready(function() {
+						</div>
 
-			$.fn.dataTableExt.oStdClasses["sFilter"] = "ui label black"
-			$.fn.dataTableExt.oStdClasses["sLength"] = "ui label black"
-			$.fn.dataTableExt.oStdClasses["sInfo"] = "ui message"
-			$.fn.dataTableExt.oStdClasses["sPagePrevEnabled"] = "ui button active"
-			$.fn.dataTableExt.oStdClasses["sPagePrevDisabled"] = "ui button disabled"
-			$.fn.dataTableExt.oStdClasses["sPageNextEnabled"] = "ui button active"
-			$.fn.dataTableExt.oStdClasses["sPageNextDisabled"] = "ui button disabled"
+					</div>
 
-			$('#test_table').dataTable();
-			$('#textbook_table').dataTable();
+					<div id="test_display_area" class="row" hidden>
+						<div class="sixteen wide column">
+							<h1>Test-Bank Scans:</h1>
+							{% if tests %}
+							<table id="test_table" class="ui table segment">
+								<thead>
+									<tr>
+										<th>Test Name</th>
+										<th>Class</th>
+										<th>Professor</th>
+										<th>Term</th>
+										<th>Year</th>
+										<th>Test-Taker</th>
+										<th>Link</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for test in tests %}
+									<tr>
+										<td>{{ test.name }}</td>
+										<td>{{ test.course }}</td>
+										<td>{{ test.professor }}</td>
+										<td>{{ test.term }}</td>
+										<td>{{ test.year }}</td>
+										<td>{{ test.owner }}</td>
+										<td>
+											<a href="{% url 'Library.views.download_testscan' test.pk %}">
+												Download this scan
+											</a>
+										</td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+							{% else %}
+							<div class="ui header">There are no tests to display.</div>
+							{% endif %}
+						</div>
+					</div>
 
-			$('#test_display_area').hide();
-			$('#textbook_display_area').hide();
+					<div id="textbook_display_area" class="row" hidden>
+						<div class="sixteen wide column">
+							<h1>Textbooks in the Library:</h1>
+							{% if textbooks %}
+							<table id="textbook_table" class="ui table segment">
+								<thead>
+									<tr>
+										<th>Textbook Name</th>
+										<th>ISBN</th>
+										<th>Edition</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for textbook in textbooks %}
+									<tr>
+										<td>{{ textbook.title }}</td>
+										<td>{{ textbook.isbn }}</td>
+										<td>{{ textbook.edition }}</td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+							{% else %}
+							<div class="ui header">There are no textbooks to display.</div>
+							{% endif %}
+						</div>
+					</div>
 
-			$('#show_tests_button').click(function() {
-			    $('#textbook_display_area').hide()
-			    $('#test_display_area').toggle(300)
-			});
 
-			$('#show_textbooks_button').click(function() {
-			    $('#test_display_area').hide()
-			    $('#textbook_display_area').toggle(300)
-			});
+					<script type="text/javascript">
+					$(document).ready(function() {
 
-			$('#add_test_button').click(function() {
-				 $('#add_test_form').slideToggle(400);
-			});
+						$.fn.dataTableExt.oStdClasses["sFilter"] = "ui label black"
+						$.fn.dataTableExt.oStdClasses["sLength"] = "ui label black"
+						$.fn.dataTableExt.oStdClasses["sInfo"] = "ui message"
+						$.fn.dataTableExt.oStdClasses["sPagePrevEnabled"] = "ui button black"
+						$.fn.dataTableExt.oStdClasses["sPagePrevDisabled"] = "ui button basic disabled"
+						$.fn.dataTableExt.oStdClasses["sPageNextEnabled"] = "ui button black"
+						$.fn.dataTableExt.oStdClasses["sPageNextDisabled"] = "ui button basic disabled"
 
-			$('#add_textbook_button').click(function() {
-				 $('#add_textbook_form').slideToggle(400);
-			});
-		} );
-	</script>
+						$('#test_table').dataTable();
+						$('#textbook_table').dataTable();
+
+						$('#test_display_area').hide();
+						$('#textbook_display_area').hide();
+
+						$('#show_tests_button').click(function() {
+							$('#textbook_display_area').hide()
+							$('#test_display_area').toggle(300)
+						});
+
+						$('#show_textbooks_button').click(function() {
+							$('#test_display_area').hide()
+							$('#textbook_display_area').toggle(300)
+						});
+
+						$('#add_test_button').click(function() {
+							$('#add_test_form').slideToggle(400);
+						});
+
+						$('#add_textbook_button').click(function() {
+							$('#add_textbook_form').slideToggle(400);
+						});
+					} );
+</script>
 
 
 </div>

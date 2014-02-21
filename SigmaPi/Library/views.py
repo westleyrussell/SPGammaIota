@@ -16,9 +16,6 @@ def download_testscan(request, scan_index):
 	return sendfile(request, scan.docfile.path, attachment=True)
 
 
-# Is "@login_required" sufficient for authentication?
-# In the Archives module, something different is done and I'm not certain how
-# to replicate it: "@permission_required('Archives.access_guide', login_url='PubSite.views.permission_denied')""
 @login_required
 def main(request):
 

@@ -4,12 +4,6 @@ from django.core.exceptions import ValidationError
 import datetime
 import re
 
-def timeStamped(fname, fmt='%Y-%m-%d_{fname}'):
-	"""
-		Utility function to add a timestamp to uploaded files.
-	"""
-	return datetime.datetime.now().strftime(fmt).format(fname=fname)
-
 class Test(models.Model):
 	"""
 		Model for a test in the test bank.
@@ -17,10 +11,6 @@ class Test(models.Model):
 
 	def __unicode__(self):
 		return str(self.course) + ": " + str(self.name)
-
-
-	def tests_path(self, filename):
-		return
 
 
 	def clean(self):
@@ -46,7 +36,7 @@ class Test(models.Model):
 																					('C','C Term'), \
 																					('D','D Term'), \
 																					('E','E Term')))
-	docfile = models.FileField(upload_to="protected/library/tests/" + timeStamped(name))
+	docfile = models.FileField(upload_to="protected/library/tests/" + datetime.datetime.now().strftime("%Y-%m-%d"))
 
 
 class Textbook(models.Model):
