@@ -90,6 +90,28 @@ body {
   height: 40px;
 }
 
+#values_all {
+  width: 100%;
+  text-align:center;
+  padding-top:5px;
+}
+
+#our-values {
+  font-family:"freight-sans-pro", Helvetica, Arial, Sans-Serif;
+  font-size: 1.1em;
+  color: rgba(0,0,0,.5);
+  font-weight: normal;
+  text-align: center;
+}
+
+#values {
+  font-family:"freight-sans-pro", Helvetica, Arial, Sans-Serif;
+  font-size: .9em;
+  color: rgba(0,0,0,0.5);
+  font-weight: normal;
+  text-align: center;
+}
+
 div.caption p {
   text-align: center;
   font-size: smaller;
