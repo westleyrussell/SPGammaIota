@@ -10,8 +10,7 @@ urlpatterns = patterns('',
     url(r'^users/', include('UserInfo.secure_urls')),
     url(r'^library/', include('Library.secure_urls')),
     url(r'^links/', include('Links.urls')),
-    url(r'^standards/', include('Standards.urls')),
-    url(r'^philanthropy/', include('Philanthropy.urls'))
+    url(r'^standards/', include('Standards.urls'))
 )
 
 

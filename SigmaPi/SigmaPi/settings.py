@@ -147,7 +147,6 @@ INSTALLED_APPS = (
     'Secure',
     'Links',
     'Standards',
-    'Philanthropy',
     'tinymce'
 )
 
