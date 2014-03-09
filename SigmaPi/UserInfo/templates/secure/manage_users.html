@@ -15,8 +15,9 @@
 				<tr>
 					<th class="two wide">First Name</th>
 					<th class="two wide">Last Name</th>
-					<th class="one wide">Username</th>
+					<th class="two wide">Username</th>
 					<th class="one wide">Edit</th>
+					<th class="one wide">Password</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -27,6 +28,9 @@
 					<td>{{ user.username }}</td>
 					<td>
 						<a href="{% url 'UserInfo.views.edit_user' user.username %}">Edit</a>
+					</td>
+					<td>
+						<a href="{% url 'UserInfo.views.reset_password' user.username %}">Reset</a>
 					</td>
 				</tr>
 				{% endfor %}

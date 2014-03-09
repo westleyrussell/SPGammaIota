@@ -63,6 +63,29 @@ def send_mail_to_new_user(username, email, password):
 
 	send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email])
 
+def reset_password(username):
+	"""
+		Resets a user's password.
+	"""
+	user_obj = User.objects.get(username=username)
 
+	password = User.objects.make_random_password()
+	user_obj.set_password(password)
+	user_obj.save()
 
+	if not settings.DEBUG:
+		send_mail_reset_password(user_obj.username, user_obj.email, password)
+
+def send_mail_reset_password(username, email, password):
+	"""
+		Sends a notice to a user that their password has been reset
+	"""
+	subject = "Your Password has been Reset"
+	message = "Your password for the Sigma Pi Gamma Iota website has been reset."
+	message = message + " Your username is: "
+	message = message + username + ". Your new password is: " + password + ". "
+	message = message + "You may acess the website at: https://sigmapigammaiota.org. "
+	message = message + "It is highly reccommended that you change your password upon logging in."
+
+	send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email])
 

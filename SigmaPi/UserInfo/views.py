@@ -203,6 +203,23 @@ def manage_users(request):
 
 	return render(request, 'secure/manage_users.html', context)
 
+@permission_required('UserInfo.manage_users', login_url='Secure.views.home')
+def reset_password(request, user):
+	"""
+		Resets a single user's password.
+	"""
+	requested_user = User.objects.get(username__exact=user)
+
+	utils.reset_password(requested_user)
+
+	all_users = User.objects.all().order_by("last_name")
+
+	context = RequestContext(request, {
+		'all_users': all_users,
+		})
+
+	return render(request, 'secure/manage_users.html', context)
+
 @login_required
 def edit_user(request, user):
 	"""
