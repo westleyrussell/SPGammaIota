@@ -12,6 +12,9 @@ class Test(models.Model):
 	def __unicode__(self):
 		return str(self.course) + ": " + str(self.name)
 
+	def __str__(self):
+		return str(self.course) + ": " + str(self.name)
+
 
 	def clean(self):
 		# Strip all non alpha-numeric characters from the class name
@@ -45,6 +48,9 @@ class Textbook(models.Model):
 	"""
 
 	def __unicode__(self):
+		return str(self.isbn) + ": " + str(self.title)
+
+	def __str__(self):
 		return str(self.isbn) + ": " + str(self.title)
 
 	title = models.CharField(max_length=500)

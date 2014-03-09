@@ -14,6 +14,9 @@ class PledgeClass(models.Model):
 	def __unicode__(self):
 		return self.name
 
+	def __str__(self):
+		return self.name
+
 	class Meta:
 		verbose_name_plural = "Pledge Classes"
 		verbose_name = "Pledge Class"
@@ -43,6 +46,9 @@ class UserInfo(models.Model):
 	pledgeClass = models.ForeignKey(PledgeClass)
 
 	def __unicode__(self):
+		return self.user.username
+
+	def __str__(self):
 		return self.user.username
 
 	class Meta:

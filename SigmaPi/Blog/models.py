@@ -29,6 +29,12 @@ class BlogPost(models.Model):
 		"""
 		return self.title
 
+	def __str__(self):
+		"""
+			Basically a tostring method
+		"""
+		return self.title
+
 	class Meta:
 		verbose_name = "Blog Post"
 		verbose_name_plural = "Blog Posts"

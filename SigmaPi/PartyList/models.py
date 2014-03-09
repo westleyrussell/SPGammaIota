@@ -32,6 +32,9 @@ class Party(models.Model):
 	def __unicode__(self):
 		return self.name
 
+	def __str__(self):
+		return self.name
+
 	def save(self):
 		self.name = self.name.replace(" ","_")
 		super(Party,self).save()
@@ -59,6 +62,9 @@ class Guest(models.Model):
 	updatedAt = models.DateTimeField(auto_now=True)
 
 	def __unicode__(self):
+		return self.name
+
+	def __str__(self):
 		return self.name
 
 	def __iter__(self):
@@ -100,6 +106,9 @@ class PartyGuest(models.Model):
 	def __unicode__(self):
 		return self.guest.name
 
+	def __str__(self):
+		return self.guest.name
+
 	def __iter__(self):
 		"""return a ** iterator of field,value"""
 		for i in self._meta.get_all_field_names():
@@ -127,6 +136,9 @@ class PartyJob(models.Model):
 	user = models.ForeignKey(User, related_name="user", default=1)
 
 	def __unicode__(self):
+		return self.job
+
+	def __str__(self):
 		return self.job
 
 	#Setup meta info about this model

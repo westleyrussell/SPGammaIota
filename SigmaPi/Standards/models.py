@@ -23,6 +23,9 @@ class Bone(models.Model):
 	def __unicode__(self):
 		return self.reason
 
+	def __str__(self):
+		return self.reason
+
 	class Meta:
 		verbose_name = "Bone"
 		verbose_name_plural = "Bones"
@@ -42,6 +45,9 @@ class BoneChangeRecord(models.Model):
 	def __unicode__(self):
 		return self.bone
 
+	def __str__(self):
+		return self.bone
+
 	class Meta:
 		verbose_name = "Bone Change Record"
 		verbose_name_plural = "Bone Change Records"
@@ -59,6 +65,9 @@ class Probation(models.Model):
 	def __unicode__(self):
 		return self.recipient
 
+	def __str__(self):
+		return self.recipient
+
 	class Meta:
 		verbose_name = "Probation"
 		verbose_name_plural = "Probations"
@@ -72,6 +81,9 @@ class PiPointsRecord(models.Model):
 	points = models.PositiveIntegerField(default=0)
 
 	def __unicode__(self):
+		return self.user
+
+	def __str__(self):
 		return self.user
 
 	class Meta:
@@ -89,6 +101,9 @@ class PiPointsChangeRecord(models.Model):
 	newValue = models.PositiveIntegerField(default=0)
 
 	def __unicode__(self):
+		return self.dateChanged
+
+	def __str__(self):
 		return self.dateChanged
 
 	class Meta:
@@ -119,6 +134,9 @@ class PiPointsRequest(models.Model):
 	def __unicode__(self):
 		return self.requester
 
+	def __str__(self):
+		return self.requester
+
 	class Meta:
 		verbose_name = "Pi Points Request"
 		verbose_name_plural = "Pi Points Request"
@@ -143,6 +161,9 @@ class JobRequest(models.Model):
 		return self.REASON_POINTS[job]
 
 	def __unicode__(self):
+		return self.requester
+
+	def __str__(self):
 		return self.requester
 
 	class Meta:

@@ -26,6 +26,9 @@ class Bylaws(models.Model):
 	def __unicode__(self):
 		return self.date.__str__()
 
+	def __str__(self):
+		return self.date.__str__()
+
 	#Setup meta info about this model
 	class Meta:
 		verbose_name_plural = "Bylaws"
@@ -57,6 +60,9 @@ class HouseRules(models.Model):
 	filepath = models.FileField(upload_to=houserulespath)
 
 	def __unicode__(self):
+		return self.date.__str__()
+
+	def __str__(self):
 		return self.date.__str__()
 
 	#Setup meta info about this model
@@ -92,6 +98,9 @@ class MeetingMinutes(models.Model):
 	filepath = models.FileField(upload_to=minutespath)
 
 	def __unicode__(self):
+		return self.date.__str__()
+
+	def __str__(self):
 		return self.date.__str__()
 
 	#Setup meta info about this model
@@ -131,6 +140,9 @@ class Guide(models.Model):
 
 
 	def __unicode__(self):
+		return self.name
+
+	def __str__(self):
 		return self.name
 
 	class Meta:
