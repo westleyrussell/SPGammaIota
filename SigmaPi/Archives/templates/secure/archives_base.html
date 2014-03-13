@@ -12,111 +12,45 @@
 			<i class="archive icon"></i>Archives
 		</div>
 
-		{% if '/guides' in request.path %}
-		{% if perms.Archives.access_guide %}
-		<a class="active item" href="{% url 'Archives.views.guides' %}">
-			Guides
-		</a>
-		{% endif %}
-		{% if perms.Archives.access_meetingminutes %}
-		<a class="item" href="{% url 'Archives.views.minutes' %}">
-			Minutes
-		</a>
-		{% endif %}
-		{% if perms.Archives.access_bylaws %}
-		<a class="item" href="{% url 'Archives.views.bylaws' %}">
-			Bylaws
-		</a>
-		{% endif %}
-		{% if perms.Archives.access_houserules %}
-		<a class="item" href="{% url 'Archives.views.rules' %}">
-			House Rules
-		</a>
-		{% endif %}
-		{% elif '/minutes' in request.path %}
-		{% if perms.Archives.access_guide %}
-		<a class="item" href="{% url 'Archives.views.guides' %}">
-			Guides
-		</a>
-		{% endif %}
-		{% if perms.Archives.access_meetingminutes %}
-		<a class="active item" href="{% url 'Archives.views.minutes' %}">
-			Minutes
-		</a>
-		{% endif %}
-		{% if perms.Archives.access_bylaws %}
-		<a class="item" href="{% url 'Archives.views.bylaws' %}">
-			Bylaws
-		</a>
-		{% endif %}
-		{% if perms.Archives.access_houserules %}
-		<a class="item" href="{% url 'Archives.views.rules' %}">
-			House Rules
-		</a>
-		{% endif %}
-		{% elif '/bylaws' in request.path %}
-		{% if perms.Archives.access_guide %}
-		<a class="item" href="{% url 'Archives.views.guides' %}">
-			Guides
-		</a>
-		{% endif %}
-		{% if perms.Archives.access_meetingminutes %}
-		<a class="item" href="{% url 'Archives.views.minutes' %}">
-			Minutes
-		</a>
-		{% endif %}
-		{% if perms.Archives.access_bylaws %}
-		<a class="active item" href="{% url 'Archives.views.bylaws' %}">
-			Bylaws
-		</a>
-		{% endif %}
-		{% if perms.Archives.access_houserules %}
-		<a class="item" href="{% url 'Archives.views.rules' %}">
-			House Rules
-		</a>
-		{% endif %}
-		{% elif '/rules' in request.path %}
-		{% if perms.Archives.access_guide %}
-		<a class="item" href="{% url 'Archives.views.guides' %}">
-			Guides
-		</a>
-		{% endif %}
-		{% if perms.Archives.access_meetingminutes %}
-		<a class="item" href="{% url 'Archives.views.minutes' %}">
-			Minutes
-		</a>
-		{% endif %}
-		{% if perms.Archives.access_bylaws %}
-		<a class="item" href="{% url 'Archives.views.bylaws' %}">
-			Bylaws
-		</a>
-		{% endif %}
-		{% if perms.Archives.access_houserules %}
-		<a class="active item" href="{% url 'Archives.views.rules' %}">
-			House Rules
-		</a>	
-		{% endif %}
-		{% else %}
-		{% if perms.Archives.access_guide %}
-		<a class="active item" href="{% url 'Archives.views.guides' %}">
-			Guides
-		</a>
-		{% endif %}
-		{% if perms.Archives.access_meetingminutes %}
-		<a class="item" href="{% url 'Archives.views.minutes' %}">
-			Minutes
-		</a>
-		{% endif %}
-		{% if perms.Archives.access_bylaws %}
-		<a class="item" href="{% url 'Archives.views.bylaws' %}">
-			Bylaws
-		</a>
-		{% endif %}
-		{% if perms.Archives.access_houserules %}
-		<a class="item" href="{% url 'Archives.views.rules' %}">
-			House Rules
-		</a>
-		{% endif %}
-		{% endif %}	
+			{% if perms.Archives.access_guide %}
+				{% if '/guides' in request.path %}
+				<a class="active item" href="{% url 'Archives.views.guides' %}">
+				{% else %}
+				<a class="item" href="{% url 'Archives.views.guides' %}">
+				{% endif %}
+					Guides
+				</a>
+			{% endif %}
+
+			{% if perms.Archives.access_meetingminutes %}
+				{% if '/minutes' in request.path %}
+				<a class="active item" href="{% url 'Archives.views.minutes' %}">
+				{% else %}
+				<a class="item" href="{% url 'Archives.views.minutes' %}">
+				{% endif %}
+					Minutes
+				</a>
+			{% endif %}
+
+			{% if perms.Archives.access_bylaws %}
+				{% if '/bylaws' in request.path %}
+				<a class="active item" href="{% url 'Archives.views.bylaws' %}">
+				{% else %}
+				<a class="item" href="{% url 'Archives.views.bylaws' %}">
+				{% endif %}
+					Bylaws
+				</a>
+			{% endif %}
+
+			{% if perms.Archives.access_houserules %}
+				{% if '/rules' in request.path %}
+				<a class="active item" href="{% url 'Archives.views.rules' %}">
+				{% else %}
+				<a class="item" href="{% url 'Archives.views.rules' %}">
+				{% endif %}
+					House Rules
+				</a>
+			{% endif %}
+
 	</div>
 {% endblock %}
