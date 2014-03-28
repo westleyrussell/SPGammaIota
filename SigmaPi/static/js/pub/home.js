@@ -5,7 +5,7 @@ $(document).ready(function(){
 		infinite: true,
 		direction: 'left',
 		align: 'center',
-		width: '100%',
+		width: 1200,
 		items : {
 			height: 300
 		},

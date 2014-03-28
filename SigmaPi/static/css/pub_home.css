@@ -1,8 +1,8 @@
 .html_carousel {
     padding:0;
     height: 300px;
-    width: 100%;
-    margin:0px;
+    width: 1200px;
+    margin:auto;
     display: block;
     overflow:hidden;
 }
