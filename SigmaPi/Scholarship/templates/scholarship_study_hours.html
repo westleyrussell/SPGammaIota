@@ -1,0 +1,149 @@
+{% extends 'scholarship_base.html' %}
+
+{% block content %}
+
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+
+<p></p>
+
+{% if is_scholarship_head %}
+
+<div class="ui segment raised secondary">
+	<h1 class="header">
+		Track Study Hours
+	</h1>
+</div>
+
+<div class="ui segment secondary compact top attached">
+	Update requirements
+</div>
+
+<div class="ui segment primary compact bottom attached">
+	<form method="post" action="./update_requirements/">
+		<div class="ui segment">
+			{% csrf_token %}
+			{{update_requirements_form.user}}
+			needs to record
+			{{update_requirements_form.number_of_hours}}
+			study hours per week.
+			<br>
+		</div>
+		<input class="ui positive button" type="submit" value="Update">
+		<em>Note: Set hours to 0 to stop tracking a user...</em>
+	</form>
+</div>
+
+<div class="ui segment secondary compact top attached">
+	Currently tracked users
+</div>
+
+<div class="ui segment primary compact bottom attached">
+	{% if currently_tracked_users %}
+	<table class="ui table segment four column">
+		<thead>
+			<tr>
+				<th>Username</th>
+				<th>Hours logged this week</th>
+				<th>Weekly requirement</th>
+				<th>Social probation email</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for tracked_user in currently_tracked_users %}
+			<tr>
+				<td>{{tracked_user.user}}</td>
+				<td>{{tracked_user.hours_this_week}}</td>
+				<td>{{tracked_user.number_of_hours}}</td>
+				<td>Filler</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<em>Note: Each week starts with Monday and ends Sunday at midnight.</em>
+	{% else %}
+	<em>There are no users being tracked right now...</em>
+	{% endif %}
+</div>
+
+<div class="ui divider"></div>
+{% endif %}
+
+
+<div class="ui segment raised secondary">
+	<h1 class="header">
+		Your Study Hours
+	</h1>
+</div>
+
+{% if is_tracked_user %}
+
+<div class="ui segment secondary compact">
+	You have recorded
+	<span class="ui black label">{{ tracked_user_object.hours_this_week }}</span>
+	out of a required
+	<span class="ui black label">{{ tracked_user_object.number_of_hours }}</span>
+	study hours for this week.
+	<br>
+	<br>
+	<em>Note: Each week starts with Monday and ends Sunday at midnight.</em>
+</div>
+
+<div class="ui segment secondary compact top attached">
+	Record new hours
+</div>
+<div class="ui segment primary compact bottom attached">
+	<form method="post" action="./record_hours/">
+		<div class="ui segment">
+			{% csrf_token %}
+			I studied
+			{{record_hours_form.number_of_hours}}
+			hours this week on
+			{{record_hours_form.date}}.<br>
+		</div>
+		<input class="ui positive button" type="submit" value="Submit">
+	</form>
+</div>
+
+<script>
+$(function() {
+	$( "#id_date" ).datepicker();
+});
+</script>
+
+<div class="ui segment secondary compact top attached">
+	Hours logged this week
+</div>
+
+<div class="ui segment primary compact bottom attached">
+	{% if tracked_user_records_this_week %}
+	<table class="ui table basic two column">
+		<tbody>
+			{% for record in tracked_user_records_this_week %}
+			<tr>
+				<td>
+					I studied for {{ record.number_of_hours }} hour(s) on {{ record.date }}.
+					<span style="float: right">
+						<em>(Recorded on {{ record.time_stamp }})</em>
+					</span>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% else %}
+	<em>You have not logged any hours this week...</em>
+	{% endif %}
+</div>
+
+{% else %}
+
+<div class="ui segment secondary compact">
+	<em>
+		Your study hours are not currently tracked...
+	</em>
+</div>
+
+{% endif %}
+
+{% endblock %}

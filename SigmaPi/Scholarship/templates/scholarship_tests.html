@@ -1,0 +1,110 @@
+{% extends 'scholarship_base.html' %}
+
+{% block content %}
+
+<p></p>
+
+<div class="ui segment raised secondary">
+	<h1 class="header">
+		Test Scans
+	</h1>
+</div>
+
+{% if is_scholarship_head %}
+
+<div class="ui segment secondary compact top attached">
+	Upload new test scan
+</div>
+
+<div class="ui segment primary compact bottom attached">
+	<form method="post" action="./upload_test/">
+		{% csrf_token %}
+		<div class="ui two column grid">
+			<div class="column">
+				<label>
+					Required fields
+				</label>
+				<div class="ui segment">
+
+					<label>
+						Test name
+					</label>
+					<div class="ui fluid mini input">
+						{{ upload_test_form.test_name }}
+					</div>
+					<br>
+
+					<label>
+						Course number
+					</label>
+					<div class="ui fluid mini input">
+						{{ upload_test_form.course_number }}
+					</div>
+					<br>
+
+					<label>
+						Professor first and last name
+					</label>
+					<div class="ui fluid mini input">
+						{{ upload_test_form.professor_name }}
+					</div>
+					<br>
+
+					<label>
+						Test scan PDF
+					</label>
+					<br>
+					{{ upload_test_form.test_pdf }}
+
+				</div>
+			</div>
+			<div class="column">
+				<label>
+					Optional fields
+				</label>
+				<div class="ui segment">
+					<label>
+						Term
+					</label>
+					<div class="ui fluid mini input">
+						{{ upload_test_form.term }}
+					</div>
+					<br>
+
+					<label>
+						Year
+					</label>
+					<div class="ui fluid mini input">
+						{{ upload_test_form.year }}
+					</div>
+				</div>
+			</div>
+			BUTTON
+		</div>
+		<br>
+		<input class="ui positive button" type="submit" value="Upload">
+	</form>
+</div>
+
+{% endif %}
+
+<table class="ui table segment four column">
+	<thead>
+		<tr>
+			<th>Username</th>
+			<th>Hours logged this week</th>
+			<th>Weekly requirement</th>
+			<th>Social probation email</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td>Filler</td>
+		</tr>
+	</tbody>
+</table>
+
+{% endblock %}

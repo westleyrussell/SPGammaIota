@@ -1,0 +1,33 @@
+{% extends "secure_base.html" %}
+
+{% block module_nav %}
+	<div id="archives-nav" class="ui inverted menu">
+		<div class="header item">
+			<i class="book icon"></i>Scholarship
+		</div>
+
+		{% if '/scholarship/study_hours/' in request.path %}
+		<a class="active item" href="{% url 'Scholarship.views.study_hours' %}">
+		{% else %}
+		<a class="item" href="{% url 'Scholarship.views.study_hours' %}">
+		{% endif %}
+			Study Hours
+		</a>
+
+		{% if '/scholarship/tests' in request.path %}
+		<a class="active item" href="{% url 'Scholarship.views.tests' %}">
+		{% else %}
+		<a class="item" href="{% url 'Scholarship.views.tests' %}">
+		{% endif %}
+			Test Scans
+		</a>
+
+		{% if '/scholarship/textbooks' in request.path %}
+		<a class="active item" href="{% url 'Scholarship.views.textbooks' %}">
+		{% else %}
+		<a class="item" href="{% url 'Scholarship.views.textbooks' %}">
+		{% endif %}
+			Textbooks
+		</a>
+	</div>
+{% endblock %}

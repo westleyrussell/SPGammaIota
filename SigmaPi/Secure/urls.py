@@ -8,7 +8,7 @@ urlpatterns = patterns('',
     url(r'^parties/', include('PartyList.urls')),
     url(r'^blog/', include('Blog.secure_urls')),
     url(r'^users/', include('UserInfo.secure_urls')),
-    url(r'^library/', include('Library.secure_urls')),
+    url(r'^scholarship/', include('Scholarship.urls')),
     url(r'^links/', include('Links.urls')),
     url(r'^standards/', include('Standards.urls'))
 )

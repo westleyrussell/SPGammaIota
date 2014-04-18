@@ -1,0 +1,6 @@
+Module TODO:
+
+- An email should be sent to users when they are marked as tracked.
+- You should see a log of past hours you have entered
+- There should be a note somewhere that weeks start on Monday
+- Use Django messages to notify of successes or failures

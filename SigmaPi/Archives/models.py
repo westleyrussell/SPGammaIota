@@ -7,21 +7,20 @@ def timeStamped(fname, fmt='%Y-%m-%d_{fname}'):
 	"""
 		Utility function to add a timestamp to uploaded files.
 	"""
+
 	return datetime.datetime.now().strftime(fmt).format(fname=fname)
 
 
 class Bylaws(models.Model):
 	"""
-		Model to represent a single bylaw.
+		Model for a single document of house bylaws.
 	"""
-	def bylawspath(self, filename):
+
+	def bylaws_path(self, filename):
 		"""
-			Defines where bylaws should be stored
+			Path on filesystem where this bylaws document should be stored.
 		"""
 		return "protected/bylaws/" + timeStamped(filename)
-
-	date = models.DateField()
-	filepath = models.FileField(upload_to=bylawspath)
 
 	def __unicode__(self):
 		return self.date.__str__()
@@ -29,7 +28,11 @@ class Bylaws(models.Model):
 	def __str__(self):
 		return self.date.__str__()
 
-	#Setup meta info about this model
+	# Fields for this model.
+	date = models.DateField()
+	filepath = models.FileField(upload_to=bylaws_path)
+
+	# Meta information about this model.
 	class Meta:
 		verbose_name_plural = "Bylaws"
 		verbose_name = "Bylaws"
@@ -37,27 +40,30 @@ class Bylaws(models.Model):
             ("access_bylaws", "Can access bylaws."),
         )
 
+
 class BylawsForm(ModelForm):
 	"""
-		Form for adding a bylaws.
+		Model-driven form for adding a bylaws document.
 	"""
+
 	filepath = forms.FileField()
 
+	# Meta information about this form.
 	class Meta:
 		model = Bylaws
 		exclude = ['date']
 
+
 class HouseRules(models.Model):
 	"""
-		Model to represent a house rule.
+		Model for a single document of house rules.
 	"""
-	def houserulespath(self, filename):
+
+	def houserules_path(self, filename):
 		"""
-			Defines where house rules should be stored.
+			Path on filesystem where this house rules document should be stored.
 		"""
 		return "protected/houserules/" + timeStamped(filename)
-	date = models.DateField()
-	filepath = models.FileField(upload_to=houserulespath)
 
 	def __unicode__(self):
 		return self.date.__str__()
@@ -65,37 +71,42 @@ class HouseRules(models.Model):
 	def __str__(self):
 		return self.date.__str__()
 
-	#Setup meta info about this model
+	# Fields for this model.
+	date = models.DateField()
+	filepath = models.FileField(upload_to=houserules_path)
+
+	# Meta information about this model.
 	class Meta:
 		verbose_name_plural = "House Rules"
-		verbose_name = "House Rule"
+		verbose_name = "House Rules"
 		permissions = (
             ("access_houserules", "Can access house rules."),
         )
 
-class RulesForm(ModelForm):
+
+class HouseRulesForm(ModelForm):
 	"""
-		Form for adding a house rules.
+		Model-driven form for adding a house rules document.
 	"""
+
 	filepath = forms.FileField()
 
+	# Meta information about this form.
 	class Meta:
 		model = HouseRules
 		exclude = ['date']
 
+
 class MeetingMinutes(models.Model):
 	"""
-		Model for meeting minutes that are kept at all house meetings.
+		Model for a single document of meeting minutes.
 	"""
 
 	def minutespath(self, filename):
 		"""
-			Defines where minutes should be stored
+			Path on filesystem where this meeting minutes document should be stored.
 		"""
 		return "protected/minutes/" + timeStamped(filename)
-
-	date = models.DateField()
-	filepath = models.FileField(upload_to=minutespath)
 
 	def __unicode__(self):
 		return self.date.__str__()
@@ -103,7 +114,11 @@ class MeetingMinutes(models.Model):
 	def __str__(self):
 		return self.date.__str__()
 
-	#Setup meta info about this model
+	# Fields for this model.
+	date = models.DateField()
+	filepath = models.FileField(upload_to=minutespath)
+
+	# Meta information about this model.
 	class Meta:
 		verbose_name_plural = "Meeting Minutes"
 		verbose_name = "Meeting Minutes"
@@ -111,33 +126,30 @@ class MeetingMinutes(models.Model):
             ("access_meetingminutes", "Can access meeting minutes."),
         )
 
+
 class MinutesForm(ModelForm):
 	"""
-		Form for adding a meeting minutes.
+		Model-driven form for adding a meeting minutes document.
 	"""
+
 	date = forms.DateField()
 	filepath = forms.FileField()
 
+	# Meta information about this form.
 	class Meta:
 		model = MeetingMinutes
 
+
 class Guide(models.Model):
 	"""
-		Model for guides that will be posted to the site, 
-		including House Jobs and Party Jobs
+		Model for a single document of a house guide.
 	"""
 
 	def guidepath(self, filename):
 		"""
-			Defines where the guides should be uploaded/stored
+			Path on filesystem where this house guide document should be stored.
 		"""
 		return "protected/guides/" + timeStamped(filename)
-
-	name = models.CharField(max_length=100)
-	description = models.TextField(blank=True)
-	filepath = models.FileField(upload_to=guidepath)
-	path = models.SlugField(max_length=15)
-
 
 	def __unicode__(self):
 		return self.name
@@ -145,6 +157,13 @@ class Guide(models.Model):
 	def __str__(self):
 		return self.name
 
+	# Fields for this model.
+	name = models.CharField(max_length=100)
+	description = models.TextField(blank=True)
+	filepath = models.FileField(upload_to=guidepath)
+	path = models.SlugField(max_length=15)
+
+	# Meta information about this model.
 	class Meta:
 		verbose_name_plural = "Guides"
 		verbose_name = "Guide"
@@ -152,14 +171,17 @@ class Guide(models.Model):
             ("access_guide", "Can access guides."),
         )
 
+
 class GuideForm(ModelForm):
 	"""
-		Form for adding a guide.
+		Model-driven form for adding a house guide document.
 	"""
+
 	name = forms.CharField(max_length=100)
 	description = forms.CharField(widget=forms.Textarea)
 	filepath = forms.FileField()
 
+	# Meta information about this form.
 	class Meta:
 		model = Guide
 		exclude = ['path']

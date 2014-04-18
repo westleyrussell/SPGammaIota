@@ -7,25 +7,27 @@ from django.utils.html import strip_tags
 from django.template.defaultfilters import slugify
 from datetime import datetime
 from sendfile import sendfile
-from Archives.models import Guide, GuideForm, MeetingMinutes, MinutesForm, HouseRules, RulesForm, Bylaws, BylawsForm
+from Archives.models import Guide, GuideForm, MeetingMinutes, MinutesForm, HouseRules, HouseRulesForm, Bylaws, BylawsForm
 
 
 @permission_required('Archives.access_guide', login_url='PubSite.views.permission_denied')
 def index(request):
 	"""
-		View for the index page of the archives
+		View for the index page of the archives.
 	"""
 	return guides(request)
+
 
 @permission_required('Archives.access_bylaws', login_url='PubSite.views.permission_denied')
 def bylaws(request):
 	"""
 		View for all bylaws.
 	"""
-	form = BylawsForm()
 
 	if request.method == 'POST':
+
 		if request.user.has_perm('Archives.add_bylaws'):
+
 			form = BylawsForm(request.POST, request.FILES)
 
 			if form.is_valid():
@@ -36,18 +38,22 @@ def bylaws(request):
 			redirect('PubSite.views.permission_denied')
 
 	bylaws = Bylaws.objects.all()
+
 	if bylaws:
 		latest = bylaws.latest('date')
 	else:
 		latest = None
 
+	form = BylawsForm()
+
 	context = RequestContext(request, {
 		'latest': latest,
 		'bylaws': bylaws,
 		'form': form
-		})
+	})
 
 	return render(request, "secure/archives_bylaws.html", context)
+
 
 @permission_required('Archives.access_bylaws', login_url='PubSite.views.permission_denied')
 def download_bylaw(request, bylaw):
@@ -72,18 +78,19 @@ def delete_bylaw(request):
 		post.delete()
 	return redirect('Archives.views.bylaws')
 
+
 @permission_required('Archives.access_houserules', login_url='PubSite.views.permission_denied')
 def rules(request):
 	"""
 		View for all house rules
 	"""
-	form = RulesForm()
+	form = HouseRulesForm()
 
 	# If its a POST, we're trying to update the rules.
 	if request.method == 'POST':
 		# Check permissions before going forward
 		if request.user.has_perm('Archives.add_houserules'):
-			form = RulesForm(request.POST, request.FILES)
+			form = HouseRulesForm(request.POST, request.FILES)
 
 			if form.is_valid():
 				rule = form.save(commit=False)
@@ -106,6 +113,7 @@ def rules(request):
 
 	return render(request, "secure/archives_rules.html", context)
 
+
 @permission_required('Archives.access_houserules', login_url='PubSite.views.permission_denied')
 def download_rules(request, rules):
 	"""
@@ -115,6 +123,7 @@ def download_rules(request, rules):
 	houseRuleObject = HouseRules.objects.get(pk=rules)
 
 	return sendfile(request, houseRuleObject.filepath.path, attachment=True, attachment_filename="House Rules " + str(houseRuleObject.date))
+
 
 @permission_required('Archives.delete_houserules', login_url='PubSite.views.permission_denied')
 def delete_rules(request):
@@ -128,6 +137,7 @@ def delete_rules(request):
 		post = HouseRules.objects.get(pk=rules_id)
 		post.delete()
 	return redirect('Archives.views.rules')
+
 
 @permission_required('Archives.access_meetingminutes', login_url='PubSite.views.permission_denied')
 def minutes(request):
@@ -163,6 +173,7 @@ def minutes(request):
 
 	return render(request, "secure/archives_minutes.html", context)
 
+
 @permission_required('Archives.access_meetingminutes', login_url='PubSite.views.permission_denied')
 def download_minutes(request, minutes):
 	"""
@@ -195,6 +206,7 @@ def delete_minutes(request):
 		post.delete()
 	return redirect('Archives.views.minutes')
 
+
 @permission_required('Archives.access_guide', login_url='PubSite.views.permission_denied')
 def guides(request):
 	"""
@@ -225,6 +237,7 @@ def guides(request):
 
 	return render(request, "secure/archives_guides.html", context)
 
+
 @permission_required('Archives.access_meetingminutes', login_url='PubSite.views.permission_denied')
 def download_guides(request, guides):
 	"""
@@ -234,6 +247,7 @@ def download_guides(request, guides):
 	guideObject = Guide.objects.get(pk=guides)
 
 	return sendfile(request, guideObject.filepath.path, attachment=True, attachment_filename=guideObject.name)
+
 
 @permission_required('Archives.delete_guide', login_url='PubSite.views.permission_denied')
 def delete_guide(request):
