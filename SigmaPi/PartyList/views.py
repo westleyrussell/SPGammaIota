@@ -8,6 +8,16 @@ from django.utils import simplejson
 from PartyList.widgets import GuestForm, PartyForm, EditPartyInfoForm, List
 from django.utils.html import strip_tags
 
+import re
+
+def JSON_Guest(pguest):
+	"""convert a party guest object to json, with the fields needed on the client"""
+	json = {}
+	json['name'] = pguest.guest.name
+	json['gender'] = pguest.guest.gender
+	json['addedBy'] = {'uname' : pguest.addedBy.name, 'name' : pguest.addedBy.first}
+
+	return json
 
 @login_required
 def index(request):
@@ -28,13 +38,13 @@ def guests(request, party, date):
 	"""
 	requested_party = Party.objects.get(name__exact=party, date__exact=date)
 	partyguests = PartyGuest.objects.filter(party=requested_party).order_by('guest__name')
-	guys = List('guys')
-	girls = List('girls')
+	guys = JSON_List('guys')
+	girls = JSON_List('girls')
 	for pg in partyguests:
 		if pg.guest.gender == 'M':
-			guys.guests.append(pg)
+			guys.guests.append(JSON_Guest(pg))
 		else:
-			girls.guests.append(pg)
+			girls.guests.append(JSON_Guest(pg))
 
 	partymode = False
 	closedate = requested_party.date
@@ -85,7 +95,10 @@ def add_party(request):
 			return render(request, 'add_party.html', context)
 		form = PartyForm(request.POST)
 		if form.is_valid():
-			partyname = strip_tags(request.POST['name']).replace(" ","_")
+			#cleanse input by erasing non alphanumeric characters and trailing white spaces. Convert remaining spaces to _
+			partyname = strip_tags(request.POST['name'])
+			partyname = re.sub(r'([^\s\w])','',partyname).strip().replace(" ","_")
+
 			partydate = strip_tags(request.POST['date'])
 			exists = Party.objects.filter(name=partyname, date=partydate).count()
 			if exists:
