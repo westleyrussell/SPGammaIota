@@ -22,8 +22,6 @@ class BlogPost(models.Model):
 	content = models.TextField()
 	image = models.FileField(upload_to=blogpath, blank=True, null=True)
 
-    this is an error lskadfj a;ls 
-
 	def __unicode__(self):
 		"""
 			Basically a tostring method
@@ -39,7 +37,7 @@ class BlogPost(models.Model):
 	class Meta:
 		verbose_name = "Blog Post"
 		verbose_name_plural = "Blog Posts"
-        
+
 
 class BlogPostForm(ModelForm):
 	"""

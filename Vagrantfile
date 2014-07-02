@@ -25,6 +25,6 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "shell",
     inline: "echo 'alias activate=\"#{bootstrap_commands.join()}\"' >> /home/vagrant/.bashrc;"+
-            "echo 'alias coverage=\"#{coverage_commands.join()}\"' >> /home/vagrant/.bashrc"
+            "echo 'alias cover=\"#{coverage_commands.join()}\"' >> /home/vagrant/.bashrc"
 
 end
