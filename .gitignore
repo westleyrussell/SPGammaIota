@@ -6,3 +6,4 @@ SigmaPi/SigmaPi/settings.py
 *.DS_Store
 database
 venv/
+.coverage
