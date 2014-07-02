@@ -2,6 +2,8 @@
 
 This repository contains the files for Sigma Pi Gamma Iota Chaper's new website, which can be found at: https://sigmapigammaiota.org/
 
+[![Build Status](https://travis-ci.org/Rdbaker/SPGammaIota.svg?branch=master)](https://travis-ci.org/Rdbaker/SPGammaIota)
+
 ## Set up your environment:
 
 First of all, you'll need to clone the project:
