@@ -3,3 +3,6 @@ SigmaPi/content/*
 SigmaPi/SigmaPi/settings.py
 .vagrant/
 *.pyc
+*.DS_Store
+database
+venv/
