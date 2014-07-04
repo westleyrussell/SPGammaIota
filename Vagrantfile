@@ -19,7 +19,12 @@ Vagrant.configure("2") do |config|
   						"sudo pip install -r /vagrant/SigmaPi/requirements.txt;",
   						"cd /vagrant/SigmaPi;"]
 
+  coverage_commands = ["export PROJECT_PATH=/vagrant/SigmaPi/SPGammaIota/;",
+                       "coverage run --source=$PROJECT_PATH manage.py test;",
+                       "coverage report;"]
+
   config.vm.provision "shell",
-    inline: "echo 'alias activate=\"#{bootstrap_commands.join()}\"' >> /home/vagrant/.bashrc"
+    inline: "echo 'alias activate=\"#{bootstrap_commands.join()}\"' >> /home/vagrant/.bashrc;"+
+            "echo 'alias cover=\"#{coverage_commands.join()}\"' >> /home/vagrant/.bashrc"
 
 end
